@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NOU">
+      <UniqueIdentifier>{2A68C031-961D-3927-1F12-33FE8BC62F2B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\NOU\App.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\CCamera.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\CMeshRenderer.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Entity.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\GLObjects.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\GLTFLoader.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Input.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Material.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Mesh.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Shader.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Texture.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NOU\Transform.h">
+      <Filter>include\NOU</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\App.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CMeshRenderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLTFLoader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Transform.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

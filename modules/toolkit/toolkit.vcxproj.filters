@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\TTK">
+      <UniqueIdentifier>{4B82C031-B737-3927-402C-33FEACE02F2B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TTK">
+      <UniqueIdentifier>{EFAF2FA9-5B8F-AE44-64A7-391BD00515A6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\CerealGLM.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnumToString.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Logging.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sys.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Camera.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Cube.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\FontRenderer.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\GLFWInput.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\GraphicsUtils.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Input.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\MeshHelper.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Sphere.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\SpriteSheetQuad.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\TTKContext.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Teapot.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTK\Texture2D.h">
+      <Filter>include\TTK</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Logging.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sys.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\Camera.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\FontRenderer.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\GLFWInput.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\GraphicsUtils.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\Input.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\MeshHelper.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\SpriteSheetQuad.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\TTKContext.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTK\Texture2D.cpp">
+      <Filter>src\TTK</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
