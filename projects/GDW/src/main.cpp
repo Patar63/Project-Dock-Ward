@@ -7,6 +7,8 @@
 #include "NOU/GLTFLoader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <GLM/glm.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
 #include <Player.h>
 
 #include "Logging.h"
