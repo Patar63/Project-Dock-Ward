@@ -1,13 +1,10 @@
 #version 410
 
 layout(location = 1) in vec3 inColor;
-//Lec5
 layout(location = 0) in vec3 inPos;
 layout(location = 2) in vec3 inNormal;
-//lecture 07
 layout (location = 3) in vec2 inUV;
 
-//lecture 07
 uniform sampler2D textureSampler;
 
 uniform vec3 lightPos;
@@ -18,7 +15,7 @@ out vec4 frag_color;
 
 void main() { 
 
-	// Lec5 -- Ambient
+	//Ambient
 	vec3 lightColor = vec3(1.0, 1.0, 1.0);
 	float ambientStrength = 0.0;
 	vec3 ambient = ambientStrength * lightColor;// * inColor;
