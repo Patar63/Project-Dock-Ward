@@ -140,6 +140,10 @@
   <ItemGroup>
     <ClInclude Include="src\Player.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Shaders\frag_shader.glsl" />
+    <None Include="res\Shaders\vertex_shader.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
