@@ -109,6 +109,19 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\IBuffer.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Utils\MeshBuilder.h" />
+    <ClInclude Include="src\Utils\MeshFactory.h" />
+    <ClInclude Include="src\Utils\ObjLoader.h" />
+    <ClInclude Include="src\VertexArrayObject.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexTypes.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\IBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -142,24 +155,6 @@
     <ProjectReference Include="..\..\modules\toolkit\toolkit.vcxproj">
       <Project>{AB7025F0-1750-A48B-2068-2F628CC60AED}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\IBuffer.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\Utils\MeshBuilder.h" />
-    <ClInclude Include="src\Utils\MeshFactory.h" />
-    <ClInclude Include="src\Utils\ObjLoader.h" />
-    <ClInclude Include="src\VertexArrayObject.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
-    <ClInclude Include="src\VertexTypes.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\Shaders\frag_shader.glsl" />
-    <None Include="res\Shaders\vertex_shader.glsl" />
-    <None Include="src\Utils\MeshFactory.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
