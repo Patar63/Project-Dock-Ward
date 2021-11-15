@@ -24,7 +24,6 @@
 #include <string>
 #include <iostream>
 
-
 #define LOG_GL_NOTIFICATIONS
 
 /*
@@ -59,33 +58,50 @@ void GlDebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsi
 	}
 }
 
-
+// Stores our GLFW window in a global variable for now
 GLFWwindow* window;
+// The current size of our window in pixels
+glm::ivec2 windowSize = glm::ivec2(1500, 1000);
+// The title of our GLFW window
+std::string windowTitle = "Project Dock-Ward";
 
-//initiate GLFW and make sure it works
-bool initGLFW() 
-{
-	if (glfwInit() == GLFW_FALSE) 
-	{
-		std::cout << "Failed to Initialize GLFW" << std::endl;
+void GlfwWindowResizedCallback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+	windowSize = glm::ivec2(width, height);
+}
+
+/// <summary>
+/// Handles intializing GLFW, should be called before initGLAD, but after Logger::Init()
+/// Also handles creating the GLFW window
+/// </summary>
+/// <returns>True if GLFW was initialized, false if otherwise</returns>
+bool initGLFW() {
+	// Initialize GLFW
+	if (glfwInit() == GLFW_FALSE) {
+		LOG_ERROR("Failed to initialize GLFW");
 		return false;
 	}
 
-	//Create a new GLFW window
-	window = glfwCreateWindow(800, 800, "Project Dock Ward", nullptr, nullptr);
+	//Create a new GLFW window and make it current
+	window = glfwCreateWindow(windowSize.x, windowSize.y, windowTitle.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(window);
+
+	// Set our window resized callback
+	glfwSetWindowSizeCallback(window, GlfwWindowResizedCallback);
 
 	return true;
 }
 
-//initiate GLAD and make sure it works
-bool initGLAD() 
-{
-	if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0) 
-	{
-		std::cout << "Failed to initialize Glad" << std::endl;
+/// <summary>
+/// Handles initializing GLAD and preparing our GLFW window for OpenGL calls
+/// </summary>
+/// <returns>True if GLAD is loaded, false if there was an error</returns>
+bool initGLAD() {
+	if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0) {
+		LOG_ERROR("Failed to initialize Glad");
 		return false;
 	}
+	return true;
 }
 
 
@@ -151,6 +167,8 @@ T Lerp(T a, T b, float t)
 //main game loop inside here as well as call all needed shaders
 int main() 
 {
+	Logger::Init(); // We'll borrow the logger from the toolkit, but we need to initialize it
+
 	//Initialize GLFW
 	if (!initGLFW())
 		return 1;
@@ -170,38 +188,71 @@ int main()
 	shader->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
 	shader->Link();
 
+	// GL states, we'll enable depth testing and backface fulling
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
 	// Get uniform location for the model view projection
 	Camera::Sptr camera = Camera::Create();
 	camera->SetPosition(glm::vec3(0, 3, 3));
 	camera->LookAt(glm::vec3(0.0f));
 	camera->SetOrthoVerticalScale(5);
 	
-	
-
 	// Create a mat4 to store our mvp (for now)
 	glm::mat4 transform = glm::mat4(1.0f);
 
 	// Our high-precision timer
 	double lastFrame = glfwGetTime();
 
-	LOG_INFO("Starting mesh build");
-
-	MeshBuilder<VertexPosCol> mesh;
-	MeshFactory::AddIcoSphere(mesh, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.5f), 3);
-	MeshFactory::AddCube(mesh, glm::vec3(0.0f), glm::vec3(0.5f));
-	VertexArrayObject::Sptr vao3 = mesh.Bake();
-
 	VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/barrel.obj");
 
+	bool isButtonPressed = false; 
+	bool isRotating = true;
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
+
 		glfwPollEvents();
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		//input handling
+		if (glfwGetKey(window, GLFW_KEY_SPACE))
+		{
+			if (!isButtonPressed)
+			{
+				isRotating = !isRotating;
+			}
+			isButtonPressed = true;
+		}
+		else
+		{
+			isButtonPressed = false;
+		}
+
+		// Calculate the time since our last frame (dt)
+		double thisFrame = glfwGetTime();
+		float dt = static_cast<float>(thisFrame - lastFrame);
+
+		transform = glm::rotate(glm::mat4(1.0f), -static_cast<float>(thisFrame), glm::vec3(0, 0, 1)) * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Bind our shader and upload the uniform
+		shader->Bind();
+
+		// Draw OBJ loaded model
+		shader->SetUniformMatrix("MVP", camera->GetViewProjection() * transform);
+		shader->SetUniformMatrix("Model", transform);
+		vao4->Draw();
+
+		VertexArrayObject::Unbind();
 
 		glfwSwapBuffers(window);
 
 	}
+
+	// Clean up the toolkit logger so we don't leak memory
+	Logger::Uninitialize();
 	return 0;
 } 

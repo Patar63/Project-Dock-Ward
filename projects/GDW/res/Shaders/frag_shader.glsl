@@ -40,5 +40,6 @@ void main() {
 
 
 	//vec3 result = ambient;
-	frag_color = texture(textureSampler, inUV) * vec4(ambient + diffuse + specular, 1.0);
+	//frag_color = texture(textureSampler, inUV) * vec4(ambient + diffuse + specular, 1.0);
+	frag_color = vec4(1.0, 1.0, 1.0, 1.0);
 }
