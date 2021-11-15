@@ -10,6 +10,7 @@
 
 #include <memory>
 
+
 /// <summary>
 /// We'll use this just to make it more clear what the intended usage of an attribute is in our code!
 /// </summary>
