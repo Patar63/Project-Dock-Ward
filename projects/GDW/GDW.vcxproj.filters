@@ -23,6 +23,8 @@
     <ClInclude Include="src\VertexArrayObject.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexTypes.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />

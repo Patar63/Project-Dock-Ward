@@ -112,7 +112,9 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
