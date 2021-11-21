@@ -127,6 +127,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\IBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Utils\ObjLoader.cpp" />
     <ClCompile Include="src\VertexArrayObject.cpp" />

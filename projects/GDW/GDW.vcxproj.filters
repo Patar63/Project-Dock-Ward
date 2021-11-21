@@ -36,5 +36,6 @@
     </ClCompile>
     <ClCompile Include="src\VertexArrayObject.cpp" />
     <ClCompile Include="src\VertexTypes.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
   </ItemGroup>
 </Project>
