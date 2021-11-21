@@ -40,6 +40,8 @@ public:
 	void setEntity(const entt::entity& _Entity) { Entity = _Entity; }
 	entt::entity getEntity() const { return Entity; }
 
+	btRigidBody* getRigidBody() const { return objRigidBody; }
+
 	//Functions to interface with Bullet
 	void SetPosition(glm::vec3 pos);
 	glm::vec3 GetPosition();
@@ -92,8 +94,6 @@ public:
 	entt::entity getB1() const { return b1; }
 	void setB2(const entt::entity& _b2) { b2 = _b2; }
 	entt::entity getB2() const { return b2; }
-	void setPoint(const glm::vec3& _Point) { Point = _Point; }
-	glm::vec3 getPoint() const { return Point; }
 
 	//Checks collisions to see if they're caused by the same two objects (no repeats collisions)
 	static bool Same(sptr C1, sptr C2) { return ((C1->b1 == C2->b1 && C1->b2 == C2->b2) || (C1->b1 == C2->b2 && C1->b2 == C2->b1)); }
@@ -102,5 +102,4 @@ private:
 	//used to define the space and two objects involved in a collision
 	entt::entity b1;
 	entt::entity b2;
-	glm::vec3 Point;
 };

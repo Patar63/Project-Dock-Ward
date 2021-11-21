@@ -133,5 +133,4 @@ SMI_Collision::SMI_Collision()
 {
     b1 = entt::null;
     b2 = entt::null;
-    Point = glm::vec3(0.f);
 }
