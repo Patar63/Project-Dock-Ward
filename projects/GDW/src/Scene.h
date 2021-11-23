@@ -115,17 +115,17 @@ inline void SMI_Scene::AttachCopy(entt::entity target, const T& copy)
 	}
 }
 template <typename T>
-inline T& GetComponent(entt::entity target)
+inline T& SMI_Scene::GetComponent(entt::entity target)
 {
 	return Store.get<T>(target);
 }
 template <typename T>
-inline bool HasComponent(entt::entity target)
+inline bool SMI_Scene::HasComponent(entt::entity target)
 {
 	return Store.has<T>(target);
 }
 template <typename T>
-inline void Remove(entt::entity target)
+inline void SMI_Scene::Remove(entt::entity target)
 {
 	//deletes bullet components and physics
 	if (std::is_same_v<T, SMI_Physics>)
