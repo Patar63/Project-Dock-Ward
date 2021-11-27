@@ -11,6 +11,8 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Physics.h"
+#include "Scene.h"
 
 #include "Utils/MeshBuilder.h"
 #include "Utils/MeshFactory.h"
@@ -233,7 +235,7 @@ int main()
 		double thisFrame = glfwGetTime();
 		float dt = static_cast<float>(thisFrame - lastFrame);
 
-		transform = glm::rotate(glm::mat4(1.0f), -static_cast<float>(thisFrame), glm::vec3(0, 0, 1)) * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		transform = glm::rotate(glm::mat4(1.0f), -static_cast<float>(thisFrame), glm::vec3(0, 0, 1)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 0.0f, 0.0f));
 
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
