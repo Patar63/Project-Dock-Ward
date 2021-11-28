@@ -158,6 +158,13 @@ bool loadShaders()
 	return true;
 }
 
+template <typename T>
+//templated LERP to be used for bullets
+T Lerp(T a, T b, float t)
+{
+	return(1.0f - t) * a + b * t;
+}
+
 class GameScene : public SMI_Scene
 {
 public:
@@ -207,6 +214,19 @@ public:
 
 	void Update(float deltaTime)
 	{
+		//incriment time
+		current += deltaTime;
+		if (current > max)
+		{
+			current = 0;
+		}
+		float t = current / max;
+
+		//rotation example
+		//GetComponent<SMI_Transform>(barrel).FixedRotate(glm::vec3(0, 0, 30) * deltaTime);
+		
+		// LERP example
+		//GetComponent<SMI_Transform>(barrel).setPos(Lerp(glm::vec3(0, 0, 0), glm::vec3(7, 0, 0), t));
 		SMI_Scene::Update(deltaTime);
 	}
 
@@ -214,15 +234,9 @@ public:
 
 private:
 	entt::entity barrel;
+	float max = 5;
+	float current = 0;
 };
-
-
-template <typename T>
-//templated LERP to be used for bullets
-T Lerp(T a, T b, float t)
-{
-	return(1.0f - t) * a + b * t;
-}
 
 //main game loop inside here as well as call all needed shaders
 int main() 
@@ -264,6 +278,7 @@ int main()
 		MainScene.Update(dt);
 		MainScene.Render();
 
+		lastFrame = thisFrame;
 		glfwSwapBuffers(window);
 	}
 
