@@ -158,6 +158,64 @@ bool loadShaders()
 	return true;
 }
 
+class GameScene : public SMI_Scene
+{
+public:
+	GameScene() { SMI_Scene(); }
+
+	void InitScene()
+	{
+		SMI_Scene::InitScene();
+
+		// Load our shaders
+		Shader::Sptr shader = Shader::Create();
+		shader->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
+		shader->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
+		shader->Link();
+
+		// GL states, we'll enable depth testing and backface fulling
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
+		// Get uniform location for the model view projection
+		Camera::Sptr camera = Camera::Create();
+		camera->SetPosition(glm::vec3(0, 3, 5));
+		camera->LookAt(glm::vec3(0.0f));
+		camera->SetOrthoVerticalScale(5);
+		setCamera(camera);
+
+		//creates object
+		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/barrel.obj");
+		{
+			barrel = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat = SMI_Material::Create();
+			BarrelMat->setShader(shader);
+			//render
+			Renderer BarrelRend = Renderer(BarrelMat, vao4);
+			AttachCopy(barrel, BarrelRend);
+			//transform
+			SMI_Transform BarrelTrans = SMI_Transform();
+			BarrelTrans.setPos(glm::vec3(0, 0, 0));
+			BarrelTrans.setScale(glm::vec3(1, 1, 1));
+			BarrelTrans.SetDegree(glm::vec3(0, 0, 0));
+			AttachCopy(barrel, BarrelTrans);
+		}
+	}
+
+	void Update(float deltaTime)
+	{
+		SMI_Scene::Update(deltaTime);
+	}
+
+	~GameScene() = default;
+
+private:
+	entt::entity barrel;
+};
+
 
 template <typename T>
 //templated LERP to be used for bullets
@@ -184,74 +242,29 @@ int main()
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(GlDebugMessage, nullptr);
 
-	// Load our shaders
-	Shader::Sptr shader = Shader::Create();
-	shader->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
-	shader->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
-	shader->Link();
-
-	// GL states, we'll enable depth testing and backface fulling
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-
-	// Get uniform location for the model view projection
-	Camera::Sptr camera = Camera::Create();
-	camera->SetPosition(glm::vec3(0, 3, 5));
-	camera->LookAt(glm::vec3(0.0f));
-	camera->SetOrthoVerticalScale(5);
-	
-	// Create a mat4 to store our mvp (for now)
-	glm::mat4 transform = glm::mat4(1.0f);
-
 	// Our high-precision timer
 	double lastFrame = glfwGetTime();
 
-	VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/barrel.obj");
+	GameScene MainScene = GameScene();
+	MainScene.InitScene();
 
-	bool isButtonPressed = false; 
-	bool isRotating = true;
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
 
 		glfwPollEvents();
 
-		//input handling
-		if (glfwGetKey(window, GLFW_KEY_SPACE))
-		{
-			if (!isButtonPressed)
-			{
-				isRotating = !isRotating;
-			}
-			isButtonPressed = true;
-		}
-		else
-		{
-			isButtonPressed = false;
-		}
 
 		// Calculate the time since our last frame (dt)
 		double thisFrame = glfwGetTime();
 		float dt = static_cast<float>(thisFrame - lastFrame);
 
-		transform = glm::rotate(glm::mat4(1.0f), -static_cast<float>(thisFrame), glm::vec3(0, 0, 1)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 0.0f, 0.0f));
-
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Bind our shader and upload the uniform
-		shader->Bind();
-
-		// Draw OBJ loaded model
-		shader->SetUniformMatrix("MVP", camera->GetViewProjection() * transform);
-		shader->SetUniformMatrix("Model", transform);
-		vao4->Draw();
-
-		VertexArrayObject::Unbind();
+		MainScene.Update(dt);
+		MainScene.Render();
 
 		glfwSwapBuffers(window);
-
 	}
 
 	// Clean up the toolkit logger so we don't leak memory

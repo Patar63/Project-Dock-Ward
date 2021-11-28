@@ -3,6 +3,9 @@
 #include "GLM/glm.hpp"
 #include "GLM/common.hpp"
 #include "Physics.h"
+#include "Camera.h"
+#include "Transform.h"
+#include "Render.h"
 #include <vector>
 
 //class to create a scene 
@@ -55,6 +58,10 @@ public:
 	void setPause(const bool& _isPaused) { isPaused = _isPaused; }
 	bool getPause() const { return isPaused; }
 
+	//setter and getter for camera
+	void setCamera(const Camera::Sptr& _cam) { camera = _cam; }
+	Camera::Sptr getCamera() const { return camera; }
+
 private:
 	//create registry
 	entt::registry Store;
@@ -81,7 +88,7 @@ private:
 
 protected:
 	//handle used to reference camera object
-	entt::entity camera;
+	Camera::Sptr camera;
 	//vector to hold all collisions to manage
 	std::vector<SMI_Collision::sptr> Collisions;
 };
@@ -92,28 +99,34 @@ template <typename T>
 inline void SMI_Scene::Attach(entt::entity target)
 {
 	Store.emplace<T>(target);
-	if (std::is_same_v<T, SMI_Physics>)
-	{
-		SMI_Phyiscs& phys = GetComponent<SMI_Phyiscs>(target);
-
-		phys.setEntity(target);
-		physicsWorld->addRigidBody(phys.getRigidBody());
-		phys.setInWorld(true);
-	}
 }
+template <>
+inline void SMI_Scene::Attach<SMI_Physics>(entt::entity target)
+{
+	Store.emplace<SMI_Physics>(target);
+	SMI_Physics& phys = GetComponent<SMI_Physics>(target);
+
+	phys.setEntity(target);
+	physicsWorld->addRigidBody(phys.getRigidBody());
+	phys.setInWorld(true);
+}
+
 template <typename T>
 inline void SMI_Scene::AttachCopy(entt::entity target, const T& copy)
 {
 	Store.emplace_or_replace<T>(target, copy);
-	if (std::is_same_v<T, SMI_Physics>)
-	{
-		SMI_Phyiscs& phys = GetComponent<SMI_Phyiscs>(target);
-
-		phys.setEntity(target);
-		physicsWorld->addRigidBody(phys.getRigidBody());
-		phys.setInWorld(true);
-	}
 }
+template <>
+inline void SMI_Scene::AttachCopy<SMI_Physics>(entt::entity target, const SMI_Physics& copy)
+{
+	Store.emplace_or_replace<SMI_Physics>(target, copy);
+	SMI_Physics& phys = GetComponent<SMI_Physics>(target);
+
+	phys.setEntity(target);
+	physicsWorld->addRigidBody(phys.getRigidBody());
+	phys.setInWorld(true);
+}
+
 template <typename T>
 inline T& SMI_Scene::GetComponent(entt::entity target)
 {
@@ -124,19 +137,23 @@ inline bool SMI_Scene::HasComponent(entt::entity target)
 {
 	return Store.has<T>(target);
 }
+
 template <typename T>
 inline void SMI_Scene::Remove(entt::entity target)
 {
-	//deletes bullet components and physics
-	if (std::is_same_v<T, SMI_Physics>)
-	{
-		btRigidBody* TargetBody = Store.get<SMI_Physics>(target).getRigidBody();
-		delete TargetBody->getMotionState();
-		delete TargetBody->getCollisionShape();
-		physicsWorld->removeRigidBody(TargetBody);
-		delete TargetBody;
-	}
-
 	//deletes component
 	Store.remove<T>(target);
+}
+template <>
+inline void SMI_Scene::Remove<SMI_Physics>(entt::entity target)
+{
+	//deletes bullet components and physics
+	btRigidBody* TargetBody = Store.get<SMI_Physics>(target).getRigidBody();
+	delete TargetBody->getMotionState();
+	delete TargetBody->getCollisionShape();
+	physicsWorld->removeRigidBody(TargetBody);
+	delete TargetBody;
+
+	//deletes component
+	Store.remove<SMI_Physics>(target);
 }

@@ -28,7 +28,7 @@ public:
 
 	//getters
 	Shader::Sptr getShader() const { return m_Shader; }
-	Uniform::Sptr getUniform(const std::string& UniformName) { return m_UniformMap.at(UniformName); }
+	Uniform::Sptr getUniform(const std::string& UniformName);
 
 	//destructor
 	~SMI_Material();

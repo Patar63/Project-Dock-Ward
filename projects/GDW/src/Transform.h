@@ -31,10 +31,15 @@ public:
 	//Pass in nullptr if you wish for the object to not have a parent.
 	void SetParent(SMI_Transform* parent);
 
+	//functions for rotation
+	void FixedRotate(glm::vec3 _rot);
+	void RelativeRotate(glm::vec3 _rot);
+
 	//setter functions
-	void setPos(const glm::vec3 _Pos) { Pos = _Pos; }
-	void setScale(const glm::vec3 _Scale) { Scale = _Scale; }
-	void setRot(const glm::quat _Rot) { Rot = _Rot; }
+	void setPos(const glm::vec3 _Pos) { Pos = _Pos; RecomputeGlobal(); }
+	void setScale(const glm::vec3 _Scale) { Scale = _Scale; RecomputeGlobal(); }
+	void setRot(const glm::quat _Rot) { Rot = _Rot; RecomputeGlobal(); }
+	void SetDegree(const glm::vec3 _Rot) { Rot = glm::quat(glm::radians(_Rot)); RecomputeGlobal(); }
 
 	//getter functions
 	glm::vec3 getPos() const { return Pos; }

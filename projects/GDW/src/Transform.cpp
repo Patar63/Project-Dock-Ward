@@ -81,6 +81,18 @@ void SMI_Transform::SetParent(SMI_Transform* parent)
 {
 }
 
+void SMI_Transform::FixedRotate(glm::vec3 _rot)
+{
+	Rot = glm::quat(glm::radians(_rot)) * Rot;
+	RecomputeGlobal();
+}
+
+void SMI_Transform::RelativeRotate(glm::vec3 _rot)
+{
+	Rot = Rot * glm::quat(glm::radians(_rot));
+	RecomputeGlobal();
+}
+
 SMI_Transform::~SMI_Transform()
 {
 	SetParent(nullptr);

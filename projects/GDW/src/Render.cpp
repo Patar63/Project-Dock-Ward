@@ -22,6 +22,7 @@ void Renderer::Render()
 		//draw and unbind
 		m_VAO->Draw();
 		m_Material->getShader()->Unbind();
+		m_VAO->Unbind();
 	}
 }
 

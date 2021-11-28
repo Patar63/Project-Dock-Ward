@@ -19,7 +19,7 @@ SMI_Scene::SMI_Scene()
 
     //create registry
     Store = entt::registry();
-    camera = entt::null;
+    camera = nullptr;
 }
 
 SMI_Scene::~SMI_Scene()
@@ -103,6 +103,41 @@ void SMI_Scene::Update(float deltaTime)
 
 void SMI_Scene::Render()
 {
+    auto RenderView = Store.view<Renderer, SMI_Transform>();
+    for (auto entity : RenderView)
+    {
+        SMI_Transform& trans = GetComponent<SMI_Transform>(entity);
+        Renderer& rend = GetComponent<Renderer>(entity);
+
+        UniformMatrixObject<glm::mat4>::Sptr ModelMatrix = std::dynamic_pointer_cast<UniformMatrixObject<glm::mat4>>
+                                                     (rend.getMaterial()->getUniform("Model"));
+        UniformMatrixObject<glm::mat4>::Sptr MVPMatrix = std::dynamic_pointer_cast<UniformMatrixObject<glm::mat4>>
+                                                   (rend.getMaterial()->getUniform("MVP"));
+
+        //check if nullptr and create uniform if needed
+        if (ModelMatrix == nullptr)
+        {
+            ModelMatrix = UniformMatrixObject<glm::mat4>::Create();
+            ModelMatrix->setName("Model");
+            ModelMatrix->setData(glm::mat4());
+            rend.getMaterial()->setUniform(ModelMatrix);
+        }
+        if (MVPMatrix == nullptr)
+        {
+            MVPMatrix = UniformMatrixObject<glm::mat4>::Create();
+            MVPMatrix->setName("MVP");
+            MVPMatrix->setData(glm::mat4());
+            rend.getMaterial()->setUniform(MVPMatrix);
+        }
+
+        ModelMatrix->setData(trans.getGlobal());
+        if (camera != nullptr)
+        {
+            MVPMatrix->setData(camera->GetViewProjection() * trans.getGlobal());
+        }
+
+        rend.Render();
+    }
 }
 
 void SMI_Scene::PostRender()
