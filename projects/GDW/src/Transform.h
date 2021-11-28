@@ -3,10 +3,10 @@
 #include "GLM/common.hpp"
 #include "GLM/glm.hpp"
 #include <vector>
-#include "GLM/gtx/transform.hpp"
 //allow use of experimental glm features
 #define GLM_ENABLE_EXPERIMENTAL
 #include "GLM/gtx/quaternion.hpp"
+#include "GLM/gtx/transform.hpp"
 
 class SMI_Transform
 {

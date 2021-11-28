@@ -9,10 +9,6 @@ class Uniform
 public:
 	typedef std::shared_ptr<Uniform> Sptr;
 
-	inline static Sptr Create() {
-		return std::make_shared<Uniform>();
-	}
-
 public:
 	//pure virtual function. Acts as a parent for UniformObject
 	virtual void SetUniform(Shader::Sptr) = 0;
