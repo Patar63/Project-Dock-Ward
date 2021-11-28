@@ -3,6 +3,7 @@
 #include "GLM/common.hpp"
 #include "GLM/glm.hpp"
 #include <vector>
+#include "GLM/gtx/transform.hpp"
 //allow use of experimental glm features
 #define GLM_ENABLE_EXPERIMENTAL
 #include "GLM/gtx/quaternion.hpp"
@@ -10,10 +11,6 @@
 class SMI_Transform
 {
 public:
-	glm::vec3 m_Pos;
-	glm::vec3 m_Scale;
-	glm::quat m_Rot;
-
 	//constructors
 	SMI_Transform();
 	SMI_Transform(const SMI_Transform& other) = default;
@@ -23,10 +20,6 @@ public:
 
 	//This will recompute and return the global transform of this object.
 	const glm::mat4& RecomputeGlobal();
-
-	//This will return the current global transform of the object (it will not recompute it - make sure that it has been
-	//computed via Recompute or a DoFK call on its parent before using).
-	const glm::mat4& GetGlobal() const;
 
 	//This will return the current normal matrix of the object
 	//(used for lighting). As above, make sure you have called
@@ -65,8 +58,6 @@ private:
 protected:
 	SMI_Transform* m_parent;
 	std::vector<SMI_Transform*> m_children;
-
-	glm::mat4 m_global;
 
 	//These functions are protected since they will be handled
 	//by SetParent - we don't want to have to manually update this ourselves

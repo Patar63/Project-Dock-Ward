@@ -39,5 +39,6 @@
     <ClCompile Include="src\VertexTypes.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
 </Project>

@@ -131,6 +131,7 @@
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\Utils\ObjLoader.cpp" />
     <ClCompile Include="src\VertexArrayObject.cpp" />
     <ClCompile Include="src\VertexTypes.cpp" />
