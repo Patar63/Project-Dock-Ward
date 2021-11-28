@@ -117,6 +117,8 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Uniform.h" />
+    <ClInclude Include="src\Utils\Material.h" />
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />

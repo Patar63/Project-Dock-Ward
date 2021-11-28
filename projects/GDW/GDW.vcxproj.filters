@@ -26,6 +26,8 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Utils\Material.h" />
+    <ClInclude Include="src\Uniform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
