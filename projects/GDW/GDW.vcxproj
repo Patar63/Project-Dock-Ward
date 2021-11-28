@@ -112,13 +112,13 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\Uniform.h" />
-    <ClInclude Include="src\Utils\Material.h" />
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />
@@ -130,6 +130,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\IBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader.cpp" />
