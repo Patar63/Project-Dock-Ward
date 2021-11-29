@@ -184,19 +184,21 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.5f, 1.0f);
 
 		// Get uniform location for the model view projection
 		Camera::Sptr camera = Camera::Create();
+
 		//camera position
-		camera->SetPosition(glm::vec3(0, 2.5, 0.9));
+		camera->SetPosition(glm::vec3(-2, 15.5, 6.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(0.0f));
+		camera->LookAt(glm::vec3(-2.0f));
+
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
 
 		//creates object
-		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/window.obj");
+		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
 			//material
@@ -208,11 +210,12 @@ public:
 			//transform
 			SMI_Transform BarrelTrans = SMI_Transform();
 
-			BarrelTrans.setPos(glm::vec3(-0.2, 0, 0));
-			BarrelTrans.setScale(glm::vec3(0.4, 0.4, 0.4));
+			BarrelTrans.setPos(glm::vec3(-0.2, 0, 2));
+			
 			BarrelTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
+		
 
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel.obj");
 		{
@@ -227,8 +230,8 @@ public:
 			//transform
 			SMI_Transform BarrelTrans1 = SMI_Transform();
 
-			BarrelTrans1.setPos(glm::vec3(-0.6, 0, 0));
-			BarrelTrans1.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans1.setPos(glm::vec3(-0.6, 0, 2.4));
+		
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel1, BarrelTrans1);
 		}
@@ -248,7 +251,7 @@ public:
 			SMI_Transform BarrelTrans2 = SMI_Transform();
 
 			BarrelTrans2.setPos(glm::vec3(0.03, 0, -0.8));
-			BarrelTrans2.setScale(glm::vec3(0.2, 0.2, 0.2));
+			
 			BarrelTrans2.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel2, BarrelTrans2);
 		}
@@ -267,7 +270,7 @@ public:
 			SMI_Transform BarrelTrans3 = SMI_Transform();
 
 			BarrelTrans3.setPos(glm::vec3(-1.8, 0, -0.8));
-			BarrelTrans3.setScale(glm::vec3(0.2, 0.2, 0.2));
+			
 			BarrelTrans3.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel3, BarrelTrans3);
 		}
@@ -284,8 +287,8 @@ public:
 			//transform
 			SMI_Transform BarrelTrans4 = SMI_Transform();
 
-			BarrelTrans4.setPos(glm::vec3(-3.8, 0, -0.8));
-			BarrelTrans4.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans4.setPos(glm::vec3(-12.8, 0, -0.8));
+			
 			BarrelTrans4.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel4, BarrelTrans4);
 		}
@@ -302,10 +305,47 @@ public:
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-3.8, 0, 0));
-			BarrelTrans5.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans5.setPos(glm::vec3(-8.8, 0, 0));
+			
 			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(crate1, BarrelTrans5);
+		}
+		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
+		{
+
+			door1 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat6 = SMI_Material::Create();
+			BarrelMat6->setShader(shader);
+			//render
+			Renderer BarrelRend6 = Renderer(BarrelMat6, door);
+			AttachCopy(door1, BarrelRend6);
+			//transform
+			SMI_Transform BarrelTrans6 = SMI_Transform();
+
+			BarrelTrans6.setPos(glm::vec3(-18.2, 0, 2));
+			
+			BarrelTrans6.SetDegree(glm::vec3(90, 0, 0));
+			AttachCopy(door1, BarrelTrans6);
+		}
+
+		VertexArrayObject::Sptr crate1 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			crate2 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat5 = SMI_Material::Create();
+			BarrelMat5->setShader(shader);
+			//render
+			Renderer BarrelRend5 = Renderer(BarrelMat5, crate1);
+			AttachCopy(crate2, BarrelRend5);
+			//transform
+			SMI_Transform BarrelTrans5 = SMI_Transform();
+
+			BarrelTrans5.setPos(glm::vec3(-8.8, 0, 4));
+			
+			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(crate2, BarrelTrans5);
 		}
 	}
 
@@ -315,7 +355,7 @@ public:
 		current += deltaTime;
 		if (current > max)
 		{
-			current = 0;
+			current = max;
 		}
 		float t = current / max;
 
@@ -323,7 +363,7 @@ public:
 		//GetComponent<SMI_Transform>(barrel).FixedRotate(glm::vec3(0, 0, 30) * deltaTime);
 		
 		// LERP example
-		//GetComponent<SMI_Transform>(barrel).setPos(Lerp(glm::vec3(0, 0, 0), glm::vec3(7, 0, 0), t));
+		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-18.2, 0, 2), glm::vec3(-18.2, 0, 10), t));
 		SMI_Scene::Update(deltaTime);
 	}
 
@@ -336,6 +376,8 @@ private:
 	entt::entity barrel3;
 	entt::entity barrel4;
 	entt::entity crate1;
+	entt::entity door1;
+	entt::entity crate2;
 	float max = 5;
 	float current = 0;
 };
