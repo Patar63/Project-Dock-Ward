@@ -188,13 +188,13 @@ public:
 
 		// Get uniform location for the model view projection
 		Camera::Sptr camera = Camera::Create();
-		camera->SetPosition(glm::vec3(0, 3, 5));
+		camera->SetPosition(glm::vec3(0, 2.5, 0.9));
 		camera->LookAt(glm::vec3(0.0f));
-		camera->SetOrthoVerticalScale(5);
+		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
 
 		//creates object
-		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/barrel.obj");
+		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/window.obj");
 		{
 			barrel = CreateEntity();
 			//material
@@ -205,10 +205,105 @@ public:
 			AttachCopy(barrel, BarrelRend);
 			//transform
 			SMI_Transform BarrelTrans = SMI_Transform();
-			BarrelTrans.setPos(glm::vec3(0, 0, 0));
-			BarrelTrans.setScale(glm::vec3(1, 1, 1));
-			BarrelTrans.SetDegree(glm::vec3(0, 0, 0));
+
+			BarrelTrans.setPos(glm::vec3(-0.2, 0, 0));
+			BarrelTrans.setScale(glm::vec3(0.4, 0.4, 0.4));
+			BarrelTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans);
+		}
+
+		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel.obj");
+		{
+
+			barrel1 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat1 = SMI_Material::Create();
+			BarrelMat1->setShader(shader);
+			//render
+			Renderer BarrelRend1 = Renderer(BarrelMat1, vao5);
+			AttachCopy(barrel1, BarrelRend1);
+			//transform
+			SMI_Transform BarrelTrans1 = SMI_Transform();
+
+			BarrelTrans1.setPos(glm::vec3(-0.6, 0, 0));
+			BarrelTrans1.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(barrel1, BarrelTrans1);
+		}
+
+
+		VertexArrayObject::Sptr vao6 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			barrel2 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat2 = SMI_Material::Create();
+			BarrelMat2->setShader(shader);
+			//render
+			Renderer BarrelRend2 = Renderer(BarrelMat2, vao6);
+			AttachCopy(barrel2, BarrelRend2);
+			//transform
+			SMI_Transform BarrelTrans2 = SMI_Transform();
+
+			BarrelTrans2.setPos(glm::vec3(0.03, 0, -0.8));
+			BarrelTrans2.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans2.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(barrel2, BarrelTrans2);
+		}
+
+		VertexArrayObject::Sptr vao7 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			barrel3 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat3 = SMI_Material::Create();
+			BarrelMat3->setShader(shader);
+			//render
+			Renderer BarrelRend3 = Renderer(BarrelMat3, vao7);
+			AttachCopy(barrel3, BarrelRend3);
+			//transform
+			SMI_Transform BarrelTrans3 = SMI_Transform();
+
+			BarrelTrans3.setPos(glm::vec3(-1.8, 0, -0.8));
+			BarrelTrans3.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans3.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(barrel3, BarrelTrans3);
+		}
+		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			barrel4 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat4 = SMI_Material::Create();
+			BarrelMat4->setShader(shader);
+			//render
+			Renderer BarrelRend4 = Renderer(BarrelMat4, vao8);
+			AttachCopy(barrel4, BarrelRend4);
+			//transform
+			SMI_Transform BarrelTrans4 = SMI_Transform();
+
+			BarrelTrans4.setPos(glm::vec3(-3.8, 0, -0.8));
+			BarrelTrans4.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans4.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(barrel4, BarrelTrans4);
+		}
+		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			crate1 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMat5 = SMI_Material::Create();
+			BarrelMat5->setShader(shader);
+			//render
+			Renderer BarrelRend5 = Renderer(BarrelMat5, crate);
+			AttachCopy(crate1, BarrelRend5);
+			//transform
+			SMI_Transform BarrelTrans5 = SMI_Transform();
+
+			BarrelTrans5.setPos(glm::vec3(-3.8, 0, 0));
+			BarrelTrans5.setScale(glm::vec3(0.2, 0.2, 0.2));
+			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(crate1, BarrelTrans5);
 		}
 	}
 
@@ -234,6 +329,11 @@ public:
 
 private:
 	entt::entity barrel;
+	entt::entity barrel1;
+	entt::entity barrel2;
+	entt::entity barrel3;
+	entt::entity barrel4;
+	entt::entity crate1;
 	float max = 5;
 	float current = 0;
 };
