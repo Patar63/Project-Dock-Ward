@@ -188,7 +188,9 @@ public:
 
 		// Get uniform location for the model view projection
 		Camera::Sptr camera = Camera::Create();
+		//camera position
 		camera->SetPosition(glm::vec3(0, 2.5, 0.9));
+		//this defines the point the camera is looking at
 		camera->LookAt(glm::vec3(0.0f));
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
