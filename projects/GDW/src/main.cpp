@@ -190,7 +190,7 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(-2, 15.5, 6.9));
+		camera->SetPosition(glm::vec3(-2, 17.5, 6.9));
 		//this defines the point the camera is looking at
 		camera->LookAt(glm::vec3(-2.0f));
 
@@ -212,9 +212,11 @@ public:
 
 			BarrelTrans.setPos(glm::vec3(-0.2, 0, 2));
 			
-			BarrelTrans.SetDegree(glm::vec3(90, 0, 90));
+			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
+
+
 		
 
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel.obj");
@@ -292,6 +294,24 @@ public:
 			BarrelTrans4.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel4, BarrelTrans4);
 		}
+		VertexArrayObject::Sptr wall3 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			walls3 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat = SMI_Material::Create();
+			WallMat->setShader(shader);
+			//render
+			Renderer WallRend = Renderer(WallMat, wall3);
+			AttachCopy(walls3, WallRend);
+			//transform
+			SMI_Transform WallTrans = SMI_Transform();
+
+			WallTrans.setPos(glm::vec3(-23.8, 0, -0.8));
+
+			WallTrans.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(walls3, WallTrans);
+		}
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
@@ -305,7 +325,7 @@ public:
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-8.8, 0, 0));
+			BarrelTrans5.setPos(glm::vec3(-13.8, 0, 2));
 			
 			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(crate1, BarrelTrans5);
@@ -323,9 +343,9 @@ public:
 			//transform
 			SMI_Transform BarrelTrans6 = SMI_Transform();
 
-			BarrelTrans6.setPos(glm::vec3(-18.2, 0, 2));
+			BarrelTrans6.setPos(glm::vec3(-20.2, 0, 2));
 			
-			BarrelTrans6.SetDegree(glm::vec3(90, 0, 0));
+			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(door1, BarrelTrans6);
 		}
 
@@ -342,7 +362,7 @@ public:
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-8.8, 0, 4));
+			BarrelTrans5.setPos(glm::vec3(-13.8, 0, 4));
 			
 			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(crate2, BarrelTrans5);
@@ -363,7 +383,7 @@ public:
 		//GetComponent<SMI_Transform>(barrel).FixedRotate(glm::vec3(0, 0, 30) * deltaTime);
 		
 		// LERP example
-		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-18.2, 0, 2), glm::vec3(-18.2, 0, 10), t));
+		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-20.2, 0, 2), glm::vec3(-20.2, 0, 10), t));
 		SMI_Scene::Update(deltaTime);
 	}
 
@@ -378,6 +398,7 @@ private:
 	entt::entity crate1;
 	entt::entity door1;
 	entt::entity crate2;
+	entt::entity walls3;
 	float max = 5;
 	float current = 0;
 };
@@ -411,8 +432,7 @@ int main()
 
 		glfwPollEvents();
 
-
-		// Calculate the time since our last frame (dt)
+		
 		double thisFrame = glfwGetTime();
 		float dt = static_cast<float>(thisFrame - lastFrame);
 
