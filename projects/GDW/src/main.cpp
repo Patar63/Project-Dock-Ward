@@ -190,9 +190,9 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(-2, 17.5, 6.9));
+		camera->SetPosition(glm::vec3(-12, 17.5, 6.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(-2.0f));
+		camera->LookAt(glm::vec3(-12.0f));
 
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
@@ -312,6 +312,42 @@ public:
 			WallTrans.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(walls3, WallTrans);
 		}
+		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			walls4 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat1 = SMI_Material::Create();
+			WallMat1->setShader(shader);
+			//render
+			Renderer WallRend1 = Renderer(WallMat1, wall4);
+			AttachCopy(walls4, WallRend1);
+			//transform
+			SMI_Transform WallTrans1 = SMI_Transform();
+
+			WallTrans1.setPos(glm::vec3(-30.8, 0, -0.8));
+
+			WallTrans1.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(walls4, WallTrans1);
+		}
+		VertexArrayObject::Sptr elevator = ObjLoader::LoadFromFile("Models/elevator.obj");
+		{
+
+			elevator1 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat2 = SMI_Material::Create();
+			WallMat2->setShader(shader);
+			//render
+			Renderer WallRend2 = Renderer(WallMat2, elevator);
+			AttachCopy(elevator1, WallRend2);
+			//transform
+			SMI_Transform WallTrans2 = SMI_Transform();
+
+			WallTrans2.setPos(glm::vec3(-31.8, -1.6, -0.6));
+
+			WallTrans2.SetDegree(glm::vec3(90, 0, 0));
+			AttachCopy(elevator1, WallTrans2);
+		}
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
@@ -367,23 +403,68 @@ public:
 			BarrelTrans5.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(crate2, BarrelTrans5);
 		}
+		VertexArrayObject::Sptr w = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			w1 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat6 = SMI_Material::Create();
+			WallMat6->setShader(shader);
+			//render
+			Renderer WallRend6 = Renderer(WallMat6, w);
+			AttachCopy(w1, WallRend6);
+			//transform
+			SMI_Transform WallTrans6 = SMI_Transform();
+
+			WallTrans6.setPos(glm::vec3(-45.8, 0, -5.6));
+
+			WallTrans6.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(w1, WallTrans6);
+		}
+		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf1.obj");
+		{
+
+			shelf1 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat7 = SMI_Material::Create();
+			WallMat7->setShader(shader);
+			//render
+			Renderer WallRend7 = Renderer(WallMat7, shelf);
+			AttachCopy(shelf1, WallRend7);
+			//transform
+			SMI_Transform WallTrans7 = SMI_Transform();
+
+			WallTrans7.setPos(glm::vec3(-45.8, 0, 1.6));
+
+			WallTrans7.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(shelf1 , WallTrans7);
+		}
 	}
 
 	void Update(float deltaTime)
 	{
-		//incriment time
+		//increment time
 		current += deltaTime;
+		c += deltaTime;
 		if (current > max)
 		{
 			current = max;
 		}
+		if (c > max)
+		{
+			c = 0;
+			
+		}
 		float t = current / max;
+		float time = c / max;
 
 		//rotation example
 		//GetComponent<SMI_Transform>(barrel).FixedRotate(glm::vec3(0, 0, 30) * deltaTime);
 		
 		// LERP example
 		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-20.2, 0, 2), glm::vec3(-20.2, 0, 10), t));
+		GetComponent<SMI_Transform>(elevator1).setPos(Lerp(glm::vec3(-38.8, -1.6, -0.6), glm::vec3(-38.8, -1.6, -5.6), time));
+		
 		SMI_Scene::Update(deltaTime);
 	}
 
@@ -399,8 +480,13 @@ private:
 	entt::entity door1;
 	entt::entity crate2;
 	entt::entity walls3;
+	entt::entity walls4;
+	entt::entity elevator1;
+	entt::entity w1;
+	entt::entity shelf1;
 	float max = 5;
 	float current = 0;
+	float c = 0;
 };
 
 //main game loop inside here as well as call all needed shaders
