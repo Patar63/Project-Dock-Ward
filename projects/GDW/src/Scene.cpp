@@ -97,6 +97,8 @@ void SMI_Scene::Update(float deltaTime)
             phys.Update(deltaTime);
         }
 
+        CollisionManage();
+
         auto TransPhysView = Store.view<SMI_Physics, SMI_Transform>();
         for (auto entity : TransPhysView)
         {
@@ -105,8 +107,6 @@ void SMI_Scene::Update(float deltaTime)
 
             trans.setPos(phys.GetPosition());
         }
-
-        CollisionManage();
     }
 }
 

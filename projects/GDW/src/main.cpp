@@ -833,9 +833,9 @@ public:
 			AttachCopy(Character1, CharacterRend);
 
 			//create character with physics ability
-			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-20, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
+			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-20, -10, 0), glm::vec3(0), glm::vec3(0.5, 0.5, 0.5), Character1,
 				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
-			Phys.setHasGravity(false);
+			Phys.setHasGravity(true);
 			AttachCopy(Character1, Phys);
 
 			//transform
@@ -882,6 +882,7 @@ public:
 		GetComponent<SMI_Transform>(elevator12).setPos(Lerp(glm::vec3(-68.8, -1.6, -7.6), glm::vec3(-68.8, -1.6, 0.6), time));
 		
 		SMI_Scene::Update(deltaTime);
+		printf("%d\n", Collisions.size());
 	}
 
 	~GameScene() = default;
