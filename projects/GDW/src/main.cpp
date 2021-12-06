@@ -69,10 +69,16 @@ glm::ivec2 windowSize = glm::ivec2(1500, 1000);
 // The title of our GLFW window
 std::string windowTitle = "Project Dock-Ward";
 
+
+
 void GlfwWindowResizedCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 	windowSize = glm::ivec2(width, height);
 }
+
+
+
+
 
 /// <summary>
 /// Handles intializing GLFW, should be called before initGLAD, but after Logger::Init()
@@ -192,9 +198,9 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(-12, 17.5, 6.9));
+		camera->SetPosition(glm::vec3(-86, 20.5, 9.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(-12.0f));
+		camera->LookAt(glm::vec3(-86.0f));
 
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
@@ -217,10 +223,91 @@ public:
 			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
+		VertexArrayObject::Sptr win = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			wa1 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelMa = SMI_Material::Create();
+			BarrelMa->setShader(shader);
+			//render
+			Renderer BarrelRen = Renderer(BarrelMa, win);
+			AttachCopy(wa1, BarrelRen);
+			//transform
+			SMI_Transform winTrans1 = SMI_Transform();
 
+			winTrans1.setPos(glm::vec3(-10.2, 0, 2));
 
-		
+			winTrans1.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(wa1, winTrans1);
+		}
+		VertexArrayObject::Sptr win1 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			wa2 = CreateEntity();
+			//material
+			SMI_Material::Sptr BarrelM = SMI_Material::Create();
+			BarrelM->setShader(shader);
+			//render
+			Renderer BarrelRe = Renderer(BarrelM, win1);
+			AttachCopy(wa2, BarrelRe);
+			//transform
+			SMI_Transform winTrans = SMI_Transform();
 
+			winTrans.setPos(glm::vec3(-20.2, 0, 2));
+
+			winTrans.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(wa2, winTrans);
+		}
+		VertexArrayObject::Sptr win2 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			wa3 = CreateEntity();
+			//material
+			SMI_Material::Sptr windowmat = SMI_Material::Create();
+			windowmat->setShader(shader);
+			//render
+			Renderer windowren = Renderer(windowmat, win2);
+			AttachCopy(wa3, windowren);
+			//transform
+			SMI_Transform windowTrans = SMI_Transform();
+
+			windowTrans.setPos(glm::vec3(-39.8, 0, -0.9));
+
+			windowTrans.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(wa3, windowTrans);
+		}
+		VertexArrayObject::Sptr win3 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			wa3 = CreateEntity();
+			//material
+			SMI_Material::Sptr windowmat1 = SMI_Material::Create();
+			windowmat1->setShader(shader);
+			//render
+			Renderer windowren1 = Renderer(windowmat1, win3);
+			AttachCopy(wa3, windowren1);
+			//transform
+			SMI_Transform windowTrans1 = SMI_Transform();
+
+			windowTrans1.setPos(glm::vec3(-49.8, 0, -0.9));
+
+			windowTrans1.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(wa3, windowTrans1);
+		}
+		VertexArrayObject::Sptr win4 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			wa4 = CreateEntity();
+			//material
+			SMI_Material::Sptr windowmat2 = SMI_Material::Create();
+			windowmat2->setShader(shader);
+			//render
+			Renderer windowren2 = Renderer(windowmat2, win4);
+			AttachCopy(wa4, windowren2);
+			//transform
+			SMI_Transform windowTrans2 = SMI_Transform();
+
+			windowTrans2.setPos(glm::vec3(-58.8, 0, -0.9));
+
+			windowTrans2.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(wa4, windowTrans2);
+		}
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel.obj");
 		{
 
@@ -264,7 +351,7 @@ public:
 
 			BarrelTrans2.setPos(glm::vec3(0.03, 0, -0.8));
 			
-			BarrelTrans2.SetDegree(glm::vec3(0, 90, 0));
+			BarrelTrans2.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel2, BarrelTrans2);
 		}
 
@@ -283,7 +370,7 @@ public:
 
 			BarrelTrans3.setPos(glm::vec3(-1.8, 0, -0.8));
 			
-			BarrelTrans3.SetDegree(glm::vec3(0, 90, 0));
+			BarrelTrans3.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel3, BarrelTrans3);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -301,7 +388,7 @@ public:
 
 			BarrelTrans4.setPos(glm::vec3(-12.8, 0, -0.8));
 			
-			BarrelTrans4.SetDegree(glm::vec3(0, 90, 0));
+			BarrelTrans4.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel4, BarrelTrans4);
 		}
 		VertexArrayObject::Sptr wall3 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -319,7 +406,7 @@ public:
 
 			WallTrans.setPos(glm::vec3(-23.8, 0, -0.8));
 
-			WallTrans.SetDegree(glm::vec3(0, 90, 0));
+			WallTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls3, WallTrans);
 		}
 		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -337,7 +424,7 @@ public:
 
 			WallTrans1.setPos(glm::vec3(-30.8, 0, -0.8));
 
-			WallTrans1.SetDegree(glm::vec3(0, 90, 0));
+			WallTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls4, WallTrans1);
 		}
 		VertexArrayObject::Sptr elevator = ObjLoader::LoadFromFile("Models/elevator.obj");
@@ -389,7 +476,7 @@ public:
 			//transform
 			SMI_Transform BarrelTrans6 = SMI_Transform();
 
-			BarrelTrans6.setPos(glm::vec3(-20.2, 0, 2));
+			BarrelTrans6.setPos(glm::vec3(-27.2, 0, 2));
 			
 			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(door1, BarrelTrans6);
@@ -428,7 +515,7 @@ public:
 
 			WallTrans6.setPos(glm::vec3(-45.8, 0, -5.6));
 
-			WallTrans6.SetDegree(glm::vec3(0, 90, 0));
+			WallTrans6.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(w1, WallTrans6);
 		}
 		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf1.obj");
@@ -444,11 +531,266 @@ public:
 			//transform
 			SMI_Transform WallTrans7 = SMI_Transform();
 
-			WallTrans7.setPos(glm::vec3(-45.8, 0, 1.6));
+			WallTrans7.setPos(glm::vec3(-45.8, 0, -0.6));
 
 			WallTrans7.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(shelf1 , WallTrans7);
 		}
+		VertexArrayObject::Sptr fan = ObjLoader::LoadFromFile("Models/cfan1.obj");
+		{
+
+			fan1 = CreateEntity();
+			//material
+			SMI_Material::Sptr fanmat = SMI_Material::Create();
+			fanmat->setShader(shader);
+			//render
+			Renderer fanrend = Renderer(fanmat, fan);
+			AttachCopy(fan1, fanrend);
+			//transform
+			SMI_Transform fanTrans = SMI_Transform();
+
+			fanTrans.setPos(glm::vec3(-50.8, 0, 1.8));
+
+			fanTrans.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(fan1, fanTrans);
+		}
+		VertexArrayObject::Sptr fanHolder = ObjLoader::LoadFromFile("Models/cholder.obj");
+		{
+
+			fanH = CreateEntity();
+			//material
+			SMI_Material::Sptr fanmat1 = SMI_Material::Create();
+			fanmat1->setShader(shader);
+			//render
+			Renderer fanrend1 = Renderer(fanmat1, fanHolder);
+			AttachCopy(fanH, fanrend1);
+			//transform
+			SMI_Transform fanTrans1 = SMI_Transform();
+
+			fanTrans1.setPos(glm::vec3(-50.8, 0, 1.8));
+
+			fanTrans1.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(fanH, fanTrans1);
+		}
+		VertexArrayObject::Sptr wall5 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			walls5 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat10 = SMI_Material::Create();
+			WallMat10->setShader(shader);
+			//render
+			Renderer WallRend10 = Renderer(WallMat10, wall5);
+			AttachCopy(walls5, WallRend10);
+			//transform
+			SMI_Transform WallTrans10 = SMI_Transform();
+
+			WallTrans10.setPos(glm::vec3(-57.2, 0, -5.6));
+
+			WallTrans10.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(walls5, WallTrans10);
+		}
+		VertexArrayObject::Sptr shelf1 = ObjLoader::LoadFromFile("Models/shelf1.obj");
+		{
+
+			shel = CreateEntity();
+			//material
+			SMI_Material::Sptr ShelfM = SMI_Material::Create();
+			ShelfM->setShader(shader);
+			//render
+			Renderer ShelfRen7 = Renderer(ShelfM, shelf1);
+			AttachCopy(shel, ShelfRen7);
+			//transform
+			SMI_Transform ShelfTrans7 = SMI_Transform();
+
+			ShelfTrans7.setPos(glm::vec3(-56.8, 0, -0.6));
+
+			ShelfTrans7.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(shel, ShelfTrans7);
+		}
+
+		VertexArrayObject::Sptr whouse = ObjLoader::LoadFromFile("Models/warehouse.obj");
+		{
+
+			ware = CreateEntity();
+			//material
+			SMI_Material::Sptr wareh = SMI_Material::Create();
+			wareh->setShader(shader);
+			//render
+			Renderer ShelfRen8 = Renderer(wareh, whouse);
+			AttachCopy(ware, ShelfRen8);
+			//transform
+			SMI_Transform ShelfTrans8 = SMI_Transform();
+
+			ShelfTrans8.setPos(glm::vec3(-56.8, 0, -0.6));
+
+			ShelfTrans8.SetDegree(glm::vec3(90, 0, -180));
+			AttachCopy(ware, ShelfTrans8);
+		}
+		VertexArrayObject::Sptr w3 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			f = CreateEntity();
+			//material
+			SMI_Material::Sptr floormat2 = SMI_Material::Create();
+			floormat2->setShader(shader);
+			//render
+			Renderer WallRend6 = Renderer(floormat2, w3);
+			AttachCopy(f, WallRend6);
+			//transform
+			SMI_Transform floorTrans1 = SMI_Transform();
+
+			floorTrans1.setPos(glm::vec3(-79.8, 0, 0.6));
+
+			floorTrans1.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(f, floorTrans1);
+		}
+		VertexArrayObject::Sptr w4 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			f1 = CreateEntity();
+			//material
+			SMI_Material::Sptr floormat3 = SMI_Material::Create();
+			floormat3->setShader(shader);
+			//render
+			Renderer WallRend7 = Renderer(floormat3, w4);
+			AttachCopy(f1, WallRend7);
+			//transform
+			SMI_Transform floorTrans2 = SMI_Transform();
+
+			floorTrans2.setPos(glm::vec3(-88.8, 0, 0.6));
+
+			floorTrans2.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(f1, floorTrans2);
+		}
+		VertexArrayObject::Sptr w5 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			f2 = CreateEntity();
+			//material
+			SMI_Material::Sptr floormat4 = SMI_Material::Create();
+			floormat4->setShader(shader);
+			//render
+			Renderer WallRend13 = Renderer(floormat4, w5);
+			AttachCopy(f2, WallRend13);
+			//transform
+			SMI_Transform floorTrans4 = SMI_Transform();
+
+			floorTrans4.setPos(glm::vec3(-99.8, 0, 0.6));
+
+			floorTrans4.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(f2, floorTrans4);
+		}
+		VertexArrayObject::Sptr w6 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		{
+
+			f3 = CreateEntity();
+			//material
+			SMI_Material::Sptr floormat5 = SMI_Material::Create();
+			floormat5->setShader(shader);
+			//render
+			Renderer WallRend15 = Renderer(floormat5, w6);
+			AttachCopy(f3, WallRend15);
+			//transform
+			SMI_Transform floorTrans5 = SMI_Transform();
+
+			floorTrans5.setPos(glm::vec3(-119.8, 0, 0.6));
+
+			floorTrans5.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(f3, floorTrans5);
+		}
+		VertexArrayObject::Sptr cars = ObjLoader::LoadFromFile("Models/car.obj");
+		{
+
+			car = CreateEntity();
+			//material
+			SMI_Material::Sptr carM = SMI_Material::Create();
+			carM->setShader(shader);
+			//render
+			Renderer carRen7 = Renderer(carM, cars);
+			AttachCopy(car, carRen7);
+			//transform
+			SMI_Transform carTrans = SMI_Transform();
+
+			carTrans.setPos(glm::vec3(-88.8, 0, 2.8));
+
+			carTrans.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(car, carTrans);
+		}
+		VertexArrayObject::Sptr building1 = ObjLoader::LoadFromFile("Models/building1.obj");
+		{
+
+			build = CreateEntity();
+			//material
+			SMI_Material::Sptr buildM = SMI_Material::Create();
+			buildM->setShader(shader);
+			//render
+			Renderer buildRen7 = Renderer(buildM, building1);
+			AttachCopy(build, buildRen7);
+			//transform
+			SMI_Transform buildTrans = SMI_Transform();
+
+			buildTrans.setPos(glm::vec3(-79.8, 0, 3.2));
+
+			buildTrans.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(build, buildTrans);
+		}
+		VertexArrayObject::Sptr roadblock = ObjLoader::LoadFromFile("Models/build2.obj");
+		{
+
+			road1 = CreateEntity();
+			//material
+			SMI_Material::Sptr roadM = SMI_Material::Create();
+			roadM->setShader(shader);
+			//render
+			Renderer roadren1 = Renderer(roadM, roadblock);
+			AttachCopy(road1, roadren1);
+			//transform
+			SMI_Transform roadbTrans = SMI_Transform();
+
+			roadbTrans.setPos(glm::vec3(-86.8, 0, 3.8));
+
+			roadbTrans.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(road1, roadbTrans);
+		}
+		VertexArrayObject::Sptr building2 = ObjLoader::LoadFromFile("Models/building1.obj");
+		{
+
+			build3 = CreateEntity();
+			//material
+			SMI_Material::Sptr buildM1 = SMI_Material::Create();
+			buildM1->setShader(shader);
+			//render
+			Renderer build1Ren7 = Renderer(buildM1, building2);
+			AttachCopy(build3, build1Ren7);
+			//transform
+			SMI_Transform buildTrans1 = SMI_Transform();
+
+			buildTrans1.setPos(glm::vec3(-94.8, 0, 3.2));
+
+			buildTrans1.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(build3, buildTrans1);
+		}
+		VertexArrayObject::Sptr elevator1 = ObjLoader::LoadFromFile("Models/elevator.obj");
+		{
+
+			elevator12 = CreateEntity();
+			//material
+			SMI_Material::Sptr WallMat4 = SMI_Material::Create();
+			WallMat4->setShader(shader);
+			//render
+			Renderer WallRend12 = Renderer(WallMat4, elevator1);
+			AttachCopy(elevator12, WallRend12);
+			//transform
+			SMI_Transform WallTrans3 = SMI_Transform();
+
+			WallTrans3.setPos(glm::vec3(-68.8, -1.6, -0.6));
+
+			WallTrans3.SetDegree(glm::vec3(90, 0, 0));
+			AttachCopy(elevator12, WallTrans3);
+		}
+	
+
 	}
 
 	void Update(float deltaTime)
@@ -469,11 +811,19 @@ public:
 		float time = c / max;
 
 		//rotation example
-		//GetComponent<SMI_Transform>(barrel).FixedRotate(glm::vec3(0, 0, 30) * deltaTime);
+		GetComponent<SMI_Transform>(fan1).FixedRotate(glm::vec3(0, 0, 30) * deltaTime*8.0f);
 		
 		// LERP example
-		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-20.2, 0, 2), glm::vec3(-20.2, 0, 10), t));
-		GetComponent<SMI_Transform>(elevator1).setPos(Lerp(glm::vec3(-38.8, -1.6, -0.6), glm::vec3(-38.8, -1.6, -5.6), time));
+		
+		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-27.2, 0, 2), glm::vec3(-27.2, 0, 10), t));
+
+		GetComponent<SMI_Transform>(ware).setPos(Lerp(glm::vec3(-56.8, 0, -0.6), glm::vec3(-56.8, 0, 4.6), time));
+			
+		GetComponent<SMI_Transform>(car).setPos(Lerp(glm::vec3(-99.8, 0, 2.8), glm::vec3(-74.8, 0, 2.8), time));
+		
+		GetComponent<SMI_Transform>(elevator1).setPos(Lerp(glm::vec3(-38.8, -1.6, -0.6), glm::vec3(-38.8, -1.6, -8.6), time));
+
+		GetComponent<SMI_Transform>(elevator12).setPos(Lerp(glm::vec3(-68.8, -1.6, -7.6), glm::vec3(-68.8, -1.6, 0.6), time));
 		
 		SMI_Scene::Update(deltaTime);
 	}
@@ -492,8 +842,28 @@ private:
 	entt::entity walls3;
 	entt::entity walls4;
 	entt::entity elevator1;
+	entt::entity elevator12;
 	entt::entity w1;
 	entt::entity shelf1;
+	entt::entity fan1;
+	entt::entity walls5;
+	entt::entity shel;
+	entt::entity fanH;
+	entt::entity ware;
+	entt::entity f;
+	entt::entity f1;
+	entt::entity f2;
+	entt::entity f3;
+	entt::entity car;
+	entt::entity build;
+	entt::entity build3;
+	entt::entity road1;
+	entt::entity wa1;
+	entt::entity wa2;
+	entt::entity wa3;
+	entt::entity wa4;
+	entt::entity wa5;
+	entt::entity wa6;
 	float max = 5;
 	float current = 0;
 	float c = 0;
@@ -534,6 +904,8 @@ int main()
 
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		
 
 		MainScene.Update(dt);
 		MainScene.Render();
