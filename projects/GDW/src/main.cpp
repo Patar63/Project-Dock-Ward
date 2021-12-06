@@ -821,8 +821,9 @@ public:
 			AttachCopy(Character1, CharacterTrans);
 
 			//create character with physics ability
-			SMI_Physics::SMI_Physics(glm::vec3(-10, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
+			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-10, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
 				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			AttachCopy(Character1, Phys);
 		}
 	}
 	
