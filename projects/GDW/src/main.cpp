@@ -832,29 +832,19 @@ public:
 			Renderer CharacterRend = Renderer(CharacterMat, Character);
 			AttachCopy(Character1, CharacterRend);
 
+			//create character with physics ability
+			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-20, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
+				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			Phys.setHasGravity(false);
+			AttachCopy(Character1, Phys);
+
 			//transform
 			SMI_Transform CharacterTrans = SMI_Transform();
 
-			CharacterTrans.setPos(glm::vec3(-10, -10, 0));
+			CharacterTrans.setPos(glm::vec3(-20, -10, 0));
 			CharacterTrans.SetDegree(glm::vec3(90, 0, -90));
 			CharacterTrans.setScale(glm::vec3(0.5, 0.5, 0.5));
 			AttachCopy(Character1, CharacterTrans);
-
-
-			//create character with physics ability
-			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-10, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
-				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
-			AttachCopy(Character1, Phys);
-
-
-			
-
-			
-			
-			
-			
-	
-
 		}
 	}
 	
