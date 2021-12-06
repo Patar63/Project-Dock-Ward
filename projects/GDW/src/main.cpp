@@ -361,6 +361,10 @@ public:
 			
 			BarrelTrans2.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel2, BarrelTrans2);
+
+			SMI_Physics Phys2 = SMI_Physics::SMI_Physics(glm::vec3(0.03, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(0, 0, 0), barrel2,
+				SMI_PhysicsBodyType::STATIC, 1.0f);
+			AttachCopy(barrel2, Phys2);
 		}
 
 		VertexArrayObject::Sptr vao7 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -380,6 +384,10 @@ public:
 			
 			BarrelTrans3.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel3, BarrelTrans3);
+
+			SMI_Physics Phys3 = SMI_Physics::SMI_Physics(glm::vec3(-1.8, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(0, 0, 0), barrel3,
+				SMI_PhysicsBodyType::STATIC, 1.0f);
+			AttachCopy(barrel3, Phys3);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -398,6 +406,10 @@ public:
 			
 			BarrelTrans4.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel4, BarrelTrans4);
+
+			SMI_Physics Phys4 = SMI_Physics::SMI_Physics(glm::vec3(-12.8, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(0, 0, 0), barrel4,
+				SMI_PhysicsBodyType::STATIC, 1.0f);
+			AttachCopy(barrel4, Phys4);
 		}
 		VertexArrayObject::Sptr wall3 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -416,6 +428,10 @@ public:
 
 			WallTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls3, WallTrans);
+
+			SMI_Physics Phys5 = SMI_Physics::SMI_Physics(glm::vec3(-23.8, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(0, 0, 0), walls3,
+				SMI_PhysicsBodyType::STATIC, 1.0f);
+			AttachCopy(walls3, Phys5);
 		}
 		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -434,6 +450,10 @@ public:
 
 			WallTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls4, WallTrans1);
+
+			SMI_Physics Phys6 = SMI_Physics::SMI_Physics(glm::vec3(-30.8, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(0, 0, 0), walls4,
+				SMI_PhysicsBodyType::STATIC, 1.0f);
+			AttachCopy(walls4, Phys6);
 		}
 		VertexArrayObject::Sptr elevator = ObjLoader::LoadFromFile("Models/elevator.obj");
 		{
@@ -820,10 +840,21 @@ public:
 			CharacterTrans.setScale(glm::vec3(0.5, 0.5, 0.5));
 			AttachCopy(Character1, CharacterTrans);
 
+
 			//create character with physics ability
 			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-10, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
 				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
 			AttachCopy(Character1, Phys);
+
+
+			
+
+			
+			
+			
+			
+	
+
 		}
 	}
 	
