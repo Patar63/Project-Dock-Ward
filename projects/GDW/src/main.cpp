@@ -13,6 +13,8 @@
 #include "Player.h"
 #include "Physics.h"
 #include "Scene.h"
+#include "Texture2D.h"
+#include "TextureCube.h"
 
 #include "Utils/MeshBuilder.h"
 #include "Utils/MeshFactory.h"
@@ -223,9 +225,17 @@ public:
 		{
 
 			barrel1 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr BarrelTexture = Texture2D::Create("Textures/Barrel.png");
+
 			//material
 			SMI_Material::Sptr BarrelMat1 = SMI_Material::Create();
 			BarrelMat1->setShader(shader);
+
+			//set textures
+			BarrelMat1->setTexture(BarrelTexture, 0);
+
 			//render
 			Renderer BarrelRend1 = Renderer(BarrelMat1, vao5);
 			AttachCopy(barrel1, BarrelRend1);

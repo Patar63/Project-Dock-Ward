@@ -17,7 +17,7 @@ public:
 	SMI_Physics(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, entt::entity _Entity, 
 									SMI_PhysicsBodyType _BodyType = SMI_PhysicsBodyType::DYNAMIC, float _objMass = 1.f);
 
-	//copy, move, and assingment constrcutors for entt
+	//copy, move, and assingment constructors for entt
 	SMI_Physics(const SMI_Physics&) = default;
 	SMI_Physics(SMI_Physics&&) = default;
 	SMI_Physics& operator=(SMI_Physics&) = default;

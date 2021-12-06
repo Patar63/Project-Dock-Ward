@@ -19,8 +19,10 @@ void Renderer::Render()
 		//bind shaders and uniforms to materials
 		m_Material->getShader()->Bind();
 		m_Material->BindAllUniform();
+		m_Material->BindAllTextures();
 		//draw and unbind
 		m_VAO->Draw();
+		m_Material->UnbindAllTextures();
 		m_Material->getShader()->Unbind();
 		m_VAO->Unbind();
 	}

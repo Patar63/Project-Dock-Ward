@@ -1,11 +1,12 @@
-#version 410
+#version 420
 
-layout(location = 1) in vec3 inColor;
+
 layout(location = 0) in vec3 inPos;
+layout(location = 1) in vec3 inColor;
 layout(location = 2) in vec3 inNormal;
-layout (location = 3) in vec2 inUV;
+layout(location = 3) in vec2 inUV;
 
-uniform sampler2D textureSampler;
+layout(binding = 0) uniform sampler2D textureSampler;
 
 uniform vec3 lightPos;
 uniform vec3 cameraPos;
@@ -41,5 +42,6 @@ void main() {
 
 	//vec3 result = ambient;
 	//frag_color = texture(textureSampler, inUV) * vec4(ambient + diffuse + specular, 1.0);
-	frag_color = vec4(1.0, 1.0, 1.0, 1.0);
+	//frag_color = vec4(1.0, 1.0, 1.0, 1.0);
+	frag_color = texture(textureSampler, inUV);
 }
