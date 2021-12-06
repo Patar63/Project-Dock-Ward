@@ -28,7 +28,10 @@
 #include <string>
 #include <iostream>
 
+
 #define LOG_GL_NOTIFICATIONS
+
+
 
 /*
 	Handles debug messages from OpenGL
@@ -173,6 +176,11 @@ T Lerp(T a, T b, float t)
 	return(1.0f - t) * a + b * t;
 }
 
+
+GLfloat Cx = 0.0f;
+GLfloat Cy = 0.0f;
+
+
 class GameScene : public SMI_Scene
 {
 public:
@@ -198,9 +206,9 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(-86, 20.5, 9.9));
+		camera->SetPosition(glm::vec3(-20, 20.5, 9.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(-86.0f));
+		camera->LookAt(glm::vec3(-20.0f));
 
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
@@ -791,7 +799,43 @@ public:
 		}
 	
 
+
+		
+		VertexArrayObject::Sptr Character = ObjLoader::LoadFromFile("Models/character.obj");
+		{
+
+			Character1 = CreateEntity();
+			//material
+			SMI_Material::Sptr CharacterMat = SMI_Material::Create();
+			CharacterMat->setShader(shader);
+			//render
+			Renderer CharacterRend = Renderer(CharacterMat, Character);
+			AttachCopy(Character1, CharacterRend);
+			//transform
+			SMI_Transform CharacterTrans = SMI_Transform();
+
+			CharacterTrans.setPos(glm::vec3(-10, -10, 0));
+
+			CharacterTrans.SetDegree(glm::vec3(90, 0, -90));
+			CharacterTrans.setScale(glm::vec3(0.5, 0.5, 0.5));
+			AttachCopy(Character1, CharacterTrans);
+
+			
+			
+			
+			
+			
+			
+			
+			
+
+			
+			
+
+
+		}
 	}
+	
 
 	void Update(float deltaTime)
 	{
@@ -864,6 +908,7 @@ private:
 	entt::entity wa4;
 	entt::entity wa5;
 	entt::entity wa6;
+	entt::entity Character1;
 	float max = 5;
 	float current = 0;
 	float c = 0;
@@ -881,6 +926,16 @@ int main()
 	//Initialize GLAD
 	if (!initGLAD())
 		return 1;
+
+
+	
+
+
+
+
+
+
+
 
 	// Let OpenGL know that we want debug output, and route it to our handler function
 	glEnable(GL_DEBUG_OUTPUT);
