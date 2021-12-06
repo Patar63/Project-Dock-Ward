@@ -811,28 +811,18 @@ public:
 			//render
 			Renderer CharacterRend = Renderer(CharacterMat, Character);
 			AttachCopy(Character1, CharacterRend);
+
 			//transform
 			SMI_Transform CharacterTrans = SMI_Transform();
 
 			CharacterTrans.setPos(glm::vec3(-10, -10, 0));
-
 			CharacterTrans.SetDegree(glm::vec3(90, 0, -90));
 			CharacterTrans.setScale(glm::vec3(0.5, 0.5, 0.5));
 			AttachCopy(Character1, CharacterTrans);
 
-			
-			
-			
-			
-			
-			
-			
-			
-
-			
-			
-
-
+			//create character with physics ability
+			SMI_Physics::SMI_Physics(glm::vec3(-10, -10, 0), glm::vec3(90, 0, -90), glm::vec3(0.5, 0.5, 0.5), Character1,
+				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
 		}
 	}
 	
