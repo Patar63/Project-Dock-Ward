@@ -79,7 +79,7 @@ void SMI_Scene::Update(float deltaTime)
         
         //creating view for physics
         auto PhysicsView = Store.view<SMI_Physics>();
-        for (auto entity: PhysicsView)
+        for (auto entity : PhysicsView)
         {
             SMI_Physics& phys = GetComponent<SMI_Physics>(entity);
             phys.getRigidBody()->setActivationState(true);
@@ -98,6 +98,15 @@ void SMI_Scene::Update(float deltaTime)
         }
 
         CollisionManage();
+
+        auto TransPhysView = Store.view<SMI_Physics, SMI_Transform>();
+        for (auto entity : TransPhysView)
+        {
+            SMI_Transform& trans = GetComponent<SMI_Transform>(entity);
+            SMI_Physics& phys = GetComponent<SMI_Physics>(entity);
+
+            trans.setPos(phys.GetPosition());
+        }
     }
 }
 
