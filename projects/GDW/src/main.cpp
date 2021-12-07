@@ -28,10 +28,7 @@
 #include <string>
 #include <iostream>
 
-
 #define LOG_GL_NOTIFICATIONS
-
-
 
 /*
 	Handles debug messages from OpenGL
@@ -71,6 +68,8 @@ GLFWwindow* window;
 glm::ivec2 windowSize = glm::ivec2(1500, 1000);
 // The title of our GLFW window
 std::string windowTitle = "Project Dock-Ward";
+
+
 
 
 
@@ -121,19 +120,19 @@ bool initGLAD() {
 GLuint shader_program;
 
 //load in vertex and fragment shaders
-bool loadShaders() 
+bool loadShaders()
 {
 	// Read Shaders from file
 	std::string vert_shader_str;
 	std::ifstream vs_stream("vertex_shader.glsl", std::ios::in);
-	if (vs_stream.is_open()) 
+	if (vs_stream.is_open())
 	{
 		std::string Line = "";
 		while (getline(vs_stream, Line))
 			vert_shader_str += "\n" + Line;
 		vs_stream.close();
 	}
-	else 
+	else
 	{
 		printf("Could not open vertex shader!!\n");
 		return false;
@@ -175,20 +174,14 @@ T Lerp(T a, T b, float t)
 {
 	return(1.0f - t) * a + b * t;
 }
-
-
-GLfloat Cx = 0.0f;
-GLfloat Cy = 0.0f;
-
-void Keyboard()
+float tran2;
+void keyboard()
 {
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	float camera;
+
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		Cx += 0.5f;
-	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		Cx -= 0.5f;
+		tran2 -= 0.06f;
 	}
 }
 
@@ -217,15 +210,9 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-<<<<<<< HEAD
-		camera->SetPosition(glm::vec3(-0.2, 10.5, 9.9));
+		camera->SetPosition(glm::vec3(tran2, 10.5, 9.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(-0.2f));
-=======
-		camera->SetPosition(glm::vec3(-20, 20.5, 9.9));
-		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(-20.0f));
->>>>>>> main
+		camera->LookAt(glm::vec3(tran2));
 
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
@@ -250,13 +237,9 @@ public:
 			SMI_Transform BarrelTrans = SMI_Transform();
 
 			BarrelTrans.setPos(glm::vec3(-0.2, -6, 1));
-			
+
 			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, BarrelTrans);
-
-			SMI_Physics Phys15 = SMI_Physics::SMI_Physics(glm::vec3(-0.2, 0, 2), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), barrel,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(barrel, Phys15);
 		}
 		VertexArrayObject::Sptr win = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -266,7 +249,7 @@ public:
 			//material
 			SMI_Material::Sptr BarrelMa = SMI_Material::Create();
 
-			
+
 			BarrelMa->setShader(shader);
 
 			//set textures
@@ -281,10 +264,6 @@ public:
 
 			winTrans1.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(wa1, winTrans1);
-
-			SMI_Physics Phys16 = SMI_Physics::SMI_Physics(glm::vec3(-10.2, 0, 2), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), wa1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(wa1, Phys16);
 		}
 		VertexArrayObject::Sptr win1 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -306,10 +285,6 @@ public:
 
 			winTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(wa2, winTrans);
-
-			SMI_Physics Phys17 = SMI_Physics::SMI_Physics(glm::vec3(-20.2, 0, 2), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), wa2,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(wa2, Phys17);
 		}
 		VertexArrayObject::Sptr win2 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -333,10 +308,6 @@ public:
 
 			windowTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(wa3, windowTrans);
-
-			SMI_Physics Phys18 = SMI_Physics::SMI_Physics(glm::vec3(-39.8, 0, -0.9), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), wa3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(wa3, Phys18);
 		}
 		VertexArrayObject::Sptr win3 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -360,10 +331,6 @@ public:
 
 			windowTrans1.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(wa3, windowTrans1);
-
-			SMI_Physics Phys19 = SMI_Physics::SMI_Physics(glm::vec3(-49.8, 0, -0.9), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), wa3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(wa3, Phys19);
 		}
 		VertexArrayObject::Sptr win4 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -387,10 +354,6 @@ public:
 
 			windowTrans2.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(wa4, windowTrans2);
-
-			SMI_Physics Phys20 = SMI_Physics::SMI_Physics(glm::vec3(-58.8, 0, -0.9), glm::vec3(90, -10, 90), glm::vec3(1, 1, 1), wa4,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(wa4, Phys20);
 		}
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel1.obj");
 		{
@@ -414,13 +377,9 @@ public:
 			SMI_Transform BarrelTrans1 = SMI_Transform();
 
 			BarrelTrans1.setPos(glm::vec3(-0.6, 0, 2.7));
-		
+
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel1, BarrelTrans1);
-
-			SMI_Physics Phys21 = SMI_Physics::SMI_Physics(glm::vec3(-0.6, 0, 2.4), glm::vec3(0, 90, 0), glm::vec3(6.96, 3.32, 11.8), barrel1,
-				SMI_PhysicsBodyType::KINEMATIC, 1.0f);
-			AttachCopy(barrel1, Phys21);
 		}
 
 
@@ -443,13 +402,9 @@ public:
 			SMI_Transform BarrelTrans2 = SMI_Transform();
 
 			BarrelTrans2.setPos(glm::vec3(0.03, 0, -0.8));
-			
+
 			BarrelTrans2.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel2, BarrelTrans2);
-
-			SMI_Physics Phys2 = SMI_Physics::SMI_Physics(glm::vec3(0.03, 0, -0.8), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), barrel2,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(barrel2, Phys2);
 		}
 
 		VertexArrayObject::Sptr vao7 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -471,13 +426,9 @@ public:
 			SMI_Transform BarrelTrans3 = SMI_Transform();
 
 			BarrelTrans3.setPos(glm::vec3(-1.8, 0, -0.8));
-			
+
 			BarrelTrans3.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel3, BarrelTrans3);
-
-			SMI_Physics Phys3 = SMI_Physics::SMI_Physics(glm::vec3(-1.8, 0, -0.8), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), barrel3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(barrel3, Phys3);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -498,13 +449,9 @@ public:
 			SMI_Transform BarrelTrans4 = SMI_Transform();
 
 			BarrelTrans4.setPos(glm::vec3(-12.8, 0, -0.8));
-			
+
 			BarrelTrans4.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel4, BarrelTrans4);
-
-			SMI_Physics Phys4 = SMI_Physics::SMI_Physics(glm::vec3(-12.8, 0, -0.8), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), barrel4,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(barrel4, Phys4);
 		}
 		VertexArrayObject::Sptr wall3 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -528,10 +475,6 @@ public:
 
 			WallTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls3, WallTrans);
-
-			SMI_Physics Phys5 = SMI_Physics::SMI_Physics(glm::vec3(-23.8, 0, -0.8), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), walls3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(walls3, Phys5);
 		}
 		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -555,37 +498,8 @@ public:
 
 			WallTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls4, WallTrans1);
-
-			SMI_Physics Phys6 = SMI_Physics::SMI_Physics(glm::vec3(-30.8, 0, -0.8), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), walls4,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(walls4, Phys6);
 		}
-<<<<<<< HEAD
-	
-=======
-		VertexArrayObject::Sptr elevator = ObjLoader::LoadFromFile("Models/elevator.obj");
-		{
 
-			elevator1 = CreateEntity();
-			//material
-			SMI_Material::Sptr WallMat2 = SMI_Material::Create();
-			WallMat2->setShader(shader);
-			//render
-			Renderer WallRend2 = Renderer(WallMat2, elevator);
-			AttachCopy(elevator1, WallRend2);
-			//transform
-			SMI_Transform WallTrans2 = SMI_Transform();
-
-			WallTrans2.setPos(glm::vec3(-31.8, -1.6, -0.6));
-
-			WallTrans2.SetDegree(glm::vec3(90, 0, 0));
-			AttachCopy(elevator1, WallTrans2);
-
-			SMI_Physics Phys22 = SMI_Physics::SMI_Physics(glm::vec3(-0.6, 0, 2.4), glm::vec3(90, 0, 0), glm::vec3(1, 1, 1), elevator1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(elevator1, Phys22);
-		}
->>>>>>> main
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
@@ -605,13 +519,9 @@ public:
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
 			BarrelTrans5.setPos(glm::vec3(-16.8, -2, 3.8));
-			
+
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(crate1, BarrelTrans5);
-
-			SMI_Physics Phys23 = SMI_Physics::SMI_Physics(glm::vec3(-13.8, 0, 2), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1), crate1,
-				SMI_PhysicsBodyType::KINEMATIC, 1.0f);
-			AttachCopy(crate1, Phys23);
 		}
 		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
 		{
@@ -632,13 +542,9 @@ public:
 			SMI_Transform BarrelTrans6 = SMI_Transform();
 
 			BarrelTrans6.setPos(glm::vec3(-27.2, 0, 2));
-			
+
 			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(door1, BarrelTrans6);
-
-			SMI_Physics Phys24 = SMI_Physics::SMI_Physics(glm::vec3(-27.2, 0, 2), glm::vec3(90, 0, -180), glm::vec3(1, 1, 1), door1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(door1, Phys24);
 		}
 
 		VertexArrayObject::Sptr crate1 = ObjLoader::LoadFromFile("Models/Crates1.obj");
@@ -660,13 +566,9 @@ public:
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
 			BarrelTrans5.setPos(glm::vec3(-16.8, -2, 2.2));
-			
+
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(crate2, BarrelTrans5);
-
-			SMI_Physics Phys25 = SMI_Physics::SMI_Physics(glm::vec3(-13.8, 0, 4), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1), crate2,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(crate2, Phys25);
 		}
 		VertexArrayObject::Sptr w = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -690,10 +592,6 @@ public:
 
 			WallTrans6.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(w1, WallTrans6);
-
-			SMI_Physics Phys7 = SMI_Physics::SMI_Physics(glm::vec3(-45.8, 0, -5.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), w1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(w1, Phys7);
 		}
 		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf12.obj");
 		{
@@ -716,11 +614,7 @@ public:
 			WallTrans7.setPos(glm::vec3(-49.8, -1.2, -0.6));
 
 			WallTrans7.SetDegree(glm::vec3(0, 0, 0));
-			AttachCopy(shelf1 , WallTrans7);
-
-			SMI_Physics Phys26 = SMI_Physics::SMI_Physics(glm::vec3(-45.8, 0, -0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), shelf1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(shelf1 , Phys26);
+			AttachCopy(shelf1, WallTrans7);
 		}
 		VertexArrayObject::Sptr fan = ObjLoader::LoadFromFile("Models/cfan1.obj");
 		{
@@ -744,10 +638,6 @@ public:
 
 			fanTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(fan1, fanTrans);
-
-			SMI_Physics Phys27 = SMI_Physics::SMI_Physics(glm::vec3(-50.8, 0, 1.8), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), fan1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(fan1, Phys27);
 		}
 		VertexArrayObject::Sptr fanHolder = ObjLoader::LoadFromFile("Models/cholder.obj");
 		{
@@ -771,10 +661,6 @@ public:
 
 			fanTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(fanH, fanTrans1);
-
-			SMI_Physics Phys28 = SMI_Physics::SMI_Physics(glm::vec3(-50.8, 0, 1.8), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), fanH,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(fanH, Phys28);
 		}
 		VertexArrayObject::Sptr wall5 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -798,10 +684,6 @@ public:
 
 			WallTrans10.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(walls5, WallTrans10);
-
-			SMI_Physics Phys8 = SMI_Physics::SMI_Physics(glm::vec3(-57.2, 0, -5.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), walls5,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(walls5, Phys8);
 		}
 		VertexArrayObject::Sptr shelf1 = ObjLoader::LoadFromFile("Models/shelf12.obj");
 		{
@@ -825,38 +707,9 @@ public:
 
 			ShelfTrans7.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(shel, ShelfTrans7);
-
-			SMI_Physics Phys29 = SMI_Physics::SMI_Physics(glm::vec3(-56.8, 0, -0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), shel,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(shel, Phys29);
 		}
 
-<<<<<<< HEAD
-	
-=======
-		VertexArrayObject::Sptr whouse = ObjLoader::LoadFromFile("Models/warehouse.obj");
-		{
 
-			ware = CreateEntity();
-			//material
-			SMI_Material::Sptr wareh = SMI_Material::Create();
-			wareh->setShader(shader);
-			//render
-			Renderer ShelfRen8 = Renderer(wareh, whouse);
-			AttachCopy(ware, ShelfRen8);
-			//transform
-			SMI_Transform ShelfTrans8 = SMI_Transform();
-
-			ShelfTrans8.setPos(glm::vec3(-56.8, 0, -0.6));
-
-			ShelfTrans8.SetDegree(glm::vec3(90, 0, -180));
-			AttachCopy(ware, ShelfTrans8);
-
-			SMI_Physics Phys30 = SMI_Physics::SMI_Physics(glm::vec3(-56.8, 0, -0.6), glm::vec3(90, 0, -180), glm::vec3(1, 1, 1), ware,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(ware, Phys30);
-		}
->>>>>>> main
 		VertexArrayObject::Sptr w3 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
@@ -879,10 +732,6 @@ public:
 
 			floorTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(f, floorTrans1);
-
-			SMI_Physics Phys9 = SMI_Physics::SMI_Physics(glm::vec3(-79.8, 0, 0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), f,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(f, Phys9);
 		}
 		VertexArrayObject::Sptr w4 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -906,10 +755,6 @@ public:
 
 			floorTrans2.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(f1, floorTrans2);
-
-			SMI_Physics Phys10 = SMI_Physics::SMI_Physics(glm::vec3(-88.8, 0, 0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), f1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(f1, Phys10);
 		}
 		VertexArrayObject::Sptr w5 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -933,10 +778,6 @@ public:
 
 			floorTrans4.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(f2, floorTrans4);
-
-			SMI_Physics Phys11 = SMI_Physics::SMI_Physics(glm::vec3(-99.8, 0, 0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), f2,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(f2, Phys11);
 		}
 		VertexArrayObject::Sptr w6 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -960,16 +801,12 @@ public:
 
 			floorTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(f3, floorTrans5);
-
-			SMI_Physics Phys12 = SMI_Physics::SMI_Physics(glm::vec3(-119.8, 0, 0.6), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), f3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(f3, Phys12);
 		}
 		VertexArrayObject::Sptr w7 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
 			L_plat = CreateEntity();
-			
+
 			Texture2D::Sptr w7Texture = Texture2D::Create("Textures/Road.png");
 			//material
 			SMI_Material::Sptr floormat90 = SMI_Material::Create();
@@ -988,7 +825,7 @@ public:
 			floorTrans905.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(L_plat, floorTrans905);
 		}
-		
+
 		VertexArrayObject::Sptr cars = ObjLoader::LoadFromFile("Models/car.obj");
 		{
 
@@ -1011,10 +848,6 @@ public:
 
 			carTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(car, carTrans);
-
-			SMI_Physics Phys31 = SMI_Physics::SMI_Physics(glm::vec3(-88.8, 0, 2.8), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), car,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(car, Phys31);
 		}
 		VertexArrayObject::Sptr building1 = ObjLoader::LoadFromFile("Models/building1.obj");
 		{
@@ -1035,23 +868,14 @@ public:
 
 			buildTrans.setPos(glm::vec3(-79.8, -6, 3.2));
 
-<<<<<<< HEAD
 			buildTrans.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(build, buildTrans);
-=======
-			buildTrans.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(build, buildTrans);\
-
-			SMI_Physics Phys32 = SMI_Physics::SMI_Physics(glm::vec3(-79.8, 0, 3.2), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), build,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(build, Phys32);
->>>>>>> main
 		}
-		
+
 		VertexArrayObject::Sptr building2 = ObjLoader::LoadFromFile("Models/building1.obj");
 		{
 
-			build3 = CreateEntity();
+			build2 = CreateEntity();
 
 			Texture2D::Sptr build2Texture = Texture2D::Create("Textures/build.png");
 			//material
@@ -1062,23 +886,14 @@ public:
 			buildM1->setTexture(build2Texture, 0);
 			//render
 			Renderer build1Ren7 = Renderer(buildM1, building2);
-			AttachCopy(build3, build1Ren7);
+			AttachCopy(build2, build1Ren7);
 			//transform
 			SMI_Transform buildTrans1 = SMI_Transform();
 
 			buildTrans1.setPos(glm::vec3(-94.8, -6, 3.2));
 
-<<<<<<< HEAD
 			buildTrans1.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(build3, buildTrans1);
-=======
-			roadbTrans.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(road1, roadbTrans);
-
-			SMI_Physics Phys33 = SMI_Physics::SMI_Physics(glm::vec3(-86.8, 0, 3.8), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), road1,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(road1, Phys33);
->>>>>>> main
+			AttachCopy(build2, buildTrans1);
 		}
 		VertexArrayObject::Sptr building3 = ObjLoader::LoadFromFile("Models/build2.obj");
 		{
@@ -1100,17 +915,8 @@ public:
 
 			buildTrans12.setPos(glm::vec3(-87.8, -6, 3.2));
 
-<<<<<<< HEAD
 			buildTrans12.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(build3, buildTrans12);
-=======
-			buildTrans1.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(build3, buildTrans1);
-
-			SMI_Physics Phys34 = SMI_Physics::SMI_Physics(glm::vec3(-94.8, 0, 3.2), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), build3,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(build3, Phys34);
->>>>>>> main
 		}
 		VertexArrayObject::Sptr elevator1 = ObjLoader::LoadFromFile("Models/elevator.obj");
 		{
@@ -1134,10 +940,6 @@ public:
 
 			WallTrans3.SetDegree(glm::vec3(90, 0, 0));
 			AttachCopy(elevator12, WallTrans3);
-
-			SMI_Physics Phys35 = SMI_Physics::SMI_Physics(glm::vec3(-68.8, -1.6, -0.6), glm::vec3(90, 0, 0), glm::vec3(1, 1, 1), elevator12,
-				SMI_PhysicsBodyType::STATIC, 1.0f);
-			AttachCopy(elevator12, Phys35);
 		}
 		VertexArrayObject::Sptr Table1 = ObjLoader::LoadFromFile("Models/project.obj");
 		{
@@ -1255,44 +1057,34 @@ public:
 			winTrans180.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(bartab, winTrans180);
 		}
-	
 
-
-		
-		VertexArrayObject::Sptr Character = ObjLoader::LoadFromFile("Models/character.obj");
+		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/garbage bin.obj");
 		{
-
-			Character1 = CreateEntity();
+			garbage = CreateEntity();
+			//create texture
+			Texture2D::Sptr gTexture80 = Texture2D::Create("Textures/bin.png");
 			//material
-			SMI_Material::Sptr CharacterMat = SMI_Material::Create();
-			CharacterMat->setShader(shader);
+			SMI_Material::Sptr gMa80 = SMI_Material::Create();
+
+
+			gMa80->setShader(shader);
+
+			//set textures
+			gMa80->setTexture(gTexture80, 0);
 			//render
-			Renderer CharacterRend = Renderer(CharacterMat, Character);
-			AttachCopy(Character1, CharacterRend);
-
-			//create character with physics ability
-			SMI_Physics Phys = SMI_Physics::SMI_Physics(glm::vec3(-20, -10, 0), glm::vec3(0, 0, 0), glm::vec3(0.5, 0.5, 0.5), Character1,
-				SMI_PhysicsBodyType::DYNAMIC, 1.0f);
-			Phys.setHasGravity(true);
-			AttachCopy(Character1, Phys);
-
+			Renderer gRen80 = Renderer(gMa80, garbage1);
+			AttachCopy(garbage, gRen80);
 			//transform
-			SMI_Transform CharacterTrans = SMI_Transform();
+			SMI_Transform winTrans1801 = SMI_Transform();
 
-			CharacterTrans.setPos(glm::vec3(-20, -10, 0));
-			CharacterTrans.SetDegree(glm::vec3(90, 0, -90));
-			CharacterTrans.setScale(glm::vec3(0.5, 0.5, 0.5));
-			AttachCopy(Character1, CharacterTrans);
+			winTrans1801.setPos(glm::vec3(-8.7, 0, 2.7));
 
-			
-	
+			winTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(garbage, winTrans1801);
 		}
+
+
 	}
-	
-	
-
-
-
 
 	void Update(float deltaTime)
 	{
@@ -1306,30 +1098,29 @@ public:
 		if (c > max)
 		{
 			c = 0;
-			
+
 		}
 		float t = current / max;
 		float time = c / max;
 
 		//rotation example
-		GetComponent<SMI_Transform>(fan1).FixedRotate(glm::vec3(0, 0, 30) * deltaTime*8.0f);
-		
+		GetComponent<SMI_Transform>(fan1).FixedRotate(glm::vec3(0, 0, 30) * deltaTime * 8.0f);
+
 		// LERP example
-		
+
 		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-27.2, 0, 2), glm::vec3(-27.2, 0, 10), t));
 
-		
-			
+
+
 		GetComponent<SMI_Transform>(car).setPos(Lerp(glm::vec3(-99.8, 3, 3.8), glm::vec3(-74.8, 3, 3.8), time));
-		
+
 
 
 		GetComponent<SMI_Transform>(elevator12).setPos(Lerp(glm::vec3(-68.8, -1.6, -7.6), glm::vec3(-68.8, -1.6, 0.6), time));
 
 		GetComponent<SMI_Transform>(f3).setPos(Lerp(glm::vec3(-100.8, 0, -4.6), glm::vec3(-119.8, 0, 0.6), time));
-		
+
 		SMI_Scene::Update(deltaTime);
-		printf("%d\n", Collisions.size());
 	}
 
 	~GameScene() = default;
@@ -1359,13 +1150,13 @@ private:
 	entt::entity f3;
 	entt::entity car;
 	entt::entity build;
+	entt::entity build2;
 	entt::entity build3;
 	entt::entity road1;
 	entt::entity wa1;
 	entt::entity wa2;
 	entt::entity wa3;
 	entt::entity wa4;
-<<<<<<< HEAD
 	entt::entity bartab;
 	entt::entity chair;
 	entt::entity table;
@@ -1373,19 +1164,15 @@ private:
 	entt::entity plank;
 	entt::entity roadb;
 	entt::entity roadb1;
-	
-=======
-	entt::entity wa5;
-	entt::entity wa6;
-	entt::entity Character1;
->>>>>>> main
+	entt::entity garbage;
+
 	float max = 5;
 	float current = 0;
 	float c = 0;
 };
 
 //main game loop inside here as well as call all needed shaders
-int main() 
+int main()
 {
 	Logger::Init(); // We'll borrow the logger from the toolkit, but we need to initialize it
 
@@ -1396,18 +1183,6 @@ int main()
 	//Initialize GLAD
 	if (!initGLAD())
 		return 1;
-
-
-	
-
-
-	
-	
-
-
-
-
-
 
 	// Let OpenGL know that we want debug output, and route it to our handler function
 	glEnable(GL_DEBUG_OUTPUT);
@@ -1425,16 +1200,15 @@ int main()
 
 		glfwPollEvents();
 
-		
+
 		double thisFrame = glfwGetTime();
 		float dt = static_cast<float>(thisFrame - lastFrame);
 
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		
-
 		MainScene.Update(dt);
+
 		MainScene.Render();
 
 		lastFrame = thisFrame;
@@ -1444,4 +1218,4 @@ int main()
 	// Clean up the toolkit logger so we don't leak memory
 	Logger::Uninitialize();
 	return 0;
-} 
+}
