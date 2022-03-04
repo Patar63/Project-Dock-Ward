@@ -73,6 +73,8 @@ std::string windowTitle = "Project Dock-Ward";
 
 
 
+
+
 void GlfwWindowResizedCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 	windowSize = glm::ivec2(width, height);
@@ -174,28 +176,22 @@ T Lerp(T a, T b, float t)
 {
 	return(1.0f - t) * a + b * t;
 }
-float tran2;
-void keyboard()
-{
-	float camera;
 
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
-		tran2 -= 0.06f;
-	}
-}
 
-class GameScene : public SMI_Scene
+class GameScene1 : public SMI_Scene
 {
 public:
-	GameScene() { SMI_Scene(); }
+	//just ignore the warning, guys. It's fine.
+	GameScene1() : SMI_Scene() {}
 
 	void InitScene()
 	{
 		SMI_Scene::InitScene();
 
+
 		// Load our shaders
 		Shader::Sptr shader = Shader::Create();
+
 		shader->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
 		shader->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
 		shader->Link();
@@ -204,20 +200,50 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glClearColor(0.2f, 0.2f, 0.5f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
 
 		// Get uniform location for the model view projection
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(tran2, 10.5, 9.9));
+		camera->SetPosition(glm::vec3(-0.2, 8.5, 9.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(tran2));
+		camera->LookAt(glm::vec3(0, -3.5, 2.8));
 
 		//camera->SetOrthoVerticalScale(5);
 		setCamera(camera);
 
+		//create the player character
+		VertexArrayObject::Sptr chara = ObjLoader::LoadFromFile("Models/character.obj");
+		{
+			character = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr CharacterTex = Texture2D::Create("Textures/character1.png");
+			//create material
+			SMI_Material::Sptr CharacterMat = SMI_Material::Create();
+			CharacterMat->setShader(shader);
+
+			//set texture
+			CharacterMat->setTexture(CharacterTex, 0);
+			//render
+			Renderer CharacterRend = Renderer(CharacterMat, chara);
+			AttachCopy(character, CharacterRend);
+			//transform & Physics
+			SMI_Transform CharaTrans = SMI_Transform();
+			CharaTrans.setPos(glm::vec3(4, -0.2, 2));
+
+			CharaTrans.SetDegree(glm::vec3(90, 0, -90));
+			CharaTrans.setScale(glm::vec3(0.35, 0.35, 0.35));
+			AttachCopy(character, CharaTrans);
+
+			SMI_Physics CharaPhys = SMI_Physics(glm::vec3(4, -0.2, 2), glm::vec3(90, 0, -90), glm::vec3(1, 1, 1), character, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			CharaPhys.setHasGravity(false);
+			AttachCopy(character, CharaPhys);
+		}
+
 		//creates object
+		//Bar
 		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
@@ -236,129 +262,89 @@ public:
 			//transform
 			SMI_Transform BarrelTrans = SMI_Transform();
 
-			BarrelTrans.setPos(glm::vec3(-0.2, -6, 1));
+			BarrelTrans.setPos(glm::vec3(-6.0, -3.3, 1));
 
 			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
-		VertexArrayObject::Sptr win = ObjLoader::LoadFromFile("Models/window1.obj");
+		//creates object
+		VertexArrayObject::Sptr firstwin = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
-			wa1 = CreateEntity();
+			barrel = CreateEntity();
+
 			//create texture
-			Texture2D::Sptr WinTexture = Texture2D::Create("Textures/BrownTex.1001.png");
+			Texture2D::Sptr firstTexture1 = Texture2D::Create("Textures/BrownTex.1001.png");
 			//material
-			SMI_Material::Sptr BarrelMa = SMI_Material::Create();
-
-
-			BarrelMa->setShader(shader);
+			SMI_Material::Sptr firstMat = SMI_Material::Create();
+			firstMat->setShader(shader);
 
 			//set textures
-			BarrelMa->setTexture(WinTexture, 0);
+			firstMat->setTexture(firstTexture1, 0);
 			//render
-			Renderer BarrelRen = Renderer(BarrelMa, win);
-			AttachCopy(wa1, BarrelRen);
+			Renderer winRend = Renderer(firstMat, firstwin);
+			AttachCopy(barrel, winRend);
 			//transform
-			SMI_Transform winTrans1 = SMI_Transform();
+			SMI_Transform win22Trans = SMI_Transform();
 
-			winTrans1.setPos(glm::vec3(-10.2, -6, 1));
+			win22Trans.setPos(glm::vec3(16, -3.3, 1));
 
-			winTrans1.SetDegree(glm::vec3(90, -10, 90));
-			AttachCopy(wa1, winTrans1);
+			win22Trans.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(barrel, win22Trans);
 		}
-		VertexArrayObject::Sptr win1 = ObjLoader::LoadFromFile("Models/window1.obj");
+		//creates object
+		VertexArrayObject::Sptr back = ObjLoader::LoadFromFile("Models/wi1.obj");
 		{
-			wa2 = CreateEntity();
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr backTexture = Texture2D::Create("Textures/back.png");
+			//material
+			SMI_Material::Sptr backMat = SMI_Material::Create();
+			backMat->setShader(shader);
+
+			//set textures
+			backMat->setTexture(backTexture, 0);
+			//render
+			Renderer backRend = Renderer(backMat, back);
+			AttachCopy(barrel, backRend);
+			//transform
+			SMI_Transform backTrans = SMI_Transform();
+
+			backTrans.setPos(glm::vec3(-50.0, -9.3, 1));
+
+			backTrans.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(barrel, backTrans);
+		}
+		//creates object
+		VertexArrayObject::Sptr window2 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
 			Texture2D::Sptr window2Texture = Texture2D::Create("Textures/BrownTex.1001.png");
 			//material
-			SMI_Material::Sptr BarrelM = SMI_Material::Create();
-			BarrelM->setShader(shader);
+			SMI_Material::Sptr window2Mat = SMI_Material::Create();
+			window2Mat->setShader(shader);
 
 			//set textures
-			BarrelM->setTexture(window2Texture, 0);
+			window2Mat->setTexture(window2Texture, 0);
 			//render
-			Renderer BarrelRe = Renderer(BarrelM, win1);
-			AttachCopy(wa2, BarrelRe);
+			Renderer window2Rend = Renderer(window2Mat, window2);
+			AttachCopy(barrel, window2Rend);
 			//transform
-			SMI_Transform winTrans = SMI_Transform();
+			SMI_Transform window2Trans = SMI_Transform();
 
-			winTrans.setPos(glm::vec3(-20.2, -6, 1));
+			window2Trans.setPos(glm::vec3(-31.0, -3.3, 1));
 
-			winTrans.SetDegree(glm::vec3(90, -10, 90));
-			AttachCopy(wa2, winTrans);
+			window2Trans.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(barrel, window2Trans);
 		}
-		VertexArrayObject::Sptr win2 = ObjLoader::LoadFromFile("Models/window1.obj");
-		{
-			wa3 = CreateEntity();
 
-			//create texture
-			Texture2D::Sptr Window3Texture = Texture2D::Create("Textures/BrownTex.1001.png");
-			//material
-			SMI_Material::Sptr windowmat = SMI_Material::Create();
-			windowmat->setShader(shader);
 
-			//set textures
-			windowmat->setTexture(Window3Texture, 0);
-			//render
-			Renderer windowren = Renderer(windowmat, win2);
-			AttachCopy(wa3, windowren);
-			//transform
-			SMI_Transform windowTrans = SMI_Transform();
-
-			windowTrans.setPos(glm::vec3(-39.8, -6, -3.7));
-
-			windowTrans.SetDegree(glm::vec3(90, -10, 90));
-			AttachCopy(wa3, windowTrans);
-		}
-		VertexArrayObject::Sptr win3 = ObjLoader::LoadFromFile("Models/window1.obj");
-		{
-			wa3 = CreateEntity();
-
-			//create texture
-			Texture2D::Sptr win3Texture = Texture2D::Create("Textures/BrownTex.1001.png");
-			//material
-			SMI_Material::Sptr windowmat1 = SMI_Material::Create();
-			windowmat1->setShader(shader);
-
-			//set textures
-			windowmat1->setTexture(win3Texture, 0);
-			//render
-			Renderer windowren1 = Renderer(windowmat1, win3);
-			AttachCopy(wa3, windowren1);
-			//transform
-			SMI_Transform windowTrans1 = SMI_Transform();
-
-			windowTrans1.setPos(glm::vec3(-49.8, -6, -3.7));
-
-			windowTrans1.SetDegree(glm::vec3(90, -10, 90));
-			AttachCopy(wa3, windowTrans1);
-		}
-		VertexArrayObject::Sptr win4 = ObjLoader::LoadFromFile("Models/window1.obj");
-		{
-			wa4 = CreateEntity();
-
-			//create texture
-			Texture2D::Sptr win5Texture = Texture2D::Create("Textures/BrownTex.1001.png");
-			//material
-			SMI_Material::Sptr windowmat2 = SMI_Material::Create();
-			windowmat2->setShader(shader);
-
-			//set textures
-			windowmat2->setTexture(win5Texture, 0);
-			//render
-			Renderer windowren2 = Renderer(windowmat2, win4);
-			AttachCopy(wa4, windowren2);
-			//transform
-			SMI_Transform windowTrans2 = SMI_Transform();
-
-			windowTrans2.setPos(glm::vec3(-60.8, -6, -3.7));
-
-			windowTrans2.SetDegree(glm::vec3(90, -10, 90));
-			AttachCopy(wa4, windowTrans2);
-		}
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel1.obj");
 		{
 
-			barrel1 = CreateEntity();
+			barrel = CreateEntity();
 
 			//create texture
 			Texture2D::Sptr BarrelTexture = Texture2D::Create("Textures/Barrel.png");
@@ -372,45 +358,49 @@ public:
 
 			//render
 			Renderer BarrelRend1 = Renderer(BarrelMat1, vao5);
-			AttachCopy(barrel1, BarrelRend1);
+			AttachCopy(barrel, BarrelRend1);
 			//transform
 			SMI_Transform BarrelTrans1 = SMI_Transform();
 
 			BarrelTrans1.setPos(glm::vec3(-0.6, 0, 2.7));
 
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
-			AttachCopy(barrel1, BarrelTrans1);
+			AttachCopy(barrel, BarrelTrans1);
 		}
-
-
-		VertexArrayObject::Sptr vao6 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		VertexArrayObject::Sptr vao512 = ObjLoader::LoadFromFile("Models/3barrel.obj");
 		{
 
-			barrel2 = CreateEntity();
+			barrel = CreateEntity();
 
-			Texture2D::Sptr floortex = Texture2D::Create("Textures/Untitled.1001.png");
+			//create texture
+			Texture2D::Sptr BarrelTexture12 = Texture2D::Create("Textures/Barrel.png");
+
 			//material
-			SMI_Material::Sptr BarrelMat2 = SMI_Material::Create();
-			BarrelMat2->setShader(shader);
+			SMI_Material::Sptr BarrelMat112 = SMI_Material::Create();
+			BarrelMat112->setShader(shader);
 
 			//set textures
-			BarrelMat2->setTexture(floortex, 0);
+			BarrelMat112->setTexture(BarrelTexture12, 0);
+
 			//render
-			Renderer BarrelRend2 = Renderer(BarrelMat2, vao6);
-			AttachCopy(barrel2, BarrelRend2);
+			Renderer BarrelRend112 = Renderer(BarrelMat112, vao512);
+			AttachCopy(barrel, BarrelRend112);
 			//transform
-			SMI_Transform BarrelTrans2 = SMI_Transform();
+			SMI_Transform BarrelTrans112 = SMI_Transform();
 
-			BarrelTrans2.setPos(glm::vec3(0.03, 0, -0.8));
+			BarrelTrans112.setPos(glm::vec3(-9.0, 0, 3.7));
 
-			BarrelTrans2.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel2, BarrelTrans2);
+			BarrelTrans112.SetDegree(glm::vec3(0, 90, 0));
+			AttachCopy(barrel, BarrelTrans112);
 		}
+
+
+
 
 		VertexArrayObject::Sptr vao7 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
-			barrel3 = CreateEntity();
+			barrel = CreateEntity();
 
 			Texture2D::Sptr floor1Texture = Texture2D::Create("Textures/Untitled.1001.png");
 			//material
@@ -421,19 +411,19 @@ public:
 			BarrelMat3->setTexture(floor1Texture, 0);
 			//render
 			Renderer BarrelRend3 = Renderer(BarrelMat3, vao7);
-			AttachCopy(barrel3, BarrelRend3);
+			AttachCopy(barrel, BarrelRend3);
 			//transform
 			SMI_Transform BarrelTrans3 = SMI_Transform();
 
-			BarrelTrans3.setPos(glm::vec3(-1.8, 0, -0.8));
+			BarrelTrans3.setPos(glm::vec3(-0.85, 0, -0.8));
 
 			BarrelTrans3.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel3, BarrelTrans3);
+			AttachCopy(barrel, BarrelTrans3);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
-			barrel4 = CreateEntity();
+			barrel = CreateEntity();
 
 			Texture2D::Sptr window10Texture = Texture2D::Create("Textures/Untitled.1001.png");
 			//material
@@ -444,42 +434,19 @@ public:
 			BarrelMat4->setTexture(window10Texture, 0);
 			//render
 			Renderer BarrelRend4 = Renderer(BarrelMat4, vao8);
-			AttachCopy(barrel4, BarrelRend4);
+			AttachCopy(barrel, BarrelRend4);
 			//transform
 			SMI_Transform BarrelTrans4 = SMI_Transform();
 
 			BarrelTrans4.setPos(glm::vec3(-12.8, 0, -0.8));
 
 			BarrelTrans4.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel4, BarrelTrans4);
-		}
-		VertexArrayObject::Sptr wall3 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			walls3 = CreateEntity();
-
-			Texture2D::Sptr wall3Texture = Texture2D::Create("Textures/Untitled.1001.png");
-			//material
-			SMI_Material::Sptr WallMat = SMI_Material::Create();
-			WallMat->setShader(shader);
-
-			//set textures
-			WallMat->setTexture(wall3Texture, 0);
-			//render
-			Renderer WallRend = Renderer(WallMat, wall3);
-			AttachCopy(walls3, WallRend);
-			//transform
-			SMI_Transform WallTrans = SMI_Transform();
-
-			WallTrans.setPos(glm::vec3(-23.8, 0, -0.8));
-
-			WallTrans.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(walls3, WallTrans);
+			AttachCopy(barrel, BarrelTrans4);
 		}
 		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
-			walls4 = CreateEntity();
+			barrel = CreateEntity();
 
 			Texture2D::Sptr window90Texture = Texture2D::Create("Textures/Untitled.1001.png");
 			//material
@@ -490,20 +457,20 @@ public:
 			WallMat1->setTexture(window90Texture, 0);
 			//render
 			Renderer WallRend1 = Renderer(WallMat1, wall4);
-			AttachCopy(walls4, WallRend1);
+			AttachCopy(barrel, WallRend1);
 			//transform
 			SMI_Transform WallTrans1 = SMI_Transform();
 
-			WallTrans1.setPos(glm::vec3(-30.8, 0, -0.8));
+			WallTrans1.setPos(glm::vec3(-24.7, 0, -0.8));
 
 			WallTrans1.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(walls4, WallTrans1);
+			AttachCopy(barrel, WallTrans1);
 		}
 
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
-			crate1 = CreateEntity();
+			barrel = CreateEntity();
 
 			Texture2D::Sptr crateTex = Texture2D::Create("Textures/box3.png");
 			//material
@@ -514,14 +481,106 @@ public:
 			BarrelMat5->setTexture(crateTex, 0);
 			//render
 			Renderer BarrelRend5 = Renderer(BarrelMat5, crate);
-			AttachCopy(crate1, BarrelRend5);
+			AttachCopy(barrel, BarrelRend5);
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-16.8, -2, 3.8));
+			BarrelTrans5.setPos(glm::vec3(-25.0, -2, 3.8));
 
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(crate1, BarrelTrans5);
+			AttachCopy(barrel, BarrelTrans5);
+		}
+		VertexArrayObject::Sptr crate3 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex3 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat53 = SMI_Material::Create();
+			BarrelMat53->setShader(shader);
+
+			//set textures
+			BarrelMat53->setTexture(crateTex3, 0);
+			//render
+			Renderer BarrelRend53 = Renderer(BarrelMat53, crate3);
+			AttachCopy(barrel, BarrelRend53);
+			//transform
+			SMI_Transform BarrelTrans53 = SMI_Transform();
+
+			BarrelTrans53.setPos(glm::vec3(-25.0, -2, 5.4));
+
+			BarrelTrans53.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans53);
+		}
+		VertexArrayObject::Sptr crate4 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex4 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat534 = SMI_Material::Create();
+			BarrelMat534->setShader(shader);
+
+			//set textures
+			BarrelMat534->setTexture(crateTex4, 0);
+			//render
+			Renderer BarrelRend53 = Renderer(BarrelMat534, crate4);
+			AttachCopy(barrel, BarrelRend53);
+			//transform
+			SMI_Transform BarrelTrans534 = SMI_Transform();
+
+			BarrelTrans534.setPos(glm::vec3(-18.0, 3, 2.5));
+
+			BarrelTrans534.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans534);
+		}
+		VertexArrayObject::Sptr crate5 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex5 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat535 = SMI_Material::Create();
+			BarrelMat535->setShader(shader);
+
+			//set textures
+			BarrelMat535->setTexture(crateTex5, 0);
+			//render
+			Renderer BarrelRend535 = Renderer(BarrelMat535, crate5);
+			AttachCopy(barrel, BarrelRend535);
+			//transform
+			SMI_Transform BarrelTrans5345 = SMI_Transform();
+
+			BarrelTrans5345.setPos(glm::vec3(-115.0, -2, 10.5));
+
+			BarrelTrans5345.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans5345);
+		}
+		VertexArrayObject::Sptr topground = ObjLoader::LoadFromFile("Models/ground.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr groundTex = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr groundmat1 = SMI_Material::Create();
+			groundmat1->setShader(shader);
+
+			//set textures
+			groundmat1->setTexture(groundTex, 0);
+			//render
+			Renderer groundRend1 = Renderer(groundmat1, topground);
+			AttachCopy(barrel, groundRend1);
+			//transform
+			SMI_Transform groundTrans1 = SMI_Transform();
+
+			groundTrans1.setPos(glm::vec3(-30.8, -1, 3.8));
+
+			groundTrans1.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, groundTrans1);
 		}
 		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
 		{
@@ -541,7 +600,7 @@ public:
 			//transform
 			SMI_Transform BarrelTrans6 = SMI_Transform();
 
-			BarrelTrans6.setPos(glm::vec3(-27.2, 0, 2));
+			BarrelTrans6.setPos(glm::vec3(-35.2, 0, 2));
 
 			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(door1, BarrelTrans6);
@@ -550,7 +609,7 @@ public:
 		VertexArrayObject::Sptr crate1 = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
-			crate2 = CreateEntity();
+			barrel = CreateEntity();
 
 			Texture2D::Sptr crate1Texture = Texture2D::Create("Textures/box3.png");
 			//material
@@ -561,483 +620,21 @@ public:
 			BarrelMat5->setTexture(crate1Texture, 0);
 			//render
 			Renderer BarrelRend5 = Renderer(BarrelMat5, crate1);
-			AttachCopy(crate2, BarrelRend5);
+			AttachCopy(barrel, BarrelRend5);
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-16.8, -2, 2.2));
+			BarrelTrans5.setPos(glm::vec3(-25.0, -2, 2.2));
 
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(crate2, BarrelTrans5);
-		}
-		VertexArrayObject::Sptr w = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			w1 = CreateEntity();
-
-			Texture2D::Sptr window1Texture6 = Texture2D::Create("Textures/BrownTex.1001.png");
-			//material
-			SMI_Material::Sptr WallMat6 = SMI_Material::Create();
-			WallMat6->setShader(shader);
-
-			//set textures
-			WallMat6->setTexture(window1Texture6, 0);
-			//render
-			Renderer WallRend6 = Renderer(WallMat6, w);
-			AttachCopy(w1, WallRend6);
-			//transform
-			SMI_Transform WallTrans6 = SMI_Transform();
-
-			WallTrans6.setPos(glm::vec3(-45.8, 0, -5.6));
-
-			WallTrans6.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(w1, WallTrans6);
-		}
-		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf12.obj");
-		{
-
-			shelf1 = CreateEntity();
-
-			Texture2D::Sptr ShelfTex = Texture2D::Create("Textures/shelf.png");
-			//material
-			SMI_Material::Sptr WallMat7 = SMI_Material::Create();
-			WallMat7->setShader(shader);
-
-			//set textures
-			WallMat7->setTexture(ShelfTex, 0);
-			//render
-			Renderer WallRend7 = Renderer(WallMat7, shelf);
-			AttachCopy(shelf1, WallRend7);
-			//transform
-			SMI_Transform WallTrans7 = SMI_Transform();
-
-			WallTrans7.setPos(glm::vec3(-49.8, -1.2, -0.6));
-
-			WallTrans7.SetDegree(glm::vec3(0, 0, 0));
-			AttachCopy(shelf1, WallTrans7);
-		}
-		VertexArrayObject::Sptr fan = ObjLoader::LoadFromFile("Models/cfan1.obj");
-		{
-
-			fan1 = CreateEntity();
-
-			Texture2D::Sptr cfanTexture = Texture2D::Create("Textures/fan.png");
-			//material
-			SMI_Material::Sptr fanmat = SMI_Material::Create();
-			fanmat->setShader(shader);
-
-			//set textures
-			fanmat->setTexture(cfanTexture, 0);
-			//render
-			Renderer fanrend = Renderer(fanmat, fan);
-			AttachCopy(fan1, fanrend);
-			//transform
-			SMI_Transform fanTrans = SMI_Transform();
-
-			fanTrans.setPos(glm::vec3(-50.8, -2, 1.8));
-
-			fanTrans.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(fan1, fanTrans);
-		}
-		VertexArrayObject::Sptr fanHolder = ObjLoader::LoadFromFile("Models/cholder.obj");
-		{
-
-			fanH = CreateEntity();
-
-			Texture2D::Sptr fanholderTexture = Texture2D::Create("Textures/Barrel.png");
-			//material
-			SMI_Material::Sptr fanmat1 = SMI_Material::Create();
-			fanmat1->setShader(shader);
-
-			//set textures
-			fanmat1->setTexture(fanholderTexture, 0);
-			//render
-			Renderer fanrend1 = Renderer(fanmat1, fanHolder);
-			AttachCopy(fanH, fanrend1);
-			//transform
-			SMI_Transform fanTrans1 = SMI_Transform();
-
-			fanTrans1.setPos(glm::vec3(-50.8, -2, 1.8));
-
-			fanTrans1.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(fanH, fanTrans1);
-		}
-		VertexArrayObject::Sptr wall5 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			walls5 = CreateEntity();
-
-			Texture2D::Sptr wall5Texture = Texture2D::Create("Textures/BrownTex.1001.png");
-			//material
-			SMI_Material::Sptr WallMat10 = SMI_Material::Create();
-			WallMat10->setShader(shader);
-
-			//set textures
-			WallMat10->setTexture(wall5Texture, 0);
-			//render
-			Renderer WallRend10 = Renderer(WallMat10, wall5);
-			AttachCopy(walls5, WallRend10);
-			//transform
-			SMI_Transform WallTrans10 = SMI_Transform();
-
-			WallTrans10.setPos(glm::vec3(-57.2, 0, -5.6));
-
-			WallTrans10.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(walls5, WallTrans10);
-		}
-		VertexArrayObject::Sptr shelf1 = ObjLoader::LoadFromFile("Models/shelf12.obj");
-		{
-
-			shel = CreateEntity();
-
-			Texture2D::Sptr shelf10Texture = Texture2D::Create("Textures/shelf.png");
-			//material
-			SMI_Material::Sptr ShelfM = SMI_Material::Create();
-			ShelfM->setShader(shader);
-
-			//set textures
-			ShelfM->setTexture(shelf10Texture, 0);
-			//render
-			Renderer ShelfRen7 = Renderer(ShelfM, shelf1);
-			AttachCopy(shel, ShelfRen7);
-			//transform
-			SMI_Transform ShelfTrans7 = SMI_Transform();
-
-			ShelfTrans7.setPos(glm::vec3(-59.8, 0, -2.6));
-
-			ShelfTrans7.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(shel, ShelfTrans7);
+			AttachCopy(barrel, BarrelTrans5);
 		}
 
-
-		VertexArrayObject::Sptr w3 = ObjLoader::LoadFromFile("Models/nba1.obj");
+		VertexArrayObject::Sptr bar = ObjLoader::LoadFromFile("Models/btab.obj");
 		{
-
-			f = CreateEntity();
-
-			Texture2D::Sptr w3tex = Texture2D::Create("Textures/road.png");
-			//material
-			SMI_Material::Sptr floormat2 = SMI_Material::Create();
-			floormat2->setShader(shader);
-
-			//set textures
-			floormat2->setTexture(w3tex, 0);
-			//render
-			Renderer WallRend6 = Renderer(floormat2, w3);
-			AttachCopy(f, WallRend6);
-			//transform
-			SMI_Transform floorTrans1 = SMI_Transform();
-
-			floorTrans1.setPos(glm::vec3(-79.8, 0, 0.6));
-
-			floorTrans1.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(f, floorTrans1);
-		}
-		VertexArrayObject::Sptr w4 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			f1 = CreateEntity();
-
-			Texture2D::Sptr w4tex = Texture2D::Create("Textures/road.png");
-			//material
-			SMI_Material::Sptr floormat3 = SMI_Material::Create();
-			floormat3->setShader(shader);
-
-			//set textures
-			floormat3->setTexture(w4tex, 0);
-			//render
-			Renderer WallRend7 = Renderer(floormat3, w4);
-			AttachCopy(f1, WallRend7);
-			//transform
-			SMI_Transform floorTrans2 = SMI_Transform();
-
-			floorTrans2.setPos(glm::vec3(-88.8, 0, 0.6));
-
-			floorTrans2.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(f1, floorTrans2);
-		}
-		VertexArrayObject::Sptr w5 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			f2 = CreateEntity();
-
-			Texture2D::Sptr w5Texture = Texture2D::Create("Textures/road.png");
-			//material
-			SMI_Material::Sptr floormat4 = SMI_Material::Create();
-			floormat4->setShader(shader);
-
-			//set textures
-			floormat4->setTexture(w5Texture, 0);
-			//render
-			Renderer WallRend13 = Renderer(floormat4, w5);
-			AttachCopy(f2, WallRend13);
-			//transform
-			SMI_Transform floorTrans4 = SMI_Transform();
-
-			floorTrans4.setPos(glm::vec3(-99.8, 0, 0.6));
-
-			floorTrans4.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(f2, floorTrans4);
-		}
-		VertexArrayObject::Sptr w6 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			f3 = CreateEntity();
-
-			Texture2D::Sptr w6Texture = Texture2D::Create("Textures/Road.png");
-			//material
-			SMI_Material::Sptr floormat5 = SMI_Material::Create();
-			floormat5->setShader(shader);
-
-			//set textures
-			floormat5->setTexture(w6Texture, 0);
-			//render
-			Renderer WallRend15 = Renderer(floormat5, w6);
-			AttachCopy(f3, WallRend15);
-			//transform
-			SMI_Transform floorTrans5 = SMI_Transform();
-
-			floorTrans5.setPos(glm::vec3(-119.8, 0, 0.6));
-
-			floorTrans5.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(f3, floorTrans5);
-		}
-		VertexArrayObject::Sptr w7 = ObjLoader::LoadFromFile("Models/nba1.obj");
-		{
-
-			L_plat = CreateEntity();
-
-			Texture2D::Sptr w7Texture = Texture2D::Create("Textures/Road.png");
-			//material
-			SMI_Material::Sptr floormat90 = SMI_Material::Create();
-			floormat90->setShader(shader);
-
-			//set textures
-			floormat90->setTexture(w7Texture, 0);
-			//render
-			Renderer WallRend195 = Renderer(floormat90, w7);
-			AttachCopy(L_plat, WallRend195);
-			//transform
-			SMI_Transform floorTrans905 = SMI_Transform();
-
-			floorTrans905.setPos(glm::vec3(-129.8, 0, 0.6));
-
-			floorTrans905.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(L_plat, floorTrans905);
-		}
-
-		VertexArrayObject::Sptr cars = ObjLoader::LoadFromFile("Models/car.obj");
-		{
-
-			car = CreateEntity();
-
-			Texture2D::Sptr carsTexture = Texture2D::Create("Textures/car_Tex.png");
-			//material
-			SMI_Material::Sptr carM = SMI_Material::Create();
-			carM->setShader(shader);
-
-			//set textures
-			carM->setTexture(carsTexture, 0);
-			//render
-			Renderer carRen7 = Renderer(carM, cars);
-			AttachCopy(car, carRen7);
-			//transform
-			SMI_Transform carTrans = SMI_Transform();
-
-			carTrans.setPos(glm::vec3(-88.8, 0, 3.4));
-
-			carTrans.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(car, carTrans);
-		}
-		VertexArrayObject::Sptr building1 = ObjLoader::LoadFromFile("Models/building1.obj");
-		{
-			build = CreateEntity();
-
-			Texture2D::Sptr build1Texture = Texture2D::Create("Textures/build.png");
-			//material
-			SMI_Material::Sptr buildM = SMI_Material::Create();
-			buildM->setShader(shader);
-
-			//set textures
-			buildM->setTexture(build1Texture, 0);
-			//render
-			Renderer buildRen7 = Renderer(buildM, building1);
-			AttachCopy(build, buildRen7);
-			//transform
-			SMI_Transform buildTrans = SMI_Transform();
-
-			buildTrans.setPos(glm::vec3(-79.8, -6, 3.2));
-
-			buildTrans.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(build, buildTrans);
-		}
-
-		VertexArrayObject::Sptr building2 = ObjLoader::LoadFromFile("Models/building1.obj");
-		{
-
-			build2 = CreateEntity();
-
-			Texture2D::Sptr build2Texture = Texture2D::Create("Textures/build.png");
-			//material
-			SMI_Material::Sptr buildM1 = SMI_Material::Create();
-			buildM1->setShader(shader);
-
-			//set textures
-			buildM1->setTexture(build2Texture, 0);
-			//render
-			Renderer build1Ren7 = Renderer(buildM1, building2);
-			AttachCopy(build2, build1Ren7);
-			//transform
-			SMI_Transform buildTrans1 = SMI_Transform();
-
-			buildTrans1.setPos(glm::vec3(-94.8, -6, 3.2));
-
-			buildTrans1.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(build2, buildTrans1);
-		}
-		VertexArrayObject::Sptr building3 = ObjLoader::LoadFromFile("Models/build2.obj");
-		{
-
-			build3 = CreateEntity();
-
-			Texture2D::Sptr build3Texture = Texture2D::Create("Textures/build2.png");
-			//material
-			SMI_Material::Sptr buildM12 = SMI_Material::Create();
-			buildM12->setShader(shader);
-
-			//set textures
-			buildM12->setTexture(build3Texture, 0);
-			//render
-			Renderer build1Ren71 = Renderer(buildM12, building3);
-			AttachCopy(build3, build1Ren71);
-			//transform
-			SMI_Transform buildTrans12 = SMI_Transform();
-
-			buildTrans12.setPos(glm::vec3(-87.8, -6, 3.2));
-
-			buildTrans12.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(build3, buildTrans12);
-		}
-		VertexArrayObject::Sptr elevator1 = ObjLoader::LoadFromFile("Models/elevator.obj");
-		{
-
-			elevator12 = CreateEntity();
-
-			Texture2D::Sptr elevatorTexture = Texture2D::Create("Textures/DoorO.png");
-			//material
-			SMI_Material::Sptr WallMat4 = SMI_Material::Create();
-			WallMat4->setShader(shader);
-
-			//set textures
-			WallMat4->setTexture(elevatorTexture, 0);
-			//render
-			Renderer WallRend12 = Renderer(WallMat4, elevator1);
-			AttachCopy(elevator12, WallRend12);
-			//transform
-			SMI_Transform WallTrans3 = SMI_Transform();
-
-			WallTrans3.setPos(glm::vec3(-68.8, -1.6, -0.6));
-
-			WallTrans3.SetDegree(glm::vec3(90, 0, 0));
-			AttachCopy(elevator12, WallTrans3);
-		}
-		VertexArrayObject::Sptr Table1 = ObjLoader::LoadFromFile("Models/project.obj");
-		{
-
-			table = CreateEntity();
-
-			Texture2D::Sptr elevatorTexture = Texture2D::Create("Textures/Table_Mat.png");
-			//material
-			SMI_Material::Sptr WallMat41 = SMI_Material::Create();
-			WallMat41->setShader(shader);
-
-			//set textures
-			WallMat41->setTexture(elevatorTexture, 0);
-			//render
-			Renderer WallRend121 = Renderer(WallMat41, Table1);
-			AttachCopy(table, WallRend121);
-			//transform
-			SMI_Transform WallTrans31 = SMI_Transform();
-
-			WallTrans31.setPos(glm::vec3(-3.6, 0, 3.4));
-
-			WallTrans31.SetDegree(glm::vec3(90, 0, 0));
-			AttachCopy(table, WallTrans31);
-		}
-		VertexArrayObject::Sptr plank1 = ObjLoader::LoadFromFile("Models/plank.obj");
-		{
-
-			plank = CreateEntity();
-
-			Texture2D::Sptr plankTexture = Texture2D::Create("Textures/platform.png");
-			//material
-			SMI_Material::Sptr WallMat42 = SMI_Material::Create();
-			WallMat42->setShader(shader);
-
-			//set textures
-			WallMat42->setTexture(plankTexture, 0);
-			//render
-			Renderer WallRend120 = Renderer(WallMat42, plank1);
-			AttachCopy(plank, WallRend120);
-			//transform
-			SMI_Transform WallTrans35 = SMI_Transform();
-
-			WallTrans35.setPos(glm::vec3(-103.8, -1.6, 5.6));
-
-			WallTrans35.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(plank, WallTrans35);
-		}
-		VertexArrayObject::Sptr Roadblock = ObjLoader::LoadFromFile("Models/road block.obj");
-		{
-
-			roadb = CreateEntity();
-
-			Texture2D::Sptr roadbTexture = Texture2D::Create("Textures/road_bock.png");
-			//material
-			SMI_Material::Sptr lMat42 = SMI_Material::Create();
-			lMat42->setShader(shader);
-
-			//set textures
-			lMat42->setTexture(roadbTexture, 0);
-			//render
-			Renderer WallRend120 = Renderer(lMat42, Roadblock);
-			AttachCopy(roadb, WallRend120);
-			//transform
-			SMI_Transform WallTrans356 = SMI_Transform();
-
-			WallTrans356.setPos(glm::vec3(-105.8, 1.2, 3.3));
-
-			WallTrans356.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(roadb, WallTrans356);
-		}
-		VertexArrayObject::Sptr Roadblock1 = ObjLoader::LoadFromFile("Models/road block.obj");
-		{
-
-			roadb1 = CreateEntity();
-
-			Texture2D::Sptr roadbTexture1 = Texture2D::Create("Textures/road_bock.png");
-			//material
-			SMI_Material::Sptr lMat421 = SMI_Material::Create();
-			lMat421->setShader(shader);
-
-			//set textures
-			lMat421->setTexture(roadbTexture1, 0);
-			//render
-			Renderer WallRend1201 = Renderer(lMat421, Roadblock1);
-			AttachCopy(roadb1, WallRend1201);
-			//transform
-			SMI_Transform WallTrans3561 = SMI_Transform();
-
-			WallTrans3561.setPos(glm::vec3(-105.8, -1.2, 3.3));
-
-			WallTrans3561.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(roadb1, WallTrans3561);
-		}
-		VertexArrayObject::Sptr bar = ObjLoader::LoadFromFile("Models/bartable.obj");
-		{
-			bartab = CreateEntity();
+			barrel = CreateEntity();
 			//create texture
-			Texture2D::Sptr WinTexture80 = Texture2D::Create("Textures/BrownTex.1001.png");
+			Texture2D::Sptr WinTexture80 = Texture2D::Create("Textures/brown1.png");
 			//material
 			SMI_Material::Sptr BarrelMa80 = SMI_Material::Create();
 
@@ -1048,21 +645,20 @@ public:
 			BarrelMa80->setTexture(WinTexture80, 0);
 			//render
 			Renderer BarrelRen80 = Renderer(BarrelMa80, bar);
-			AttachCopy(bartab, BarrelRen80);
+			AttachCopy(barrel, BarrelRen80);
 			//transform
 			SMI_Transform winTrans180 = SMI_Transform();
 
-			winTrans180.setPos(glm::vec3(-0.2, 0, 2.7));
+			winTrans180.setPos(glm::vec3(1.2, 1.5, 2.0));
 
-			winTrans180.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(bartab, winTrans180);
+			winTrans180.SetDegree(glm::vec3(90, 0, -180));
+			AttachCopy(barrel, winTrans180);
 		}
-
-		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/garbage bin.obj");
+		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/wall.obj");
 		{
-			garbage = CreateEntity();
+			barrel = CreateEntity();
 			//create texture
-			Texture2D::Sptr gTexture80 = Texture2D::Create("Textures/bin.png");
+			Texture2D::Sptr gTexture80 = Texture2D::Create("Textures/brick1.png");
 			//material
 			SMI_Material::Sptr gMa80 = SMI_Material::Create();
 
@@ -1073,17 +669,398 @@ public:
 			gMa80->setTexture(gTexture80, 0);
 			//render
 			Renderer gRen80 = Renderer(gMa80, garbage1);
-			AttachCopy(garbage, gRen80);
+			AttachCopy(barrel, gRen80);
 			//transform
 			SMI_Transform winTrans1801 = SMI_Transform();
 
-			winTrans1801.setPos(glm::vec3(-8.7, 0, 2.7));
+			winTrans1801.setPos(glm::vec3(-10.5, 4.8, 3.0));
 
 			winTrans1801.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(garbage, winTrans1801);
+			AttachCopy(barrel, winTrans1801);
+		}
+		VertexArrayObject::Sptr garbage2 = ObjLoader::LoadFromFile("Models/doorwall.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr gTexture801 = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr gMa801 = SMI_Material::Create();
+
+
+			gMa801->setShader(shader);
+
+			//set textures
+			gMa801->setTexture(gTexture801, 0);
+			//render
+			Renderer gRen801 = Renderer(gMa801, garbage2);
+			AttachCopy(barrel, gRen801);
+			//transform
+			SMI_Transform winTrans18011 = SMI_Transform();
+
+			winTrans18011.setPos(glm::vec3(5.0, 4.8, 2.8));
+
+			winTrans18011.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winTrans18011);
+		}
+		//Warehouse
+		VertexArrayObject::Sptr topground1 = ObjLoader::LoadFromFile("Models/ground.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr groundTex1 = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr groundmat11 = SMI_Material::Create();
+			groundmat11->setShader(shader);
+
+			//set textures
+			groundmat11->setTexture(groundTex1, 0);
+			//render
+			Renderer groundRend11 = Renderer(groundmat11, topground1);
+			AttachCopy(barrel, groundRend11);
+			//transform
+			SMI_Transform groundTrans11 = SMI_Transform();
+
+			groundTrans11.setPos(glm::vec3(-38.8, -1, 3.8));
+
+			groundTrans11.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, groundTrans11);
+		}
+		VertexArrayObject::Sptr wall41 = ObjLoader::LoadFromFile("Models/floor1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr window90Texture1 = Texture2D::Create("Textures/cement.png");
+			//material
+			SMI_Material::Sptr WallMat11 = SMI_Material::Create();
+			WallMat11->setShader(shader);
+
+			//set textures
+			WallMat11->setTexture(window90Texture1, 0);
+			//render
+			Renderer WallRend11 = Renderer(WallMat11, wall41);
+			AttachCopy(barrel, WallRend11);
+			//transform
+			SMI_Transform WallTrans11 = SMI_Transform();
+
+			WallTrans11.setPos(glm::vec3(-75.6, 0, -0.8));
+
+			WallTrans11.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, WallTrans11);
 		}
 
+		VertexArrayObject::Sptr bag = ObjLoader::LoadFromFile("Models/bag1.obj");
+		{
 
+			barrel = CreateEntity();
+
+			Texture2D::Sptr bagTexture1 = Texture2D::Create("Textures/bag.png");
+			//material
+			SMI_Material::Sptr bagMat11 = SMI_Material::Create();
+			bagMat11->setShader(shader);
+
+			//set textures
+			bagMat11->setTexture(bagTexture1, 0);
+			//render
+			Renderer bagRend11 = Renderer(bagMat11, bag);
+			AttachCopy(barrel, bagRend11);
+			//transform
+			SMI_Transform bagTrans11 = SMI_Transform();
+
+			bagTrans11.setPos(glm::vec3(-54.7, 2, 2.1));
+
+			bagTrans11.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, bagTrans11);
+		}
+		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf12.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr shelfTexture1 = Texture2D::Create("Textures/shelf.png");
+			//material
+			SMI_Material::Sptr shelfMat11 = SMI_Material::Create();
+			shelfMat11->setShader(shader);
+
+			//set textures
+			shelfMat11->setTexture(shelfTexture1, 0);
+			//render
+			Renderer bagRend11 = Renderer(shelfMat11, shelf);
+			AttachCopy(barrel, bagRend11);
+			//transform
+			SMI_Transform shelfTrans11 = SMI_Transform();
+
+			shelfTrans11.setPos(glm::vec3(-70.7, -1, 2.1));
+
+			shelfTrans11.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, shelfTrans11);
+		}
+		VertexArrayObject::Sptr crate12 = ObjLoader::LoadFromFile("Models/2crates.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crate1Texture12 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat512 = SMI_Material::Create();
+			BarrelMat512->setShader(shader);
+
+			//set textures
+			BarrelMat512->setTexture(crate1Texture12, 0);
+			//render
+			Renderer BarrelRend512 = Renderer(BarrelMat512, crate12);
+			AttachCopy(barrel, BarrelRend512);
+			//transform
+			SMI_Transform BarrelTrans512 = SMI_Transform();
+
+			BarrelTrans512.setPos(glm::vec3(-48.0, 1, 2.2));
+
+			BarrelTrans512.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans512);
+		}
+		VertexArrayObject::Sptr window231 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr window2Texture31 = Texture2D::Create("Textures/BrownTex.1001.png");
+			//material
+			SMI_Material::Sptr window2Mat31 = SMI_Material::Create();
+			window2Mat31->setShader(shader);
+
+			//set textures
+			window2Mat31->setTexture(window2Texture31, 0);
+			//render
+			Renderer window2Rend31 = Renderer(window2Mat31, window231);
+			AttachCopy(barrel, window2Rend31);
+			//transform
+			SMI_Transform window2Trans31 = SMI_Transform();
+
+			window2Trans31.setPos(glm::vec3(-55.5, -3.3, 1));
+
+			window2Trans31.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(barrel, window2Trans31);
+		}
+		VertexArrayObject::Sptr doorw2 = ObjLoader::LoadFromFile("Models/doorwall.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr doorw2801Tex = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr doorw280Mat1 = SMI_Material::Create();
+
+
+			doorw280Mat1->setShader(shader);
+
+			//set textures
+			doorw280Mat1->setTexture(doorw2801Tex, 0);
+			//render
+			Renderer doorw2801ren = Renderer(doorw280Mat1, doorw2);
+			AttachCopy(barrel, doorw2801ren);
+			//transform
+			SMI_Transform doorw2Trans18011 = SMI_Transform();
+
+			doorw2Trans18011.setPos(glm::vec3(-93.0, 4.3, 2.5));
+
+			doorw2Trans18011.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, doorw2Trans18011);
+		}
+		VertexArrayObject::Sptr building = ObjLoader::LoadFromFile("Models/building1.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr build2801Tex = Texture2D::Create("Textures/build.png");
+			//material
+			SMI_Material::Sptr build280Mat1 = SMI_Material::Create();
+
+
+			build280Mat1->setShader(shader);
+
+			//set textures
+			build280Mat1->setTexture(build2801Tex, 0);
+			//render
+			Renderer build2801ren = Renderer(build280Mat1, building);
+			AttachCopy(barrel, build2801ren);
+			//transform
+			SMI_Transform build2Trans18011 = SMI_Transform();
+
+			build2Trans18011.setPos(glm::vec3(-89.5, -2.3, 1.8));
+
+			build2Trans18011.SetDegree(glm::vec3(90, 10, -90));
+			AttachCopy(barrel, build2Trans18011);
+		}
+		VertexArrayObject::Sptr building2 = ObjLoader::LoadFromFile("Models/build4.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr build2801Tex2 = Texture2D::Create("Textures/2build.png");
+			//material
+			SMI_Material::Sptr build280Mat12 = SMI_Material::Create();
+
+
+			build280Mat12->setShader(shader);
+
+			//set textures
+			build280Mat12->setTexture(build2801Tex2, 0);
+			//render
+			Renderer build2801ren2 = Renderer(build280Mat12, building2);
+			AttachCopy(barrel, build2801ren2);
+			//transform
+			SMI_Transform build2Trans180112 = SMI_Transform();
+
+			build2Trans180112.setPos(glm::vec3(-103.5, -2.3, 1.8));
+
+			build2Trans180112.SetDegree(glm::vec3(90, 10, -90));
+			AttachCopy(barrel, build2Trans180112);
+		}
+		VertexArrayObject::Sptr window2311 = ObjLoader::LoadFromFile("Models/window1.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr window2Texture311 = Texture2D::Create("Textures/BrownTex.1001.png");
+			//material
+			SMI_Material::Sptr window2Mat311 = SMI_Material::Create();
+			window2Mat311->setShader(shader);
+
+			//set textures
+			window2Mat311->setTexture(window2Texture311, 0);
+			//render
+			Renderer window2Rend311 = Renderer(window2Mat311, window2311);
+			AttachCopy(barrel, window2Rend311);
+			//transform
+			SMI_Transform window2Trans311 = SMI_Transform();
+
+			window2Trans311.setPos(glm::vec3(-80.5, -3.3, 1));
+
+			window2Trans311.SetDegree(glm::vec3(90, -10, 90));
+			AttachCopy(barrel, window2Trans311);
+		}
+		VertexArrayObject::Sptr fence12 = ObjLoader::LoadFromFile("Models/wall.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr fencegTexture80 = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr fencegMa80 = SMI_Material::Create();
+
+
+			fencegMa80->setShader(shader);
+
+			//set textures
+			fencegMa80->setTexture(fencegTexture80, 0);
+			//render
+			Renderer fencegRen80 = Renderer(fencegMa80, fence12);
+			AttachCopy(barrel, fencegRen80);
+			//transform
+			SMI_Transform fencewinTrans1801 = SMI_Transform();
+
+			fencewinTrans1801.setPos(glm::vec3(-124.5, 4.8, 3.0));
+
+			fencewinTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, fencewinTrans1801);
+		}
+		VertexArrayObject::Sptr car = ObjLoader::LoadFromFile("Models/car.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr carTexture80 = Texture2D::Create("Textures/car_Tex.png");
+			//material
+			SMI_Material::Sptr cargMa80 = SMI_Material::Create();
+
+
+			cargMa80->setShader(shader);
+
+			//set textures
+			cargMa80->setTexture(carTexture80, 0);
+			//render
+			Renderer cargRen80 = Renderer(cargMa80, car);
+			AttachCopy(barrel, cargRen80);
+			//transform
+			SMI_Transform carTrans1801 = SMI_Transform();
+
+			carTrans1801.setPos(glm::vec3(-105.5, -4.8, 2.8));
+
+			carTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, carTrans1801);
+		}
+		VertexArrayObject::Sptr ashphalt = ObjLoader::LoadFromFile("Models/floor2.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr ashphaltTexture80 = Texture2D::Create("Textures/gravel.png");
+			//material
+			SMI_Material::Sptr ashphaltgMa80 = SMI_Material::Create();
+
+
+			ashphaltgMa80->setShader(shader);
+
+			//set textures
+			ashphaltgMa80->setTexture(ashphaltTexture80, 0);
+			//render
+			Renderer ashphaltgRen80 = Renderer(ashphaltgMa80, ashphalt);
+			AttachCopy(barrel, ashphaltgRen80);
+			//transform
+			SMI_Transform ashphaltTrans1801 = SMI_Transform();
+
+			ashphaltTrans1801.setPos(glm::vec3(-112.5, 0, -0.8));
+
+			ashphaltTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, ashphaltTrans1801);
+		}
+		VertexArrayObject::Sptr plank = ObjLoader::LoadFromFile("Models/plank.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr plankTexture80 = Texture2D::Create("Textures/platform.png");
+			//material
+			SMI_Material::Sptr plankgMa80 = SMI_Material::Create();
+
+
+			plankgMa80->setShader(shader);
+
+			//set textures
+			plankgMa80->setTexture(plankTexture80, 0);
+			//render
+			Renderer plankgRen80 = Renderer(plankgMa80, plank);
+			AttachCopy(barrel, plankgRen80);
+			//transform
+			SMI_Transform plankTrans1801 = SMI_Transform();
+
+			plankTrans1801.setPos(glm::vec3(-112.5, 0, 8.8));
+
+			plankTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, plankTrans1801);
+		}
+		VertexArrayObject::Sptr building6 = ObjLoader::LoadFromFile("Models/build4.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr tbuild2801Tex2 = Texture2D::Create("Textures/2build texture.png");
+			//material
+			SMI_Material::Sptr tbuild280Mat12 = SMI_Material::Create();
+
+
+			tbuild280Mat12->setShader(shader);
+
+			//set textures
+			tbuild280Mat12->setTexture(tbuild2801Tex2, 0);
+			//render
+			Renderer tbuild2801ren2 = Renderer(tbuild280Mat12, building6);
+			AttachCopy(barrel, tbuild2801ren2);
+			//transform
+			SMI_Transform tbuild2Trans180112 = SMI_Transform();
+
+			tbuild2Trans180112.setPos(glm::vec3(-132.0, -2.3, 1.8));
+
+			tbuild2Trans180112.SetDegree(glm::vec3(90, 10, -90));
+			AttachCopy(barrel, tbuild2Trans180112);
+		}
 	}
 
 	void Update(float deltaTime)
@@ -1103,73 +1080,199 @@ public:
 		float t = current / max;
 		float time = c / max;
 
-		//rotation example
-		GetComponent<SMI_Transform>(fan1).FixedRotate(glm::vec3(0, 0, 30) * deltaTime * 8.0f);
+		//reference to player physics body
+		SMI_Physics& PlayerPhys = GetComponent<SMI_Physics>(character);
+		glm::vec3 NewCamPos = glm::vec3(PlayerPhys.GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+		camera->SetPosition(NewCamPos);
+
+		//keyboard input
+		//move left
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			PlayerPhys.AddForce(glm::vec3(2.0, 0, 0));
+		}
+		//move right
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			PlayerPhys.AddForce(glm::vec3(-2, 0, 0));
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			PlayerPhys.AddForce(glm::vec3(0, 2, 0));
+		}
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			PlayerPhys.AddForce(glm::vec3(0, -2, 0));
+		}
+		//jump
+		if ((glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) && JumpState == GLFW_RELEASE)
+		{
+			PlayerPhys.AddImpulse(glm::vec3(0, 0, 4));
+		}
+		JumpState = glfwGetKey(window, GLFW_KEY_SPACE);
+
+
 
 		// LERP example
 
-		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-27.2, 0, 2), glm::vec3(-27.2, 0, 10), t));
+		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-35.2, 0, 2), glm::vec3(-35.2, 0, 15), t));
 
 
-
-		GetComponent<SMI_Transform>(car).setPos(Lerp(glm::vec3(-99.8, 3, 3.8), glm::vec3(-74.8, 3, 3.8), time));
-
-
-
-		GetComponent<SMI_Transform>(elevator12).setPos(Lerp(glm::vec3(-68.8, -1.6, -7.6), glm::vec3(-68.8, -1.6, 0.6), time));
-
-		GetComponent<SMI_Transform>(f3).setPos(Lerp(glm::vec3(-100.8, 0, -4.6), glm::vec3(-119.8, 0, 0.6), time));
 
 		SMI_Scene::Update(deltaTime);
 	}
 
-	~GameScene() = default;
+	~GameScene1() = default;
 
 private:
 	entt::entity barrel;
-	entt::entity barrel1;
-	entt::entity barrel2;
-	entt::entity barrel3;
-	entt::entity barrel4;
-	entt::entity crate1;
 	entt::entity door1;
-	entt::entity crate2;
-	entt::entity walls3;
-	entt::entity walls4;
-	entt::entity elevator1;
-	entt::entity elevator12;
-	entt::entity w1;
-	entt::entity shelf1;
-	entt::entity fan1;
-	entt::entity walls5;
-	entt::entity shel;
-	entt::entity fanH;
-	entt::entity f;
-	entt::entity f1;
-	entt::entity f2;
-	entt::entity f3;
-	entt::entity car;
-	entt::entity build;
-	entt::entity build2;
-	entt::entity build3;
-	entt::entity road1;
-	entt::entity wa1;
-	entt::entity wa2;
-	entt::entity wa3;
-	entt::entity wa4;
-	entt::entity bartab;
-	entt::entity chair;
-	entt::entity table;
-	entt::entity L_plat;
-	entt::entity plank;
-	entt::entity roadb;
-	entt::entity roadb1;
-	entt::entity garbage;
-
+	entt::entity character;
 	float max = 5;
 	float current = 0;
 	float c = 0;
+
+	int JumpState = GLFW_RELEASE;
 };
+
+class GameScene2 : public SMI_Scene
+{
+public:
+	//just ignore the warning, guys. It's fine.
+	GameScene2() : SMI_Scene() {}
+
+	void InitScene()
+	{
+		SMI_Scene::InitScene();
+
+
+		// Load our shaders
+		Shader::Sptr shader1 = Shader::Create();
+		shader1->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
+		shader1->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
+		shader1->Link();
+
+		// Get uniform location for the model view projection
+		Camera::Sptr camera1 = Camera::Create();
+
+		//camera position
+		camera1->SetPosition(glm::vec3(-0.2, 10.5, 9.9));
+		//this defines the point the camera is looking at
+		camera1->LookAt(glm::vec3(0, 0.4, -0.2));
+
+		camera1->SetOrthoEnabled(true);
+		camera1->SetOrthoVerticalScale(20);
+		setCamera(camera1);
+
+		VertexArrayObject::Sptr menuback = ObjLoader::LoadFromFile("Models/menu2.obj");
+		{
+			menu = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr owindow1Texturet = Texture2D::Create("Textures/Main_Menu.png");
+			//material
+			SMI_Material::Sptr oBarrelMatt = SMI_Material::Create();
+			oBarrelMatt->setShader(shader1);
+
+			//set textures
+			oBarrelMatt->setTexture(owindow1Texturet, 0);
+			//render
+			Renderer oBarrelRendt = Renderer(oBarrelMatt, menuback);
+			AttachCopy(menu, oBarrelRendt);
+			//transform
+			SMI_Transform oBarrelTranst = SMI_Transform();
+
+			oBarrelTranst.setPos(glm::vec3(4.2, 2, 0));
+
+			oBarrelTranst.SetDegree(glm::vec3(130, -8, -189));
+			AttachCopy(menu, oBarrelTranst);
+		}
+
+
+
+
+
+
+	}
+
+
+	~GameScene2() = default;
+private:
+
+	entt::entity rt;
+	entt::entity rrt;
+	entt::entity menu;
+
+
+};
+class GameScene3 : public SMI_Scene
+{
+public:
+	//just ignore the warning, guys. It's fine.
+	GameScene3() : SMI_Scene() {}
+
+	void InitScene()
+	{
+		SMI_Scene::InitScene();
+
+
+		// Load our shaders
+		Shader::Sptr shader1 = Shader::Create();
+		shader1->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
+		shader1->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
+		shader1->Link();
+
+
+		// Get uniform location for the model view projection
+		Camera::Sptr camera2 = Camera::Create();
+
+		//camera position
+		camera2->SetPosition(glm::vec3(-0.2, 10.5, 9.9));
+		//this defines the point the camera is looking at
+		camera2->LookAt(glm::vec3(0, 0.4, -0.2));
+
+		camera2->SetOrthoEnabled(true);
+		camera2->SetOrthoVerticalScale(20);
+		setCamera(camera2);
+
+		VertexArrayObject::Sptr yt1 = ObjLoader::LoadFromFile("Models/menu2.obj");
+		{
+			rt1 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr window1Texturet1 = Texture2D::Create("Textures/Pause_Screen.png");
+			//material
+			SMI_Material::Sptr BarrelMatt1 = SMI_Material::Create();
+			BarrelMatt1->setShader(shader1);
+
+			//set textures
+			BarrelMatt1->setTexture(window1Texturet1, 0);
+			//render
+			Renderer BarrelRendt1 = Renderer(BarrelMatt1, yt1);
+			AttachCopy(rt1, BarrelRendt1);
+			//transform
+			SMI_Transform BarrelTranst1 = SMI_Transform();
+
+			BarrelTranst1.setPos(glm::vec3(4.2, 2, 0));
+
+			BarrelTranst1.SetDegree(glm::vec3(130, -8, -189));
+			AttachCopy(rt1, BarrelTranst1);
+		}
+
+
+
+	}
+
+
+	~GameScene3() = default;
+private:
+
+	entt::entity rt1;
+
+
+};
+
+
 
 //main game loop inside here as well as call all needed shaders
 int main()
@@ -1189,27 +1292,83 @@ int main()
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(GlDebugMessage, nullptr);
 
+
+
 	// Our high-precision timer
 	double lastFrame = glfwGetTime();
 
-	GameScene MainScene = GameScene();
+	GameScene2 Ma = GameScene2();
+	Ma.InitScene();
+	GameScene1 MainScene = GameScene1();
 	MainScene.InitScene();
+	GameScene3 Pausescreen = GameScene3();
+	Pausescreen.InitScene();
+
+	bool isButtonPressed = false;
+	bool it = false;
+	bool notmenu = true;
+	bool notpause = true;
 
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
 
 		glfwPollEvents();
 
-
 		double thisFrame = glfwGetTime();
 		float dt = static_cast<float>(thisFrame - lastFrame);
+
 
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		MainScene.Update(dt);
 
-		MainScene.Render();
+
+		if (glfwGetKey(window, GLFW_KEY_P))
+		{
+			if (!isButtonPressed) {
+
+				notmenu = !notmenu;
+			}
+			isButtonPressed = true;
+		}
+		else { //when its pressed while ortho view it will switch back to perspective
+
+			isButtonPressed = false;
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_B))
+		{
+			if (!it) {
+				notpause = !notpause;
+			}
+			it = true;
+		}
+		else {
+			it = false;
+		}
+
+		if (!notmenu && notpause)
+		{
+			MainScene.Render();
+			MainScene.Update(dt);
+		}
+		if (notmenu)
+		{
+			Ma.Render();
+		}
+		if (!notmenu && !notpause)
+		{
+			Pausescreen.Render();
+			if (glfwGetKey(window, GLFW_KEY_E))
+			{
+				exit(1);
+			}
+
+			if (glfwGetKey(window, GLFW_KEY_R))
+			{
+				glUseProgram;
+			}
+		}
 
 		lastFrame = thisFrame;
 		glfwSwapBuffers(window);
