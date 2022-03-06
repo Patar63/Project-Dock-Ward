@@ -187,6 +187,7 @@ public:
 	void InitScene()
 	{
 		SMI_Scene::InitScene();
+		SMI_Scene::setGravity(glm::vec3(0.0, 0.0, -9.8));
 
 
 		// Load our shaders
@@ -238,7 +239,7 @@ public:
 			AttachCopy(character, CharaTrans);
 
 			SMI_Physics CharaPhys = SMI_Physics(glm::vec3(4, -0.2, 2), glm::vec3(90, 0, -90), glm::vec3(1, 1, 1), character, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
-			CharaPhys.setHasGravity(false);
+			CharaPhys.setHasGravity(true);
 			AttachCopy(character, CharaPhys);
 		}
 
@@ -419,6 +420,9 @@ public:
 
 			BarrelTrans3.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans3);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-0.85, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 11.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			AttachCopy(barrel, GroundPhys);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{

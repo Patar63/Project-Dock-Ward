@@ -16,6 +16,7 @@ SMI_Scene::SMI_Scene()
     //create the physics world
     physicsWorld = new btDiscreteDynamicsWorld(Dispatcher, OverlappingPairCache, Solver, CollisionConfig);
     physicsWorld->setGravity(btVector3(0.f, 0.f, 0.f));
+    gravity = glm::vec3(0.0, 0.0, 0.0);
 
     //create registry
     Store = entt::registry();
