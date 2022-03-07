@@ -245,7 +245,7 @@ public:
 		}
 
 		//creates object
-		//Bar
+		//windows
 		VertexArrayObject::Sptr vao4 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
@@ -269,7 +269,7 @@ public:
 			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
-		//creates object
+		//creates window
 		VertexArrayObject::Sptr firstwin = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
@@ -293,7 +293,7 @@ public:
 			win22Trans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, win22Trans);
 		}
-		//creates object
+		//creates backdrop
 		VertexArrayObject::Sptr back = ObjLoader::LoadFromFile("Models/wi1.obj");
 		{
 			barrel = CreateEntity();
@@ -317,7 +317,7 @@ public:
 			backTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, backTrans);
 		}
-		//creates object
+		//creates back wall
 		VertexArrayObject::Sptr window2 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
@@ -342,7 +342,7 @@ public:
 			AttachCopy(barrel, window2Trans);
 		}
 
-
+		//creates a single barrel
 		VertexArrayObject::Sptr vao5 = ObjLoader::LoadFromFile("Models/barrel1.obj");
 		{
 
@@ -369,10 +369,11 @@ public:
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans1);
 
-			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-0.6, 0, 2.7), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), barrel, SMI_PhysicsBodyType::STATIC, 1.0f);
-			BarrelPhys.setHasGravity(true);
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-0.6, 0, 2.7), glm::vec3(0, 90, 0), glm::vec3(2.12, 2.59, 2.07), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			BarrelPhys.setIdentity(2);
 			AttachCopy(barrel, BarrelPhys);
 		}
+		//creates a stack of barrels
 		VertexArrayObject::Sptr vao512 = ObjLoader::LoadFromFile("Models/3barrel.obj");
 		{
 
@@ -398,11 +399,15 @@ public:
 
 			BarrelTrans112.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans112);
+
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-9.0, 0, 3.7), glm::vec3(0, 90, 0), glm::vec3(3.84, 5.93, 2.59), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			BarrelPhys.setIdentity(2);
+			AttachCopy(barrel, BarrelPhys);
 		}
 
 
 
-
+		//creates ground
 		VertexArrayObject::Sptr vao7 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
 
@@ -452,6 +457,10 @@ public:
 
 			BarrelTrans4.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans4);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-12.8, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 11.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
+			AttachCopy(barrel, GroundPhys);
 		}
 		VertexArrayObject::Sptr wall4 = ObjLoader::LoadFromFile("Models/nba1.obj");
 		{
@@ -475,8 +484,13 @@ public:
 
 			WallTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, WallTrans1);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-24.7, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 11.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
+			AttachCopy(barrel, GroundPhys);
 		}
 
+		//creates crates
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
@@ -569,6 +583,7 @@ public:
 			BarrelTrans5345.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans5345);
 		}
+		//creates a wall
 		VertexArrayObject::Sptr topground = ObjLoader::LoadFromFile("Models/ground.obj");
 		{
 
@@ -592,6 +607,7 @@ public:
 			groundTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, groundTrans1);
 		}
+		//creates a door
 		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
 		{
 
@@ -615,7 +631,7 @@ public:
 			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(door1, BarrelTrans6);
 		}
-
+		//creates crates
 		VertexArrayObject::Sptr crate1 = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
 
@@ -639,7 +655,7 @@ public:
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans5);
 		}
-
+		//creates a bar table
 		VertexArrayObject::Sptr bar = ObjLoader::LoadFromFile("Models/btab.obj");
 		{
 			barrel = CreateEntity();
@@ -664,6 +680,7 @@ public:
 			winTrans180.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(barrel, winTrans180);
 		}
+		//creates a wall obstacle
 		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/wall.obj");
 		{
 			barrel = CreateEntity();
@@ -687,7 +704,12 @@ public:
 
 			winTrans1801.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, winTrans1801);
+
+			SMI_Physics WallPhys = SMI_Physics(glm::vec3(-10.5, 4.8, 3.0), glm::vec3(90, 0, 90), glm::vec3(17.4, 7.62, 0.19), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			WallPhys.setIdentity(2);
+			AttachCopy(barrel, WallPhys);
 		}
+		//creates an empty doorway
 		VertexArrayObject::Sptr garbage2 = ObjLoader::LoadFromFile("Models/doorwall.obj");
 		{
 			barrel = CreateEntity();
