@@ -395,12 +395,12 @@ public:
 			//transform
 			SMI_Transform BarrelTrans112 = SMI_Transform();
 
-			BarrelTrans112.setPos(glm::vec3(-9.0, 0, 3.7));
+			BarrelTrans112.setPos(glm::vec3(-9.0, 0.7, 3.0));
 
 			BarrelTrans112.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans112);
 
-			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-9.0, 0, 3.7), glm::vec3(0, 90, 0), glm::vec3(3.84, 5.93, 2.59), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-9.0, 0.7, 3.0), glm::vec3(0, 90, 0), glm::vec3(3.84, 5.93, 2.59), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
 			BarrelPhys.setIdentity(2);
 			AttachCopy(barrel, BarrelPhys);
 		}
@@ -602,10 +602,14 @@ public:
 			//transform
 			SMI_Transform groundTrans1 = SMI_Transform();
 
-			groundTrans1.setPos(glm::vec3(-30.8, -1, 3.8));
+			groundTrans1.setPos(glm::vec3(-30.8, 0.0, 3.8));
 
-			groundTrans1.SetDegree(glm::vec3(90, 0, 90));
+			groundTrans1.SetDegree(glm::vec3(90, 1.0, 90));
 			AttachCopy(barrel, groundTrans1);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-30.8, 1.0, 3.8), glm::vec3(90, 0, 90), glm::vec3(4.98, 0.5, 7.0), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
+			AttachCopy(barrel, GroundPhys);
 		}
 		//creates a door
 		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
@@ -700,12 +704,12 @@ public:
 			//transform
 			SMI_Transform winTrans1801 = SMI_Transform();
 
-			winTrans1801.setPos(glm::vec3(-10.5, 4.8, 3.0));
+			winTrans1801.setPos(glm::vec3(-10.5, 4.8, 5.0));
 
 			winTrans1801.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, winTrans1801);
 
-			SMI_Physics WallPhys = SMI_Physics(glm::vec3(-10.5, 4.8, 3.0), glm::vec3(90, 0, 90), glm::vec3(17.4, 7.62, 0.19), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			SMI_Physics WallPhys = SMI_Physics(glm::vec3(-10.5, 4.8, 5.0), glm::vec3(90, 0, 90), glm::vec3(17.4, 7.62, 0.19), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
 			WallPhys.setIdentity(2);
 			AttachCopy(barrel, WallPhys);
 		}
@@ -729,10 +733,14 @@ public:
 			//transform
 			SMI_Transform winTrans18011 = SMI_Transform();
 
-			winTrans18011.setPos(glm::vec3(5.0, 4.8, 2.8));
+			winTrans18011.setPos(glm::vec3(5.0, 4.8, 7.0));
 
 			winTrans18011.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, winTrans18011);
+
+			SMI_Physics WallPhys = SMI_Physics(glm::vec3(5.0, 4.8, 7.0), glm::vec3(90, 0, -90), glm::vec3(17.3, 13.1, 0.428), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			WallPhys.setIdentity(2);
+			AttachCopy(barrel, WallPhys);
 		}
 		//Warehouse
 		VertexArrayObject::Sptr topground1 = ObjLoader::LoadFromFile("Models/ground.obj");
@@ -757,6 +765,10 @@ public:
 
 			groundTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, groundTrans11);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-38.8, 1.0, 3.8), glm::vec3(90, 0, 90), glm::vec3(4.98, 0.5, 7.0), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
+			AttachCopy(barrel, GroundPhys);
 		}
 		VertexArrayObject::Sptr wall41 = ObjLoader::LoadFromFile("Models/floor1.obj");
 		{
@@ -780,6 +792,10 @@ public:
 
 			WallTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, WallTrans11);
+
+			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-75.6, 0.0, -0.8), glm::vec3(90, 0, 90), glm::vec3(20.8, 3.32, 57.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
+			AttachCopy(barrel, GroundPhys);
 		}
 
 		VertexArrayObject::Sptr bag = ObjLoader::LoadFromFile("Models/bag1.obj");
