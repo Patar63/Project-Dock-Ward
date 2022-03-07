@@ -240,6 +240,7 @@ public:
 
 			SMI_Physics CharaPhys = SMI_Physics(glm::vec3(4, -0.2, 2), glm::vec3(90, 0, -90), glm::vec3(1, 1, 1), character, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
 			CharaPhys.setHasGravity(true);
+			CharaPhys.setIdentity(1);
 			AttachCopy(character, CharaPhys);
 		}
 
@@ -422,6 +423,7 @@ public:
 			AttachCopy(barrel, BarrelTrans3);
 
 			SMI_Physics GroundPhys = SMI_Physics(glm::vec3(-0.85, 0, -0.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 11.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			GroundPhys.setIdentity(2);
 			AttachCopy(barrel, GroundPhys);
 		}
 		VertexArrayObject::Sptr vao8 = ObjLoader::LoadFromFile("Models/nba1.obj");
@@ -1108,10 +1110,17 @@ public:
 		{
 			PlayerPhys.AddForce(glm::vec3(0, -2, 0));
 		}
+
 		//jump
-		if ((glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) && JumpState == GLFW_RELEASE)
+		if ((glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) && JumpState == GLFW_RELEASE && (grounded || CurrentMidAirJump < MidAirJump))
 		{
-			PlayerPhys.AddImpulse(glm::vec3(0, 0, 4));
+			PlayerPhys.AddImpulse(glm::vec3(0, 0, 8));
+
+			//allows for one mid air jump
+			if (!grounded)
+			{
+				CurrentMidAirJump++;
+			}
 		}
 		JumpState = glfwGetKey(window, GLFW_KEY_SPACE);
 
@@ -1124,6 +1133,35 @@ public:
 
 
 		SMI_Scene::Update(deltaTime);
+
+		grounded = false;
+
+		//checks every collision type
+		Collider();
+	}
+
+	//manages all collisions in the game
+	void Collider()
+	{
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+
+				if (cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 2) || (Phys1.getIdentity() == 2 && Phys2.getIdentity() == 1)))
+				{
+					grounded = true;
+					CurrentMidAirJump = 0;
+				}
+			}
+		}
 	}
 
 	~GameScene1() = default;
@@ -1136,7 +1174,11 @@ private:
 	float current = 0;
 	float c = 0;
 
+	//variables for jump checks
 	int JumpState = GLFW_RELEASE;
+	int MidAirJump = 1;
+	int CurrentMidAirJump = 0;
+	bool grounded = false;
 };
 
 class GameScene2 : public SMI_Scene

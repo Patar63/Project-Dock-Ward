@@ -40,6 +40,9 @@ public:
 	void setEntity(const entt::entity& _Entity) { Entity = _Entity; }
 	entt::entity getEntity() const { return Entity; }
 
+	void setIdentity(const int& _Identity) { ObjIdentity = _Identity; }
+	int getIdentity() const { return ObjIdentity; }
+
 	btRigidBody* getRigidBody() const { return objRigidBody; }
 
 	//Functions to interface with Bullet
@@ -59,6 +62,9 @@ private:
 	btTransform objPos;
 	btMotionState* objMotionState;
 	btRigidBody* objRigidBody;
+
+	//variable used to check for when player is colliding with ground
+	int ObjIdentity = 0;
 
 	bool inWorld;
 	bool hasGravity;
