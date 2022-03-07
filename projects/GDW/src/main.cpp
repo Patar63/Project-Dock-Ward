@@ -368,6 +368,10 @@ public:
 
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans1);
+
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-0.6, 0, 2.7), glm::vec3(90, 0, 90), glm::vec3(1, 1, 1), barrel, SMI_PhysicsBodyType::STATIC, 1.0f);
+			BarrelPhys.setHasGravity(true);
+			AttachCopy(barrel, BarrelPhys);
 		}
 		VertexArrayObject::Sptr vao512 = ObjLoader::LoadFromFile("Models/3barrel.obj");
 		{
