@@ -679,7 +679,7 @@ public:
 			//transform
 			SMI_Transform groundTrans1 = SMI_Transform();
 
-			groundTrans1.setPos(glm::vec3(-30.8, 8, 3.8));
+			groundTrans1.setPos(glm::vec3(-30.8, 8, 9.8));
 
 			groundTrans1.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, groundTrans1);
@@ -823,7 +823,7 @@ public:
 			//transform
 			SMI_Transform groundTrans11 = SMI_Transform();
 
-			groundTrans11.setPos(glm::vec3(-38.8, 8, 3.8));
+			groundTrans11.setPos(glm::vec3(-38.8, 8, 9.8));
 
 			groundTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, groundTrans11);
@@ -846,7 +846,7 @@ public:
 			//transform
 			SMI_Transform WallTrans11 = SMI_Transform();
 
-			WallTrans11.setPos(glm::vec3(-75.6, 7, -0.8));
+			WallTrans11.setPos(glm::vec3(-75.6, 7, 0.8));
 
 			WallTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, WallTrans11);
@@ -963,7 +963,7 @@ public:
 			//transform
 			SMI_Transform doorw2Trans18011 = SMI_Transform();
 
-			doorw2Trans18011.setPos(glm::vec3(-93.0, 4.3, 2.5));
+			doorw2Trans18011.setPos(glm::vec3(-93.0, 8.8, 6.8));
 
 			doorw2Trans18011.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, doorw2Trans18011);
