@@ -16,6 +16,7 @@
     <ClInclude Include="src\Render.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Sound.h" />
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\TextureCube.h" />
     <ClInclude Include="src\TextureEnums.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\TextureCube.cpp" />
     <ClCompile Include="src\Transform.cpp" />

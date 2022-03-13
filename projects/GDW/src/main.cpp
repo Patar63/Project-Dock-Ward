@@ -27,6 +27,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include "Sound.h"
 
 #define LOG_GL_NOTIFICATIONS
 
@@ -1455,6 +1456,11 @@ int main()
 	bool notmenu = true;
 	bool notpause = true;
 
+	Sound audio;
+	audio.init();
+	audio.loadsounds("music", "music.wav", true);
+	Sound audio1;
+
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
 
@@ -1474,6 +1480,8 @@ int main()
 			if (!isButtonPressed) {
 
 				notmenu = !notmenu;
+
+				audio.shutdown();
 			}
 			isButtonPressed = true;
 		}
@@ -1514,6 +1522,13 @@ int main()
 			{
 				glUseProgram;
 			}
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_SPACE))
+		{
+
+			audio1.init();
+			audio1.loadsounds("u", "u.wav", true);
 		}
 
 		lastFrame = thisFrame;
