@@ -208,9 +208,9 @@ public:
 		Camera::Sptr camera = Camera::Create();
 
 		//camera position
-		camera->SetPosition(glm::vec3(-0.2, 50.5, 12.9));
+		camera->SetPosition(glm::vec3(-0.2, 60.5, 17.9));
 		//this defines the point the camera is looking at
-		camera->LookAt(glm::vec3(0, -10.5, 2.8));
+		camera->LookAt(glm::vec3(0, 1.5, 7));
 		camera->SetFovDegrees(-20);
 		setCamera(camera);
 
@@ -232,13 +232,12 @@ public:
 			AttachCopy(character, CharacterRend);
 			//transform & Physics
 			SMI_Transform CharaTrans = SMI_Transform();
-			CharaTrans.setPos(glm::vec3(4, 7.0, 2));
-
+			CharaTrans.setPos(glm::vec3(4, 7.2, 2.5));
 			CharaTrans.SetDegree(glm::vec3(90, 0, -90));
 			CharaTrans.setScale(glm::vec3(0.25, 0.25, 0.25));
 			AttachCopy(character, CharaTrans);
 
-			SMI_Physics CharaPhys = SMI_Physics(glm::vec3(4, 7.0, 2), glm::vec3(90, 0, -90), glm::vec3(1, 1, 1), character, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			SMI_Physics CharaPhys = SMI_Physics(glm::vec3(4, 7.2, 2.5), glm::vec3(90, 0, -90), glm::vec3(2, 1, 1), character, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
 			CharaPhys.setHasGravity(true);
 			CharaPhys.setIdentity(1);
 			AttachCopy(character, CharaPhys);
@@ -288,7 +287,7 @@ public:
 			//transform
 			SMI_Transform win22Trans = SMI_Transform();
 
-			win22Trans.setPos(glm::vec3(16, -3.3, 1));
+			win22Trans.setPos(glm::vec3(18, -3.3, 1));
 
 			win22Trans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, win22Trans);
@@ -364,13 +363,12 @@ public:
 			//transform
 			SMI_Transform BarrelTrans1 = SMI_Transform();
 
-			BarrelTrans1.setPos(glm::vec3(-0.6, 7.2, 2.7));
-
 			BarrelTrans1.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans1);
 
-			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-0.6, 7.2, 2.7), glm::vec3(90, 0, -90), glm::vec3(2.5, 2.5, 2.5), barrel, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-0.6, 6.2, 2.7), glm::vec3(0, 90, 0), glm::vec3(1.67, 2.59, 2.12), barrel, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
 			BarrelPhys.setHasGravity(true);
+			BarrelPhys.setIdentity(2);
 			AttachCopy(barrel, BarrelPhys);
 		}
 		VertexArrayObject::Sptr vao512 = ObjLoader::LoadFromFile("Models/3barrel.obj");
@@ -399,8 +397,9 @@ public:
 			BarrelTrans112.SetDegree(glm::vec3(0, 90, 0));
 			AttachCopy(barrel, BarrelTrans112);
 
-			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-9.0, 6.0, 3.7), glm::vec3(90, 0, -90), glm::vec3(3, 3, 3), barrel, SMI_PhysicsBodyType::STATIC, 1.0f);
+			SMI_Physics BarrelPhys = SMI_Physics(glm::vec3(-9.0, 6.0, 3.7), glm::vec3(0, 90, 0), glm::vec3(3, 6, 2), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
 			BarrelPhys.setHasGravity(true);
+			BarrelPhys.setIdentity(2);
 			AttachCopy(barrel, BarrelPhys);
 		}
 
@@ -569,6 +568,34 @@ public:
 			GroundPhys.setIdentity(2);
 			AttachCopy(barrel, GroundPhys);
 		}
+		VertexArrayObject::Sptr barground1 = ObjLoader::LoadFromFile("Models/floor3.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr twindow90Texture = Texture2D::Create("Textures/Untitled.1001.png");
+			//material
+			SMI_Material::Sptr tWallMat1 = SMI_Material::Create();
+			tWallMat1->setShader(shader);
+
+			//set textures
+			tWallMat1->setTexture(twindow90Texture, 0);
+			//render
+			Renderer tWallRend1 = Renderer(tWallMat1, barground1);
+			AttachCopy(barrel, tWallRend1);
+			//transform
+			SMI_Transform tWallTrans1 = SMI_Transform();
+
+			tWallTrans1.setPos(glm::vec3(-38.3, 6.3, 0.8));
+			
+
+			tWallTrans1.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, tWallTrans1);
+
+			SMI_Physics tGroundPhys = SMI_Physics(glm::vec3(-38.3, 6.3, 0.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 16.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			tGroundPhys.setIdentity(2);
+			AttachCopy(barrel, tGroundPhys);
+		}
 
 		VertexArrayObject::Sptr crate = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
@@ -588,10 +615,14 @@ public:
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-25.0, 7.0, 4.0));
+			BarrelTrans5.setPos(glm::vec3(-22.0, 7.0, 4.0));
 
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans5);
+
+			SMI_Physics cratephys20111 = SMI_Physics(glm::vec3(-22.0, 7.0, 4.0), glm::vec3(90, 0, 90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			cratephys20111.setIdentity(2);
+			AttachCopy(barrel, cratephys20111);
 		}
 		VertexArrayObject::Sptr crate3 = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
@@ -611,10 +642,43 @@ public:
 			//transform
 			SMI_Transform BarrelTrans53 = SMI_Transform();
 
-			BarrelTrans53.setPos(glm::vec3(-25.0, 7.0, 5.4));
+			BarrelTrans53.setPos(glm::vec3(-22.0, 7.0, 5.4));
 
 			BarrelTrans53.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans53);
+
+			SMI_Physics cratephys2011 = SMI_Physics(glm::vec3(-22.0, 7.0, 5.4), glm::vec3(90, 0, 90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			cratephys2011.setIdentity(4);
+			AttachCopy(barrel, cratephys2011);
+			
+		}
+		VertexArrayObject::Sptr crate31 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex331 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat5331 = SMI_Material::Create();
+			BarrelMat5331->setShader(shader);
+
+			//set textures
+			BarrelMat5331->setTexture(crateTex331, 0);
+			//render
+			Renderer BarrelRend5331 = Renderer(BarrelMat5331, crate3);
+			AttachCopy(barrel, BarrelRend5331);
+			//transform
+			SMI_Transform BarrelTrans5331 = SMI_Transform();
+
+			BarrelTrans5331.setPos(glm::vec3(-22.0, 7.0, 6.8));
+
+			BarrelTrans5331.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans5331);
+
+			SMI_Physics cratephys201131 = SMI_Physics(glm::vec3(-22.0, 7.0, 6.8), glm::vec3(90, 0, 90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			cratephys201131.setIdentity(4);
+			AttachCopy(barrel, cratephys201131);
+
 		}
 		VertexArrayObject::Sptr crate4 = ObjLoader::LoadFromFile("Models/Crates1.obj");
 		{
@@ -634,63 +698,19 @@ public:
 			//transform
 			SMI_Transform BarrelTrans534 = SMI_Transform();
 
-			BarrelTrans534.setPos(glm::vec3(-18.0, 7.0, 2.5));
-
 			BarrelTrans534.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans534);
+
+			SMI_Physics cratephys552 = SMI_Physics(glm::vec3(-17.0, 9.0, 2.7), glm::vec3(90, 0, 90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			cratephys552.setIdentity(2);
+			AttachCopy(barrel, cratephys552);
 		}
-		VertexArrayObject::Sptr crate5 = ObjLoader::LoadFromFile("Models/Crates1.obj");
-		{
-
-			barrel = CreateEntity();
-
-			Texture2D::Sptr crateTex5 = Texture2D::Create("Textures/box3.png");
-			//material
-			SMI_Material::Sptr BarrelMat535 = SMI_Material::Create();
-			BarrelMat535->setShader(shader);
-
-			//set textures
-			BarrelMat535->setTexture(crateTex5, 0);
-			//render
-			Renderer BarrelRend535 = Renderer(BarrelMat535, crate5);
-			AttachCopy(barrel, BarrelRend535);
-			//transform
-			SMI_Transform BarrelTrans5345 = SMI_Transform();
-
-			BarrelTrans5345.setPos(glm::vec3(-115.0, 7.0, 10.5));
-
-			BarrelTrans5345.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel, BarrelTrans5345);
-		}
-		VertexArrayObject::Sptr topground = ObjLoader::LoadFromFile("Models/ground.obj");
-		{
-
-			barrel = CreateEntity();
-
-			Texture2D::Sptr groundTex = Texture2D::Create("Textures/brick1.png");
-			//material
-			SMI_Material::Sptr groundmat1 = SMI_Material::Create();
-			groundmat1->setShader(shader);
-
-			//set textures
-			groundmat1->setTexture(groundTex, 0);
-			//render
-			Renderer groundRend1 = Renderer(groundmat1, topground);
-			AttachCopy(barrel, groundRend1);
-			//transform
-			SMI_Transform groundTrans1 = SMI_Transform();
-
-			groundTrans1.setPos(glm::vec3(-30.8, 8, 9.8));
-
-			groundTrans1.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel, groundTrans1);
-		}
-		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/Door2.obj");
+		VertexArrayObject::Sptr door = ObjLoader::LoadFromFile("Models/warehousedoor.obj");
 		{
 
 			door1 = CreateEntity();
 
-			Texture2D::Sptr doorTexture = Texture2D::Create("Textures/DoorOpen.png");
+			Texture2D::Sptr doorTexture = Texture2D::Create("Textures/doortex.png");
 			//material
 			SMI_Material::Sptr BarrelMat6 = SMI_Material::Create();
 			BarrelMat6->setShader(shader);
@@ -703,10 +723,38 @@ public:
 			//transform
 			SMI_Transform BarrelTrans6 = SMI_Transform();
 
-			BarrelTrans6.setPos(glm::vec3(-35.2, 0, 2));
+			BarrelTrans6.setPos(glm::vec3(-46.0, 9.5, 2));
 
-			BarrelTrans6.SetDegree(glm::vec3(90, 0, -180));
+			BarrelTrans6.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(door1, BarrelTrans6);
+			
+			SMI_Physics dphys201131 = SMI_Physics(glm::vec3(-46.0, 9.5, 2), glm::vec3(90, 0, -90), glm::vec3(4.02, 10.298, 0.13), door1, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			dphys201131.setIdentity(8);
+			AttachCopy(door1, dphys201131);
+		}
+		VertexArrayObject::Sptr dw1 = ObjLoader::LoadFromFile("Models/wdoorway.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr dwTexture80 = Texture2D::Create("Textures/bricktex.png");
+			//material
+			SMI_Material::Sptr dwMa80 = SMI_Material::Create();
+
+
+			dwMa80->setShader(shader);
+
+			//set textures
+			dwMa80->setTexture(dwTexture80, 0);
+			//render
+			Renderer dwRen80 = Renderer(dwMa80, dw1);
+			AttachCopy(barrel, dwRen80);
+			//transform
+			SMI_Transform dwTrans1801 = SMI_Transform();
+
+			dwTrans1801.setPos(glm::vec3(-46.0, -8.8, 2.0));
+
+			dwTrans1801.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, dwTrans1801);
 		}
 
 		VertexArrayObject::Sptr crate1 = ObjLoader::LoadFromFile("Models/Crates1.obj");
@@ -727,17 +775,21 @@ public:
 			//transform
 			SMI_Transform BarrelTrans5 = SMI_Transform();
 
-			BarrelTrans5.setPos(glm::vec3(-25.0, 7.0, 2.2));
+			BarrelTrans5.setPos(glm::vec3(-22.0, 7.0, 2.7));
 
 			BarrelTrans5.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans5);
+
+			SMI_Physics cratephys20 = SMI_Physics(glm::vec3(-22.0, 7.0, 2.7), glm::vec3(90, 0, 90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			cratephys20.setIdentity(2);
+			AttachCopy(barrel, cratephys20);
 		}
 
 		VertexArrayObject::Sptr bar = ObjLoader::LoadFromFile("Models/btab.obj");
 		{
 			barrel = CreateEntity();
 			//create texture
-			Texture2D::Sptr WinTexture80 = Texture2D::Create("Textures/brown1.png");
+			Texture2D::Sptr WinTexture80 = Texture2D::Create("Textures/bartabtex.png");
 			//material
 			SMI_Material::Sptr BarrelMa80 = SMI_Material::Create();
 
@@ -757,11 +809,35 @@ public:
 			winTrans180.SetDegree(glm::vec3(90, 0, -180));
 			AttachCopy(barrel, winTrans180);
 		}
-		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/wall.obj");
+		VertexArrayObject::Sptr bararea = ObjLoader::LoadFromFile("Models/bar_area.obj");
 		{
 			barrel = CreateEntity();
 			//create texture
-			Texture2D::Sptr gTexture80 = Texture2D::Create("Textures/brick1.png");
+			Texture2D::Sptr bararea80 = Texture2D::Create("Textures/tabletex.png");
+			//material
+			SMI_Material::Sptr barareaMa80 = SMI_Material::Create();
+
+
+			barareaMa80->setShader(shader);
+
+			//set textures
+			barareaMa80->setTexture(bararea80, 0);
+			//render
+			Renderer barareaRen80 = Renderer(barareaMa80, bararea);
+			AttachCopy(barrel, barareaRen80);
+			//transform
+			SMI_Transform barareaTrans180 = SMI_Transform();
+
+			barareaTrans180.setPos(glm::vec3(-5.5, 16.5, 3.0));
+
+			barareaTrans180.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, barareaTrans180);
+		}
+		VertexArrayObject::Sptr garbage1 = ObjLoader::LoadFromFile("Models/bardoorway.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr gTexture80 = Texture2D::Create("Textures/bricktex.png");
 			//material
 			SMI_Material::Sptr gMa80 = SMI_Material::Create();
 
@@ -776,10 +852,203 @@ public:
 			//transform
 			SMI_Transform winTrans1801 = SMI_Transform();
 
-			winTrans1801.setPos(glm::vec3(-10.5, 4.8, 3.0));
+			winTrans1801.setPos(glm::vec3(-12.5, -8.8, 2.0));
 
-			winTrans1801.SetDegree(glm::vec3(90, 0, -90));
+			winTrans1801.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, winTrans1801);
+		}
+		VertexArrayObject::Sptr barway = ObjLoader::LoadFromFile("Models/bardoorway.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr barwayTexture80 = Texture2D::Create("Textures/bricktex.png");
+			//material
+			SMI_Material::Sptr barwayMa80 = SMI_Material::Create();
+
+
+			barwayMa80->setShader(shader);
+
+			//set textures
+			barwayMa80->setTexture(barwayTexture80, 0);
+			//render
+			Renderer barwayRen80 = Renderer(barwayMa80, barway);
+			AttachCopy(barrel, barwayRen80);
+			//transform
+			SMI_Transform barwaywinTrans1801 = SMI_Transform();
+
+			barwaywinTrans1801.setPos(glm::vec3(-24.5, -8.8, 2.0));
+
+			barwaywinTrans1801.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, barwaywinTrans1801);
+		}
+		VertexArrayObject::Sptr garbage11 = ObjLoader::LoadFromFile("Models/bardoor.obj");
+		{
+			door4 = CreateEntity();
+			//create texture
+			Texture2D::Sptr gTexture8017 = Texture2D::Create("Textures/bardoor.png");
+			//material
+			SMI_Material::Sptr gMa8017 = SMI_Material::Create();
+
+
+			gMa8017->setShader(shader);
+
+			//set textures
+			gMa8017->setTexture(gTexture8017, 0);
+			//render
+			Renderer gRen8017 = Renderer(gMa8017, garbage11);
+			AttachCopy(door4, gRen8017);
+			//transform
+			SMI_Transform winTrans180117 = SMI_Transform();
+
+			winTrans180117.setPos(glm::vec3(-12.5, 9.2, 2.0));
+
+			winTrans180117.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(door4, winTrans180117);
+
+			SMI_Physics bardoorphys = SMI_Physics(glm::vec3 (-12.5, 9.2, 2.0), glm::vec3(90, 0, -90), glm::vec3(14.3917, 10.56, 0.472), door4, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			bardoorphys.setIdentity(2);
+			AttachCopy(door4, bardoorphys);
+		}
+		VertexArrayObject::Sptr button149 = ObjLoader::LoadFromFile("Models/barbutton.obj");
+		{
+			button6 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture8059 = Texture2D::Create("Textures/buttontex.png");
+			//material
+			SMI_Material::Sptr buttongMa8059 = SMI_Material::Create();
+
+
+			buttongMa8059->setShader(shader);
+
+			//set textures
+			buttongMa8059->setTexture(buttonTexture8059, 0);
+			//render
+			Renderer buttongRen8059 = Renderer(buttongMa8059, button149);
+			AttachCopy(button6, buttongRen8059);
+			//transform
+			SMI_Transform buttonTrans180159 = SMI_Transform();
+
+			buttonTrans180159.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button6, buttonTrans180159);
+
+			SMI_Physics buttonphys59 = SMI_Physics(glm::vec3(-12.5, 7.7, 15.1), glm::vec3(90, 0, -90), glm::vec3(0.75, 3.05, 0.226), button6, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			buttonphys59.setIdentity(6);
+			AttachCopy(button6, buttonphys59);
+		}
+		VertexArrayObject::Sptr button149act = ObjLoader::LoadFromFile("Models/barbutton.obj");
+		{
+			button7 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture8059act = Texture2D::Create("Textures/buttontexactivate.png");
+			//material
+			SMI_Material::Sptr buttongMa8059act = SMI_Material::Create();
+
+
+			buttongMa8059act->setShader(shader);
+
+			//set textures
+			buttongMa8059act->setTexture(buttonTexture8059act, 0);
+			//render
+			Renderer buttongRen8059act = Renderer(buttongMa8059act, button149act);
+			AttachCopy(button7, buttongRen8059act);
+			//transform
+			SMI_Transform buttonTrans180159act = SMI_Transform();
+
+			buttonTrans180159act.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button7, buttonTrans180159act);
+
+			SMI_Physics buttonphys159 = SMI_Physics(glm::vec3(-12.5, -87.7, 15.1), glm::vec3(90, 0, -90), glm::vec3(0.75, 3.05, 0.226), button7, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			buttonphys159.setIdentity(6);
+			AttachCopy(button7, buttonphys159);
+
+		}
+		/*VertexArrayObject::Sptr button1234 = ObjLoader::LoadFromFile("Models/button.obj");
+		{
+			button8 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture805134 = Texture2D::Create("Textures/buttontexactivate.png");
+			//material
+			SMI_Material::Sptr buttongMa805134 = SMI_Material::Create();
+
+
+			buttongMa805134->setShader(shader);
+
+			//set textures
+			buttongMa805134->setTexture(buttonTexture805134, 0);
+			//render
+			Renderer buttongRen805134 = Renderer(buttongMa805134, button1234);
+			AttachCopy(button8, buttongRen805134);
+			//transform
+			SMI_Transform buttonTrans18015134 = SMI_Transform();
+
+			buttonTrans18015134.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button8, buttonTrans18015134);
+
+			SMI_Physics buttonphys5134 = SMI_Physics(glm::vec3(-28, 6.7, 3.1), glm::vec3(90, 0, -90), glm::vec3(0.75, 0.02, 0.226), button8, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			buttonphys5134.setIdentity(7);
+			AttachCopy(button8, buttonphys5134);
+		}
+		*/
+		VertexArrayObject::Sptr garbage115 = ObjLoader::LoadFromFile("Models/doortop.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr gTexture80175 = Texture2D::Create("Textures/bricktex.png");
+			//material
+			SMI_Material::Sptr gMa80175 = SMI_Material::Create();
+
+
+			gMa80175->setShader(shader);
+
+			//set textures
+			gMa80175->setTexture(gTexture80175, 0);
+			//render
+			Renderer gRen80175 = Renderer(gMa80175, garbage115);
+			AttachCopy(barrel, gRen80175);
+			//transform
+			SMI_Transform winTrans1801175 = SMI_Transform();
+
+			winTrans1801175.setPos(glm::vec3(-12.5, 9.2, 10.0));
+
+			winTrans1801175.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winTrans1801175);
+
+
+			SMI_Physics doortop159 = SMI_Physics(glm::vec3(-12.5, 9.2, 10.0), glm::vec3(90, 0, -90), glm::vec3(14.6505, 10.0617, 0.112798), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			doortop159.setIdentity(2);
+			AttachCopy(barrel, doortop159);
+		}
+		VertexArrayObject::Sptr door115 = ObjLoader::LoadFromFile("Models/doortop.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr doorgTexture80175 = Texture2D::Create("Textures/bricktex.png");
+			//material
+			SMI_Material::Sptr doorgMa80175 = SMI_Material::Create();
+
+
+			doorgMa80175->setShader(shader);
+
+			//set textures
+			doorgMa80175->setTexture(doorgTexture80175, 0);
+			//render
+			Renderer doorgRen80175 = Renderer(doorgMa80175, door115);
+			AttachCopy(barrel, doorgRen80175);
+			//transform
+			SMI_Transform doorwinTrans1801175 = SMI_Transform();
+
+			doorwinTrans1801175.setPos(glm::vec3(-24.5, 9.2, 2.0));
+
+			doorwinTrans1801175.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, doorwinTrans1801175);
+
+
+			SMI_Physics doortop1591 = SMI_Physics(glm::vec3(-24.5, 9.2, 2.0), glm::vec3(90, 0, -90), glm::vec3(14.6505, 16.0617, 0.112798), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			doortop1591.setIdentity(2);
+			AttachCopy(barrel, doortop1591);
 		}
 		VertexArrayObject::Sptr garbage2 = ObjLoader::LoadFromFile("Models/doorwall.obj");
 		{
@@ -806,29 +1075,6 @@ public:
 			AttachCopy(barrel, winTrans18011);
 		}
 		//Warehouse
-		VertexArrayObject::Sptr topground1 = ObjLoader::LoadFromFile("Models/ground.obj");
-		{
-
-			barrel = CreateEntity();
-
-			Texture2D::Sptr groundTex1 = Texture2D::Create("Textures/brick1.png");
-			//material
-			SMI_Material::Sptr groundmat11 = SMI_Material::Create();
-			groundmat11->setShader(shader);
-
-			//set textures
-			groundmat11->setTexture(groundTex1, 0);
-			//render
-			Renderer groundRend11 = Renderer(groundmat11, topground1);
-			AttachCopy(barrel, groundRend11);
-			//transform
-			SMI_Transform groundTrans11 = SMI_Transform();
-
-			groundTrans11.setPos(glm::vec3(-38.8, 8, 9.8));
-
-			groundTrans11.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel, groundTrans11);
-		}
 		VertexArrayObject::Sptr wall41 = ObjLoader::LoadFromFile("Models/floor1.obj");
 		{
 
@@ -851,6 +1097,10 @@ public:
 
 			WallTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, WallTrans11);
+
+			SMI_Physics Ground1Phys = SMI_Physics(glm::vec3(-75.6, 7, 0.8), glm::vec3(90, 0, 90), glm::vec3(20.8, 3.32, 57.8), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			Ground1Phys.setIdentity(2);
+			AttachCopy(barrel, Ground1Phys);
 		}
 
 		VertexArrayObject::Sptr bag = ObjLoader::LoadFromFile("Models/bag1.obj");
@@ -875,6 +1125,86 @@ public:
 
 			bagTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, bagTrans11);
+
+			SMI_Physics bagphys1 = SMI_Physics(glm::vec3(-54.7, 7.0, 2.1), glm::vec3(90, 0, 90), glm::vec3(5.48, 13.67, 1.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			bagphys1.setIdentity(2);
+			AttachCopy(barrel, bagphys1);
+		}
+
+		VertexArrayObject::Sptr bag2 = ObjLoader::LoadFromFile("Models/bag2.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr bagTexture12 = Texture2D::Create("Textures/bag.png");
+			//material
+			SMI_Material::Sptr bagMat112 = SMI_Material::Create();
+			bagMat112->setShader(shader);
+
+			//set textures
+			bagMat112->setTexture(bagTexture12, 0);
+			//render
+			Renderer bagRend112 = Renderer(bagMat112, bag2);
+			AttachCopy(barrel, bagRend112);
+			//transform
+			SMI_Transform bagTrans112 = SMI_Transform();
+
+			bagTrans112.setPos(glm::vec3(-50.7, 7.0, 2.1));
+
+			bagTrans112.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, bagTrans112);
+
+			SMI_Physics bagphys12 = SMI_Physics(glm::vec3(-50.7, 7.0, 2.1), glm::vec3(90, 0, 90), glm::vec3(4.52, 4.62, 1.8), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			bagphys12.setIdentity(2);
+			AttachCopy(barrel, bagphys12);
+		}
+		VertexArrayObject::Sptr bag22 = ObjLoader::LoadFromFile("Models/barrelset.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr bagTexture122 = Texture2D::Create("Textures/Barrel.png");
+			//material
+			SMI_Material::Sptr bagMat1122 = SMI_Material::Create();
+			bagMat1122->setShader(shader);
+
+			//set textures
+			bagMat1122->setTexture(bagTexture122, 0);
+			//render
+			Renderer bagRend1122 = Renderer(bagMat1122, bag22);
+			AttachCopy(barrel, bagRend1122);
+			//transform
+			SMI_Transform bagTrans1122 = SMI_Transform();
+
+			bagTrans1122.setPos(glm::vec3(-50.7, 2.0, 4.5));
+
+			bagTrans1122.SetDegree(glm::vec3(90, 0, 0));
+			AttachCopy(barrel, bagTrans1122);
+
+		}
+		VertexArrayObject::Sptr bag223 = ObjLoader::LoadFromFile("Models/barrelset.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr bagTexture1223 = Texture2D::Create("Textures/Barrel.png");
+			//material
+			SMI_Material::Sptr bagMat11223 = SMI_Material::Create();
+			bagMat11223->setShader(shader);
+
+			//set textures
+			bagMat11223->setTexture(bagTexture1223, 0);
+			//render
+			Renderer bagRend11223 = Renderer(bagMat11223, bag223);
+			AttachCopy(barrel, bagRend11223);
+			//transform
+			SMI_Transform bagTrans11223 = SMI_Transform();
+
+			bagTrans11223.setPos(glm::vec3(-50.7, 19.0, 4.5));
+
+			bagTrans11223.SetDegree(glm::vec3(90, 0, 0));
+			AttachCopy(barrel, bagTrans11223);
+
 		}
 		VertexArrayObject::Sptr shelf = ObjLoader::LoadFromFile("Models/shelf12.obj");
 		{
@@ -899,29 +1229,6 @@ public:
 			shelfTrans11.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, shelfTrans11);
 		}
-		VertexArrayObject::Sptr crate12 = ObjLoader::LoadFromFile("Models/2crates.obj");
-		{
-
-			barrel = CreateEntity();
-
-			Texture2D::Sptr crate1Texture12 = Texture2D::Create("Textures/box3.png");
-			//material
-			SMI_Material::Sptr BarrelMat512 = SMI_Material::Create();
-			BarrelMat512->setShader(shader);
-
-			//set textures
-			BarrelMat512->setTexture(crate1Texture12, 0);
-			//render
-			Renderer BarrelRend512 = Renderer(BarrelMat512, crate12);
-			AttachCopy(barrel, BarrelRend512);
-			//transform
-			SMI_Transform BarrelTrans512 = SMI_Transform();
-
-			BarrelTrans512.setPos(glm::vec3(-48.0, 7.0, 2.2));
-
-			BarrelTrans512.SetDegree(glm::vec3(90, 0, 90));
-			AttachCopy(barrel, BarrelTrans512);
-		}
 		VertexArrayObject::Sptr window231 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
 			barrel = CreateEntity();
@@ -945,11 +1252,11 @@ public:
 			window2Trans31.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, window2Trans31);
 		}
-		VertexArrayObject::Sptr doorw2 = ObjLoader::LoadFromFile("Models/doorwall.obj");
+		VertexArrayObject::Sptr doorw2 = ObjLoader::LoadFromFile("Models/bardoorway.obj");
 		{
 			barrel = CreateEntity();
 			//create texture
-			Texture2D::Sptr doorw2801Tex = Texture2D::Create("Textures/brick1.png");
+			Texture2D::Sptr doorw2801Tex = Texture2D::Create("Textures/bricktex.png");
 			//material
 			SMI_Material::Sptr doorw280Mat1 = SMI_Material::Create();
 
@@ -964,10 +1271,39 @@ public:
 			//transform
 			SMI_Transform doorw2Trans18011 = SMI_Transform();
 
-			doorw2Trans18011.setPos(glm::vec3(-93.0, 8.8, 6.8));
+			doorw2Trans18011.setPos(glm::vec3(-92.8, 29.5, 1.8));
 
 			doorw2Trans18011.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, doorw2Trans18011);
+		}
+		VertexArrayObject::Sptr door1w2 = ObjLoader::LoadFromFile("Models/blockedbardoor.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr doorw2801Tex1 = Texture2D::Create("Textures/bricktex.png");
+			//material
+			SMI_Material::Sptr doorw280Mat11 = SMI_Material::Create();
+
+
+			doorw280Mat11->setShader(shader);
+
+			//set textures
+			doorw280Mat11->setTexture(doorw2801Tex1, 0);
+			//render
+			Renderer doorw2801ren1 = Renderer(doorw280Mat11, door1w2);
+			AttachCopy(barrel, doorw2801ren1);
+			//transform
+			SMI_Transform doorw2Trans180111 = SMI_Transform();
+
+			doorw2Trans180111.setPos(glm::vec3(-92.8, 9.8, 3.0));
+
+			doorw2Trans180111.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, doorw2Trans180111);
+
+
+			SMI_Physics bbardoorphys1 = SMI_Physics(glm::vec3(-92.8, 9.8, 3.0), glm::vec3(90, 0, -90), glm::vec3(14.3917, 16.56, 0.472), barrel, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			bbardoorphys1.setIdentity(2);
+			AttachCopy(barrel, bbardoorphys1);
 		}
 		VertexArrayObject::Sptr building = ObjLoader::LoadFromFile("Models/building1.obj");
 		{
@@ -1040,31 +1376,6 @@ public:
 			window2Trans311.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, window2Trans311);
 		}
-		VertexArrayObject::Sptr fence12 = ObjLoader::LoadFromFile("Models/wall.obj");
-		{
-			barrel = CreateEntity();
-
-			//create texture
-			Texture2D::Sptr fencegTexture80 = Texture2D::Create("Textures/brick1.png");
-			//material
-			SMI_Material::Sptr fencegMa80 = SMI_Material::Create();
-
-
-			fencegMa80->setShader(shader);
-
-			//set textures
-			fencegMa80->setTexture(fencegTexture80, 0);
-			//render
-			Renderer fencegRen80 = Renderer(fencegMa80, fence12);
-			AttachCopy(barrel, fencegRen80);
-			//transform
-			SMI_Transform fencewinTrans1801 = SMI_Transform();
-
-			fencewinTrans1801.setPos(glm::vec3(-124.5, 4.8, 3.0));
-
-			fencewinTrans1801.SetDegree(glm::vec3(90, 0, -90));
-			AttachCopy(barrel, fencewinTrans1801);
-		}
 		VertexArrayObject::Sptr car = ObjLoader::LoadFromFile("Models/car.obj");
 		{
 			barrel = CreateEntity();
@@ -1085,10 +1396,68 @@ public:
 			//transform
 			SMI_Transform carTrans1801 = SMI_Transform();
 
-			carTrans1801.setPos(glm::vec3(-105.5, -4.8, 2.8));
+			carTrans1801.setPos(glm::vec3(-98.5, 1.8, 3.5));
 
 			carTrans1801.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, carTrans1801);
+		}
+		VertexArrayObject::Sptr car1 = ObjLoader::LoadFromFile("Models/car.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr carTexture801 = Texture2D::Create("Textures/car_Tex.png");
+			//material
+			SMI_Material::Sptr cargMa801 = SMI_Material::Create();
+
+
+			cargMa801->setShader(shader);
+
+			//set textures
+			cargMa801->setTexture(carTexture801, 0);
+			//render
+			Renderer cargRen801 = Renderer(cargMa801, car1);
+			AttachCopy(barrel, cargRen801);
+			//transform
+			SMI_Transform carTrans18011 = SMI_Transform();
+
+			carTrans18011.setPos(glm::vec3(-118.5, 6.8, 2.7));
+
+			carTrans18011.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, carTrans18011);
+
+			SMI_Physics carphys = SMI_Physics(glm::vec3(-118.5, 6.8, 2.7), glm::vec3(90, 0, 90), glm::vec3(3.17, 5.15, 10.6), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			carphys.setIdentity(2);
+			AttachCopy(barrel, carphys);
+		}
+		VertexArrayObject::Sptr car3 = ObjLoader::LoadFromFile("Models/car.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr carTexture8013 = Texture2D::Create("Textures/car_Tex.png");
+			//material
+			SMI_Material::Sptr cargMa8013 = SMI_Material::Create();
+
+
+			cargMa8013->setShader(shader);
+
+			//set textures
+			cargMa8013->setTexture(carTexture8013, 0);
+			//render
+			Renderer cargRen8013 = Renderer(cargMa8013, car3);
+			AttachCopy(barrel, cargRen8013);
+			//transform
+			SMI_Transform carTrans180113 = SMI_Transform();
+
+			carTrans180113.setPos(glm::vec3(-130.5, 6.8, 2.7));
+
+			carTrans180113.SetDegree(glm::vec3(90, 0, -120));
+			AttachCopy(barrel, carTrans180113);
+
+			SMI_Physics carphys2 = SMI_Physics(glm::vec3(-130.5, 6.8, 2.7), glm::vec3(90, 0, -120), glm::vec3(3.17, 5.15, 10.6), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			carphys2.setIdentity(2);
+			AttachCopy(barrel, carphys2);
 		}
 		VertexArrayObject::Sptr ashphalt = ObjLoader::LoadFromFile("Models/floor2.obj");
 		{
@@ -1110,10 +1479,12 @@ public:
 			//transform
 			SMI_Transform ashphaltTrans1801 = SMI_Transform();
 
-			ashphaltTrans1801.setPos(glm::vec3(-112.5, 0, -0.8));
-
 			ashphaltTrans1801.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, ashphaltTrans1801);
+
+			SMI_Physics gravelphys = SMI_Physics(glm::vec3(-112.5, 3, -0.8), glm::vec3(90, 0, -90), glm::vec3(20.8154, 4.62269, 77.7581), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			gravelphys.setIdentity(2);
+			AttachCopy(barrel, gravelphys);
 		}
 		VertexArrayObject::Sptr plank = ObjLoader::LoadFromFile("Models/plank.obj");
 		{
@@ -1135,12 +1506,12 @@ public:
 			//transform
 			SMI_Transform plankTrans1801 = SMI_Transform();
 
-			plankTrans1801.setPos(glm::vec3(-112.5, 0, 8.8));
+			plankTrans1801.setPos(glm::vec3(-122.5, 6.5, 8.8));
 
 			plankTrans1801.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, plankTrans1801);
 
-			SMI_Physics plankphys = SMI_Physics(glm::vec3(-112.5, 0, 8.8), glm::vec3(90, 0, 90), glm::vec3(15.3, 3.32, 11.8), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			SMI_Physics plankphys = SMI_Physics(glm::vec3(-122.5, 6.5, 8.8), glm::vec3(90, 0, -90), glm::vec3(4.42609, 2.172688, 9.0021), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
 			plankphys.setIdentity(2);
 			AttachCopy(barrel, plankphys);
 		}
@@ -1165,14 +1536,629 @@ public:
 
 			tbuild2Trans180112.setPos(glm::vec3(-132.0, -2.3, 1.8));
 
-			tbuild2Trans180112.SetDegree(glm::vec3(90, 10, -90));
+			tbuild2Trans180112.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(barrel, tbuild2Trans180112);
+		}
+		VertexArrayObject::Sptr fan1 = ObjLoader::LoadFromFile("Models/Cfan1.obj");
+		{
+			fan = CreateEntity();
+			//create texture
+			Texture2D::Sptr twbuild2801Tex2 = Texture2D::Create("Textures/fan.png");
+			//material
+			SMI_Material::Sptr twbuild280Mat12 = SMI_Material::Create();
+
+
+			twbuild280Mat12->setShader(shader);
+
+			//set textures
+			twbuild280Mat12->setTexture(twbuild2801Tex2, 0);
+			//render
+			Renderer twbuild2801ren2 = Renderer(twbuild280Mat12, fan1);
+			AttachCopy(fan, twbuild2801ren2);
+			//transform
+			SMI_Transform twbuild2Trans180112 = SMI_Transform();
+
+			twbuild2Trans180112.setPos(glm::vec3(-61.0, 4.1, 3.8));
+
+			twbuild2Trans180112.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(fan, twbuild2Trans180112);
+
+			SMI_Physics fanPhys = SMI_Physics(glm::vec3(-61.0, 4.1, 3.8), glm::vec3(90, 0, 90), glm::vec3(5.05, 5.62, 0),fan, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			fanPhys.setIdentity(7);
+			AttachCopy(fan, fanPhys);
+		}
+		VertexArrayObject::Sptr fan22 = ObjLoader::LoadFromFile("Models/Cfan1.obj");
+		{
+			fan2 = CreateEntity();
+			//create texture
+			Texture2D::Sptr twbuild2801Tex22 = Texture2D::Create("Textures/fan.png");
+			//material
+			SMI_Material::Sptr twbuild280Mat122 = SMI_Material::Create();
+
+
+			twbuild280Mat122->setShader(shader);
+
+			//set textures
+			twbuild280Mat122->setTexture(twbuild2801Tex22, 0);
+			//render
+			Renderer twbuild2801ren22 = Renderer(twbuild280Mat122, fan22);
+			AttachCopy(fan2, twbuild2801ren22);
+			//transform
+			SMI_Transform twbuild2Trans1801122 = SMI_Transform();
+
+			twbuild2Trans1801122.setPos(glm::vec3(-67.0, 4.1, 3.8));
+
+			twbuild2Trans1801122.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(fan2, twbuild2Trans1801122);
+
+			SMI_Physics fanPhys2 = SMI_Physics(glm::vec3(-67.0, 4.1, 3.8), glm::vec3(90, 0, 90), glm::vec3(5.05, 5.62, 0), fan2, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			fanPhys2.setIdentity(7);
+			AttachCopy(fan2, fanPhys2);
+		}
+		VertexArrayObject::Sptr elevator1 = ObjLoader::LoadFromFile("Models/elevator.obj");
+		{
+			elevator = CreateEntity();
+			//create texture
+			Texture2D::Sptr twbuild2801Tex21 = Texture2D::Create("Textures/elevator.png");
+			//material
+			SMI_Material::Sptr twbuild280Mat121 = SMI_Material::Create();
+
+
+			twbuild280Mat121->setShader(shader);
+			
+			//set textures
+			twbuild280Mat121->setTexture(twbuild2801Tex21, 0);
+			//render
+			Renderer twbuild2801ren21 = Renderer(twbuild280Mat121, elevator1);
+			AttachCopy(elevator, twbuild2801ren21);
+			//transform
+			SMI_Transform twbuild2Trans1801121 = SMI_Transform();
+
+			twbuild2Trans1801121.setPos(glm::vec3(-75.0, 7.0, 1.8));
+
+			twbuild2Trans1801121.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(elevator, twbuild2Trans1801121);
+
+			SMI_Physics elevator1Phys = SMI_Physics(glm::vec3(-75.0, 7.0, -1.8), glm::vec3(90, 0, -90), glm::vec3(1.14, 4.05, 5.55), elevator, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			elevator1Phys.setIdentity(2);
+			AttachCopy(elevator, elevator1Phys);
+		}
+		VertexArrayObject::Sptr warehouseplank = ObjLoader::LoadFromFile("Models/plank.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr warehousewallTex21 = Texture2D::Create("Textures/platform.png");
+			//material
+			SMI_Material::Sptr warehousewall121 = SMI_Material::Create();
+
+
+			warehousewall121->setShader(shader);
+
+			//set textures
+			warehousewall121->setTexture(warehousewallTex21, 0);
+			//render
+			Renderer warehousewallren21 = Renderer(warehousewall121, warehouseplank);
+			AttachCopy(barrel, warehousewallren21);
+			//transform
+			SMI_Transform warehousewallTrans1801121 = SMI_Transform();
+
+			warehousewallTrans1801121.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, warehousewallTrans1801121);
+
+			SMI_Physics plankphys1 = SMI_Physics(glm::vec3(-82.0, 7.0, 10.8), glm::vec3(90, 0, -90), glm::vec3(10.3, 1.82, 8.8), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			plankphys1.setIdentity(2);
+			AttachCopy(barrel, plankphys1);
+
+		}
+		VertexArrayObject::Sptr warehouseplank1 = ObjLoader::LoadFromFile("Models/plank.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr warehousewallTex211 = Texture2D::Create("Textures/platform.png");
+			//material
+			SMI_Material::Sptr warehousewall1211 = SMI_Material::Create();
+
+
+			warehousewall1211->setShader(shader);
+
+			//set textures
+			warehousewall1211->setTexture(warehousewallTex211, 0);
+			//render
+			Renderer warehousewallren211 = Renderer(warehousewall1211, warehouseplank1);
+			AttachCopy(barrel, warehousewallren211);
+			//transform
+			SMI_Transform warehousewallTrans18011211 = SMI_Transform();
+
+			warehousewallTrans18011211.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, warehousewallTrans18011211);
+
+			SMI_Physics plankphys11 = SMI_Physics(glm::vec3(-89.0, 7.0, 10.8), glm::vec3(90, 0, -90), glm::vec3(10.3, 1.82, 8.8), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			plankphys11.setIdentity(2);
+			AttachCopy(barrel, plankphys11);
+
+		}
+		VertexArrayObject::Sptr railing = ObjLoader::LoadFromFile("Models/railing.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr railingTex21 = Texture2D::Create("Textures/railing.png");
+			//material
+			SMI_Material::Sptr railing121 = SMI_Material::Create();
+
+
+			railing121->setShader(shader);
+
+			//set textures
+			railing121->setTexture(railingTex21, 0);
+			//render
+			Renderer railingren21 = Renderer(railing121, railing);
+			AttachCopy(barrel, railingren21);
+			//transform
+			SMI_Transform railingTrans1801121 = SMI_Transform();
+
+			railingTrans1801121.setPos(glm::vec3(-81.8, 12.0, 12.8));
+
+			railingTrans1801121.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, railingTrans1801121);
+
+		}
+		VertexArrayObject::Sptr pillar = ObjLoader::LoadFromFile("Models/concretepillar.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr pillarTex21 = Texture2D::Create("Textures/concretepillar.png");
+			//material
+			SMI_Material::Sptr pillar121 = SMI_Material::Create();
+
+
+			pillar121->setShader(shader);
+
+			//set textures
+			pillar121->setTexture(pillarTex21, 0);
+			//render
+			Renderer pillarren21 = Renderer(pillar121, pillar);
+			AttachCopy(barrel, pillarren21);
+			//transform
+			SMI_Transform pillarTrans1801121 = SMI_Transform();
+
+			pillarTrans1801121.setPos(glm::vec3(-82.0, 7.0, 3.5));
+
+			pillarTrans1801121.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, pillarTrans1801121);
+
+		}
+		VertexArrayObject::Sptr pillar1 = ObjLoader::LoadFromFile("Models/smallerpillar.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr pillarTex211 = Texture2D::Create("Textures/concretepillar.png");
+			//material
+			SMI_Material::Sptr pillar1211 = SMI_Material::Create();
+
+
+			pillar1211->setShader(shader);
+
+			//set textures
+			pillar1211->setTexture(pillarTex211, 0);
+			//render
+			Renderer pillarren211 = Renderer(pillar1211, pillar1);
+			AttachCopy(barrel, pillarren211);
+			//transform
+			SMI_Transform pillarTrans18011211 = SMI_Transform();
+
+			pillarTrans18011211.setPos(glm::vec3(-89.5, 7.0, 3.5));
+
+			pillarTrans18011211.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, pillarTrans18011211);
+
+		}
+		VertexArrayObject::Sptr winwall = ObjLoader::LoadFromFile("Models/winwalls.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr winwallTex21 = Texture2D::Create("Textures/inside.png");
+			//material
+			SMI_Material::Sptr winwall121 = SMI_Material::Create();
+
+
+			winwall121->setShader(shader);
+
+			//set textures
+			winwall121->setTexture(winwallTex21, 0);
+			//render
+			Renderer winwallren21 = Renderer(winwall121, winwall);
+			AttachCopy(barrel, winwallren21);
+			//transform
+			SMI_Transform winwallTrans1801121 = SMI_Transform();
+
+			winwallTrans1801121.setPos(glm::vec3(-151.0, 7.0, 2.5));
+
+			winwallTrans1801121.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winwallTrans1801121);
+
+		}
+		VertexArrayObject::Sptr winwall1 = ObjLoader::LoadFromFile("Models/winwalls1.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr winwall1Tex211 = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr winwall11211 = SMI_Material::Create();
+
+
+			winwall11211->setShader(shader);
+
+			//set textures
+			winwall11211->setTexture(winwall1Tex211, 0);
+			//render
+			Renderer winwall1ren211 = Renderer(winwall11211, winwall1);
+			AttachCopy(barrel, winwall1ren211);
+			//transform
+			SMI_Transform winwallTrans118011211 = SMI_Transform();
+
+
+			winwallTrans118011211.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winwallTrans118011211);
+
+			SMI_Physics windowphys1 = SMI_Physics(glm::vec3(-151.0, 7.0, 15.4), glm::vec3(90, 0, -90), glm::vec3(7.11048, 0.19836, 0.601408), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			windowphys1.setIdentity(2);
+			AttachCopy(barrel, windowphys1);
+
+		}
+		VertexArrayObject::Sptr winwall2 = ObjLoader::LoadFromFile("Models/winwalls1.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr winwall1Tex2112 = Texture2D::Create("Textures/brick1.png");
+			//material
+			SMI_Material::Sptr winwall112112 = SMI_Material::Create();
+
+
+			winwall112112->setShader(shader);
+
+			//set textures
+			winwall112112->setTexture(winwall1Tex2112, 0);
+			//render
+			Renderer winwall1ren2112 = Renderer(winwall112112, winwall2);
+			AttachCopy(barrel, winwall1ren2112);
+			//transform
+			SMI_Transform winwallTrans1180112112 = SMI_Transform();
+
+
+			winwallTrans1180112112.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winwallTrans1180112112);
+
+			SMI_Physics windowphys12 = SMI_Physics(glm::vec3(-151.0, 7.0, 10.4), glm::vec3(90, 0, -90), glm::vec3(7.11048, 0.189836, 0.601408), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			windowphys12.setIdentity(2);
+			AttachCopy(barrel, windowphys12);
+
+		}
+		VertexArrayObject::Sptr ashphalt5 = ObjLoader::LoadFromFile("Models/wood.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr ashphaltTexture805 = Texture2D::Create("Textures/lounge.png");
+			//material
+			SMI_Material::Sptr ashphaltgMa805 = SMI_Material::Create();
+
+
+			ashphaltgMa805->setShader(shader);
+
+			//set textures
+			ashphaltgMa805->setTexture(ashphaltTexture805, 0);
+			//render
+			Renderer ashphaltgRen805 = Renderer(ashphaltgMa805, ashphalt5);
+			AttachCopy(barrel, ashphaltgRen805);
+			//transform
+			SMI_Transform ashphaltTrans18015 = SMI_Transform();
+
+			ashphaltTrans18015.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, ashphaltTrans18015);
+
+			SMI_Physics gravelphys5 = SMI_Physics(glm::vec3(-169.5, 6, -0.8), glm::vec3(90, 0, -90), glm::vec3(20.8154, 4.62269, 77.7581), barrel, SMI_PhysicsBodyType::STATIC, 0.0f);
+			gravelphys5.setIdentity(2);
+			AttachCopy(barrel, gravelphys5);
+		}
+		VertexArrayObject::Sptr door21 = ObjLoader::LoadFromFile("Models/door2.obj");
+		{
+			door2 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr door2Texture805 = Texture2D::Create("Textures/doortex.png");
+			//material
+			SMI_Material::Sptr door2gMa805 = SMI_Material::Create();
+
+
+			door2gMa805->setShader(shader);
+
+			//set textures
+			door2gMa805->setTexture(door2Texture805, 0);
+			//render
+			Renderer door2gRen805 = Renderer(door2gMa805, door21);
+			AttachCopy(door2, door2gRen805);
+			//transform
+			SMI_Transform door2Trans18015 = SMI_Transform();
+
+			door2Trans18015.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(door2, door2Trans18015);
+
+			SMI_Physics door2phys5 = SMI_Physics(glm::vec3(-151.0, 7.0, 2.5), glm::vec3(90, 0, -90), glm::vec3(4.02,16.298,0.13), door2, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			door2phys5.setIdentity(2);
+			AttachCopy(door2, door2phys5);
+		}
+		VertexArrayObject::Sptr button14 = ObjLoader::LoadFromFile("Models/button.obj");
+		{
+			button = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture805 = Texture2D::Create("Textures/buttontex.png");
+			//material
+			SMI_Material::Sptr buttongMa805 = SMI_Material::Create();
+
+
+			buttongMa805->setShader(shader);
+
+			//set textures
+			buttongMa805->setTexture(buttonTexture805, 0);
+			//render
+			Renderer buttongRen805 = Renderer(buttongMa805, button14);
+			AttachCopy(button, buttongRen805);
+			//transform
+			SMI_Transform buttonTrans18015 = SMI_Transform();
+
+			buttonTrans18015.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button, buttonTrans18015);
+
+			SMI_Physics buttonphys5 = SMI_Physics(glm::vec3(-158.0, 6.7, 2.1), glm::vec3(90, 0, -90), glm::vec3(0.75,0.05,0.226), button, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			buttonphys5.setIdentity(3);
+			AttachCopy(button, buttonphys5);
+		}
+		VertexArrayObject::Sptr insidewall = ObjLoader::LoadFromFile("Models/inside.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr insideTexture805 = Texture2D::Create("Textures/inside.png");
+			//material
+			SMI_Material::Sptr insidegMa805 = SMI_Material::Create();
+
+
+			insidegMa805->setShader(shader);
+
+			//set textures
+			insidegMa805->setTexture(insideTexture805, 0);
+			//render
+			Renderer insidegRen805 = Renderer(insidegMa805, insidewall);
+			AttachCopy(barrel, insidegRen805);
+			//transform
+			SMI_Transform insideTrans18015 = SMI_Transform();
+
+			insideTrans18015.setPos(glm::vec3(-155.8, -2.7, 1.0));
+
+			insideTrans18015.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, insideTrans18015);
+		}
+		VertexArrayObject::Sptr insidewall1 = ObjLoader::LoadFromFile("Models/inside.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr insideTexture8051 = Texture2D::Create("Textures/inside.png");
+			//material
+			SMI_Material::Sptr insidegMa8051 = SMI_Material::Create();
+
+
+			insidegMa8051->setShader(shader);
+
+			//set textures
+			insidegMa8051->setTexture(insideTexture8051, 0);
+			//render
+			Renderer insidegRen8051 = Renderer(insidegMa8051, insidewall1);
+			AttachCopy(barrel, insidegRen8051);
+			//transform
+			SMI_Transform insideTrans180151 = SMI_Transform();
+
+			insideTrans180151.setPos(glm::vec3(-171.4, -2.7, 1.0));
+
+			insideTrans180151.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, insideTrans180151);
+		}
+		VertexArrayObject::Sptr button12 = ObjLoader::LoadFromFile("Models/button.obj");
+		{
+			button1 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture8051 = Texture2D::Create("Textures/buttontexactivate.png");
+			//material
+			SMI_Material::Sptr buttongMa8051 = SMI_Material::Create();
+
+
+			buttongMa8051->setShader(shader);
+
+			//set textures
+			buttongMa8051->setTexture(buttonTexture8051, 0);
+			//render
+			Renderer buttongRen8051 = Renderer(buttongMa8051, button12);
+			AttachCopy(button1, buttongRen8051);
+			//transform
+			SMI_Transform buttonTrans180151 = SMI_Transform();
+
+			buttonTrans180151.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button1, buttonTrans180151);
+
+			SMI_Physics buttonphys51 = SMI_Physics(glm::vec3(-158.0, -34.7, 2.1), glm::vec3(90, 0, -90), glm::vec3(0.75, -100.05, 0.226), button1, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			buttonphys51.setIdentity(3);
+			AttachCopy(button1, buttonphys51);
+		}
+		VertexArrayObject::Sptr winwall5 = ObjLoader::LoadFromFile("Models/winwalls.obj");
+		{
+			barrel = CreateEntity();
+			//create texture
+			Texture2D::Sptr winwallTex215 = Texture2D::Create("Textures/inside.png");
+			//material
+			SMI_Material::Sptr winwall1215 = SMI_Material::Create();
+
+
+			winwall1215->setShader(shader);
+
+			//set textures
+			winwall1215->setTexture(winwallTex215, 0);
+			//render
+			Renderer winwallren215 = Renderer(winwall1215, winwall5);
+			AttachCopy(barrel, winwallren215);
+			//transform
+			SMI_Transform winwallTrans18011215 = SMI_Transform();
+
+			winwallTrans18011215.setPos(glm::vec3(-166.7, 7.0, 2.5));
+
+			winwallTrans18011215.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(barrel, winwallTrans18011215);
+
+		}
+		VertexArrayObject::Sptr door212 = ObjLoader::LoadFromFile("Models/door2.obj");
+		{
+			door3 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr door2Texture8052 = Texture2D::Create("Textures/doortex.png");
+			//material
+			SMI_Material::Sptr door2gMa8052 = SMI_Material::Create();
+
+
+			door2gMa8052->setShader(shader);
+
+			//set textures
+			door2gMa8052->setTexture(door2Texture8052, 0);
+			//render
+			Renderer door2gRen8052 = Renderer(door2gMa8052, door212);
+			AttachCopy(door3, door2gRen8052);
+			//transform
+			SMI_Transform door2Trans180152 = SMI_Transform();
+
+			door2Trans180152.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(door3, door2Trans180152);
+
+			SMI_Physics door2phys52 = SMI_Physics(glm::vec3(-166.7, 7.0, 2.5), glm::vec3(90, 0, -90), glm::vec3(4.02, 40.298, 0.13), door3, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			door2phys52.setIdentity(2);
+			AttachCopy(door3, door2phys52);
+		}
+		VertexArrayObject::Sptr crate19 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex19 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat519 = SMI_Material::Create();
+			BarrelMat519->setShader(shader);
+
+			//set textures
+			BarrelMat519->setTexture(crateTex19, 0);
+			//render
+			Renderer BarrelRend519 = Renderer(BarrelMat519, crate19);
+			AttachCopy(barrel, BarrelRend519);
+			//transform
+			SMI_Transform BarrelTrans519 = SMI_Transform();
+
+			BarrelTrans519.setPos(glm::vec3(-122.0, 7.0, 14.4));
+
+			BarrelTrans519.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans519);
+
+			SMI_Physics cratephys52 = SMI_Physics(glm::vec3(-122.0, 7.0, 14.4), glm::vec3(90, 0, -90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			cratephys52.setHasGravity(true);
+			cratephys52.setIdentity(4);
+			AttachCopy(barrel, cratephys52);
+		}
+		VertexArrayObject::Sptr button123 = ObjLoader::LoadFromFile("Models/button.obj");
+		{
+			button5 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr buttonTexture80513 = Texture2D::Create("Textures/buttontexactivate.png");
+			//material
+			SMI_Material::Sptr buttongMa80513 = SMI_Material::Create();
+
+
+			buttongMa80513->setShader(shader);
+
+			//set textures
+			buttongMa80513->setTexture(buttonTexture80513, 0);
+			//render
+			Renderer buttongRen80513 = Renderer(buttongMa80513, button123);
+			AttachCopy(button5, buttongRen80513);
+			//transform
+			SMI_Transform buttonTrans1801513 = SMI_Transform();
+
+			buttonTrans1801513.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(button5, buttonTrans1801513);
+
+			SMI_Physics buttonphys513 = SMI_Physics(glm::vec3(-163.0, 6.7, 2.1), glm::vec3(90, 0, -90), glm::vec3(0.75, 0.02, 0.226), button5, SMI_PhysicsBodyType::KINEMATIC, 0.0f);
+			buttonphys513.setIdentity(5);
+			AttachCopy(button5, buttonphys513);
+		}
+
+		VertexArrayObject::Sptr enemy = ObjLoader::LoadFromFile("Models/enemy.obj");
+		{
+			barrel = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr enemyCharacterTex = Texture2D::Create("Textures/enemy.png");
+			//create material
+			SMI_Material::Sptr enemyCharacterMat = SMI_Material::Create();
+			enemyCharacterMat->setShader(shader);
+
+			//set texture
+			enemyCharacterMat->setTexture(enemyCharacterTex, 0);
+			//render
+			Renderer enemyCharacterRend = Renderer(enemyCharacterMat, enemy);
+			AttachCopy(barrel, enemyCharacterRend);
+			//transform & Physics
+			SMI_Transform enemyCharaTrans = SMI_Transform();
+			enemyCharaTrans.setPos(glm::vec3(-181.0, 7.8, 2.2));
+
+			enemyCharaTrans.SetDegree(glm::vec3(90, 0, 90));
+			enemyCharaTrans.setScale(glm::vec3(0.25, 0.25, 0.25));
+			AttachCopy(barrel, enemyCharaTrans);
+
+			SMI_Physics enemyPhys = SMI_Physics(glm::vec3(-181.0, 7.8, 2.2), glm::vec3(90, 0, -90), glm::vec3(2, 3, 1), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+
+			enemyPhys.setIdentity(1);
+			AttachCopy(barrel, enemyPhys);
+		}
+		VertexArrayObject::Sptr bullet1 = ObjLoader::LoadFromFile("Models/bullet.obj");
+		{
+			bullet = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr bulletTexture80513 = Texture2D::Create("Textures/brown1.png");
+			//material
+			SMI_Material::Sptr bulletgMa80513 = SMI_Material::Create();
+
+
+			bulletgMa80513->setShader(shader);
+
+			//set textures
+			bulletgMa80513->setTexture(bulletTexture80513, 0);
+			//render
+			Renderer bulletgRen80513 = Renderer(bulletgMa80513, bullet1);
+			AttachCopy(bullet, bulletgRen80513);
+			//transform
+			SMI_Transform bulletTrans1801513 = SMI_Transform();
+
+			bulletTrans1801513.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(bullet, bulletTrans1801513);
+
+			SMI_Physics bulletphys513 = SMI_Physics(glm::vec3(-179.0, 7.2, 3.9), glm::vec3(90, 0, -90), glm::vec3(0.23, 2.819, 0.23), bullet, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			bulletphys513.setIdentity(9);
+			AttachCopy(bullet, bulletphys513);
 		}
 	}
 
 	void Update(float deltaTime)
 	{
-		//increment time
+		//increment times
 		current += deltaTime;
 		c += deltaTime;
 		if (current > max)
@@ -1192,6 +2178,7 @@ public:
 		glm::vec3 NewCamPos = glm::vec3(PlayerPhys.GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
 		camera->SetPosition(NewCamPos);
 
+
 		//keyboard input
 		//move left
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -1203,19 +2190,12 @@ public:
 		{
 			PlayerPhys.AddForce(glm::vec3(-5, 0, 0));
 		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			PlayerPhys.AddForce(glm::vec3(0, 5, 0));
-		}
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			PlayerPhys.AddForce(glm::vec3(0, -5, 0));
-		}
+		
 
 		//jump
 		if ((glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) && JumpState == GLFW_RELEASE && (grounded || CurrentMidAirJump < MidAirJump))
 		{
-			PlayerPhys.AddImpulse(glm::vec3(0, 0, 8));
+			PlayerPhys.AddImpulse(glm::vec3(0, 0, 6));
 
 			//allows for one mid air jump
 			if (!grounded)
@@ -1229,16 +2209,177 @@ public:
 
 		// LERP example
 
-		GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-35.2, 0, 2), glm::vec3(-35.2, 0, 15), t));
+		//GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-35.2, 0, 2), glm::vec3(-35.2, 0, 15), t));
+
+		GetComponent<SMI_Transform>(fan).FixedRotate(glm::vec3(30, 0, 0) * deltaTime * 50.0f);
+
+		GetComponent<SMI_Transform>(fan2).FixedRotate(glm::vec3(30, 0, 0) * deltaTime * 50.0f);
+		//GetComponent<SMI_Transform>(fan).FixedRotate(glm::vec3(30, 0, 0) * deltaTime *90.0f);
+
+		//GetComponent<SMI_Transform>(elevator).setPos(Lerp(glm::vec3(-20.0, 7.0, 1.8), glm::vec3(-20.0, 7.0, 5.8), time));
 
 
+		SMI_Physics& elevator1Phys = GetComponent<SMI_Physics>(elevator);
+		elevator1Phys.SetPosition(Lerp(glm::vec3(-75.0, 7.0, 1.8), glm::vec3(-75.0, 7.0, 8.8), time));
 
+		SMI_Physics& dphys201131 = GetComponent<SMI_Physics>(door1);
+		dphys201131.SetPosition(Lerp(glm::vec3(-46.0, 9.5, 15), glm::vec3(-46.0, 9.5, 2), time));
+
+		SMI_Physics bulletphys513 = GetComponent<SMI_Physics>(bullet);
+		bulletphys513.SetPosition(Lerp(glm::vec3(-179.0, 7.2, 3.9), glm::vec3(-168.0, 7.2, 3.9), time));
+
+		//SMI_Physics& fanPhys = GetComponent<SMI_Physics>(fan);
+		//fanPhys.SetPosition(Lerp(glm::vec3(-37.0, 3.3, 3.8), glm::vec3(-37.0, 3.3, 11.8), t));
+
+
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 3))))
+				{
+					SMI_Physics& door2phys5 = GetComponent<SMI_Physics>(door2);
+					door2phys5.SetPosition(Lerp(glm::vec3(-151.0, 7.0, 2.5), glm::vec3(151.0, 7.0, 6.5), t));
+
+					SMI_Physics& buttonphys5 = GetComponent<SMI_Physics>(button);
+					buttonphys5.SetPosition(Lerp(glm::vec3(-158.0, 6.7, 2.1), glm::vec3(-158.0, -34.7, 2.1), t));
+
+					SMI_Physics& buttonphys51 = GetComponent<SMI_Physics>(button1);
+					buttonphys51.SetPosition(Lerp(glm::vec3(-158.0, -34.7, 2.1), glm::vec3(-158.0, 6.7, 2.1), t));
+				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 4 && Phys2.getIdentity() == 5|| Phys1.getIdentity() == 1 && Phys2.getIdentity() == 5))))
+				{
+					
+					SMI_Physics& door2phys52 = GetComponent<SMI_Physics>(door3);
+					door2phys52.SetPosition(Lerp(glm::vec3(-166.7, 7.0, 2.5), glm::vec3(-166.7, -34.0, 2.5), t));
+				}
+				
+				else if((cont && ((Phys1.getIdentity() == 2 && Phys2.getIdentity() == 4))))
+				{
+
+						SMI_Physics& door2phys52 = GetComponent<SMI_Physics>(door3);
+						door2phys52.SetPosition(Lerp(glm::vec3(-166.7, 7.0, 2.5), glm::vec3(-166.7, 7.0, 2.5), t));
+				}
+
+				
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 6))))
+				{
+					GetComponent<SMI_Transform>(door4).setPos(Lerp(glm::vec3(-12.5, 9.2, 2.0), glm::vec3(-12.5, -9.2, 2.0), t));
+					
+					SMI_Physics& bardoorphys = GetComponent<SMI_Physics>(door4);
+					bardoorphys.SetPosition(Lerp(glm::vec3(-12.5, 9.2, 2.0), glm::vec3(-12.5, -9.2, 2.0), t));
+
+					SMI_Physics& buttonphys59 = GetComponent<SMI_Physics>(button6);
+					buttonphys59.SetPosition(Lerp(glm::vec3(-12.5, 7.7, 15.1), glm::vec3(-12.5, -87.7, 15.1), t));
+
+					SMI_Physics& buttonphys159 = GetComponent<SMI_Physics>(button7);
+					buttonphys159.SetPosition(Lerp(glm::vec3(-12.5, -87.7, 15.1), glm::vec3(-12.5, 7.7, 15.1), t));
+					
+
+				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 7 || Phys1.getIdentity() == 7 && Phys2.getIdentity() == 1))))
+				{	
+					
+					std::cout << "You died" <<std::endl;
+					exit(1);
+					
+				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 8 || Phys1.getIdentity() == 8 && Phys2.getIdentity() == 1))))
+				{
+
+					exit(1);
+
+				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 9 || Phys1.getIdentity() == 9 && Phys2.getIdentity() == 1))))
+				{
+
+					exit(1);
+
+				}
+			}
+		}
+
+		
 		SMI_Scene::Update(deltaTime);
 
 		grounded = false;
 
 		//checks every collision type
 		Collider();
+
+
 	}
 
 	//manages all collisions in the game
@@ -1261,6 +2402,7 @@ public:
 					grounded = true;
 					CurrentMidAirJump = 0;
 				}
+
 			}
 		}
 	}
@@ -1270,7 +2412,20 @@ public:
 private:
 	entt::entity barrel;
 	entt::entity door1;
+	entt::entity door2;
+	entt::entity door3;
+	entt::entity door4;
+	entt::entity button;
+	entt::entity button1;
+	entt::entity button5;
+	entt::entity button6;
+	entt::entity button7;
+	entt::entity button8;
 	entt::entity character;
+	entt::entity fan;
+	entt::entity fan2;
+	entt::entity elevator;
+	entt::entity bullet;
 	float max = 5;
 	float current = 0;
 	float c = 0;
@@ -1456,10 +2611,12 @@ int main()
 	bool notmenu = true;
 	bool notpause = true;
 
-	Sound audio;
-	audio.init();
-	audio.loadsounds("music", "music.wav", true);
+	//Sound audio;
+	//audio.init();
+	//audio.loadsounds("music", "music.wav", true);
 	Sound audio1;
+	Sound audio2;
+	Sound audio3;
 
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
@@ -1481,7 +2638,7 @@ int main()
 
 				notmenu = !notmenu;
 
-				audio.shutdown();
+				//audio.shutdown();
 			}
 			isButtonPressed = true;
 		}
@@ -1520,17 +2677,39 @@ int main()
 
 			if (glfwGetKey(window, GLFW_KEY_R))
 			{
-				glUseProgram;
+				
 			}
 		}
 
-		if (glfwGetKey(window, GLFW_KEY_SPACE))
+
+		//if (glfwGetKey(window, GLFW_KEY_SPACE))
+		/*
 		{
 
 			audio1.init();
-			audio1.loadsounds("u", "u.wav", true);
+			audio1.loadsounds("jumping", "jumping.wav", true);
+			audio1.update();
+			
+		}
+		*/
+
+		if (glfwGetKey(window, GLFW_KEY_D))
+		{
+
+			//audio2.init();
+			//audio2.loadsounds("walk", "walk.wav", true);
+			//audio2.update();
 		}
 
+
+		if (glfwGetKey(window, GLFW_KEY_F))
+		{
+
+			audio3.init();
+			audio3.loadsounds("fan", "FAN.wav", true);
+			audio3.update();
+		}
+	
 		lastFrame = thisFrame;
 		glfwSwapBuffers(window);
 	}
