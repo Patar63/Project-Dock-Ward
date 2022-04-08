@@ -265,7 +265,7 @@ public:
 
 			BarrelTrans.setPos(glm::vec3(-6.0, -3.3, 1));
 
-			BarrelTrans.SetDegree(glm::vec3(90, -10, 90));
+			BarrelTrans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, BarrelTrans);
 		}
 		//creates object
@@ -289,10 +289,11 @@ public:
 
 			win22Trans.setPos(glm::vec3(18, -3.3, 1));
 
-			win22Trans.SetDegree(glm::vec3(90, -10, 90));
+			win22Trans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, win22Trans);
 		}
 		//creates object
+      /*
 		VertexArrayObject::Sptr back = ObjLoader::LoadFromFile("Models/wi1.obj");
 		{
 			barrel = CreateEntity();
@@ -316,6 +317,7 @@ public:
 			backTrans.SetDegree(glm::vec3(90, -10, 90));
 			AttachCopy(barrel, backTrans);
 		}
+		*/
 		//creates object
 		VertexArrayObject::Sptr window2 = ObjLoader::LoadFromFile("Models/window1.obj");
 		{
@@ -337,7 +339,7 @@ public:
 
 			window2Trans.setPos(glm::vec3(-31.0, -3.3, 1));
 
-			window2Trans.SetDegree(glm::vec3(90, -10, 90));
+			window2Trans.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, window2Trans);
 		}
 
@@ -1249,7 +1251,7 @@ public:
 
 			window2Trans31.setPos(glm::vec3(-55.5, -3.3, 1));
 
-			window2Trans31.SetDegree(glm::vec3(90, -10, 90));
+			window2Trans31.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, window2Trans31);
 		}
 		VertexArrayObject::Sptr doorw2 = ObjLoader::LoadFromFile("Models/bardoorway.obj");
@@ -1373,7 +1375,7 @@ public:
 
 			window2Trans311.setPos(glm::vec3(-80.5, -3.3, 1));
 
-			window2Trans311.SetDegree(glm::vec3(90, -10, 90));
+			window2Trans311.SetDegree(glm::vec3(90, 0, 90));
 			AttachCopy(barrel, window2Trans311);
 		}
 		VertexArrayObject::Sptr car = ObjLoader::LoadFromFile("Models/car.obj");
@@ -2101,7 +2103,7 @@ public:
 
 		VertexArrayObject::Sptr enemy = ObjLoader::LoadFromFile("Models/enemy.obj");
 		{
-			barrel = CreateEntity();
+			en = CreateEntity();
 
 			//create texture
 			Texture2D::Sptr enemyCharacterTex = Texture2D::Create("Textures/enemy.png");
@@ -2113,19 +2115,48 @@ public:
 			enemyCharacterMat->setTexture(enemyCharacterTex, 0);
 			//render
 			Renderer enemyCharacterRend = Renderer(enemyCharacterMat, enemy);
-			AttachCopy(barrel, enemyCharacterRend);
+			AttachCopy(en, enemyCharacterRend);
 			//transform & Physics
 			SMI_Transform enemyCharaTrans = SMI_Transform();
 			enemyCharaTrans.setPos(glm::vec3(-181.0, 7.8, 2.2));
 
 			enemyCharaTrans.SetDegree(glm::vec3(90, 0, 90));
 			enemyCharaTrans.setScale(glm::vec3(0.25, 0.25, 0.25));
-			AttachCopy(barrel, enemyCharaTrans);
+			AttachCopy(en, enemyCharaTrans);
 
-			SMI_Physics enemyPhys = SMI_Physics(glm::vec3(-181.0, 7.8, 2.2), glm::vec3(90, 0, -90), glm::vec3(2, 3, 1), barrel, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			SMI_Physics enemyPhys = SMI_Physics(glm::vec3(-181.0, 7.8, 2.2), glm::vec3(90, 0, -90), glm::vec3(2, 3, 1), en, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
 
-			enemyPhys.setIdentity(1);
-			AttachCopy(barrel, enemyPhys);
+			enemyPhys.setIdentity(10);
+			AttachCopy(en, enemyPhys);
+		}
+
+		VertexArrayObject::Sptr enemy1 = ObjLoader::LoadFromFile("Models/denemy.obj");
+		{
+			en1 = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr enemyCharacterTex1 = Texture2D::Create("Textures/enemy.png");
+			//create material
+			SMI_Material::Sptr enemyCharacterMat1 = SMI_Material::Create();
+			enemyCharacterMat1->setShader(shader);
+
+			//set texture
+			enemyCharacterMat1->setTexture(enemyCharacterTex1, 0);
+			//render
+			Renderer enemyCharacterRend1 = Renderer(enemyCharacterMat1, enemy1);
+			AttachCopy(en1, enemyCharacterRend1);
+			//transform & Physics
+			SMI_Transform enemyCharaTrans1 = SMI_Transform();
+			enemyCharaTrans1.setPos(glm::vec3(-181.0, 37.8, 2.3));
+
+			enemyCharaTrans1.SetDegree(glm::vec3(90, 0, 90));
+			enemyCharaTrans1.setScale(glm::vec3(0.25, 0.25, 0.25));
+			AttachCopy(en1, enemyCharaTrans1);
+
+			SMI_Physics enemyPhys1 = SMI_Physics(glm::vec3(-181.0, 37.8, 2.3), glm::vec3(90, 0, -90), glm::vec3(2, 3, 1), en1, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+
+			enemyPhys1.setIdentity(10);
+			AttachCopy(en1, enemyPhys1);
 		}
 		VertexArrayObject::Sptr bullet1 = ObjLoader::LoadFromFile("Models/bullet.obj");
 		{
@@ -2150,10 +2181,95 @@ public:
 			bulletTrans1801513.SetDegree(glm::vec3(90, 0, -90));
 			AttachCopy(bullet, bulletTrans1801513);
 
-			SMI_Physics bulletphys513 = SMI_Physics(glm::vec3(-179.0, 7.2, 3.9), glm::vec3(90, 0, -90), glm::vec3(0.23, 2.819, 0.23), bullet, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			SMI_Physics bulletphys513 = SMI_Physics(glm::vec3(-179.0, 7.2, -87.9), glm::vec3(90, 0, -90), glm::vec3(0.23, 2.819, 0.23), bullet, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
 			bulletphys513.setIdentity(9);
 			AttachCopy(bullet, bulletphys513);
 		}
+		VertexArrayObject::Sptr end = ObjLoader::LoadFromFile("Models/wi1.obj");
+		{
+			ed = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr bulletTexture805133 = Texture2D::Create("Textures/rough.png");
+			//material
+			SMI_Material::Sptr bulletgMa805133 = SMI_Material::Create();
+
+
+			bulletgMa805133->setShader(shader);
+
+			//set textures
+			bulletgMa805133->setTexture(bulletTexture805133, 0);
+			//render
+			Renderer bulletgRen805133 = Renderer(bulletgMa805133, end);
+			AttachCopy(ed, bulletgRen805133);
+			//transform
+			SMI_Transform bulletTrans18015133 = SMI_Transform();
+			
+			bulletTrans18015133.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(ed, bulletTrans18015133);
+
+			SMI_Physics bulletphys5133 = SMI_Physics(glm::vec3(-879.0, -7.2, -8.9), glm::vec3(90, 0, -90), glm::vec3(0.23, 2.819, 0.23), ed, SMI_PhysicsBodyType::STATIC, 1.0f);
+			bulletphys5133.setIdentity(9);
+			AttachCopy(ed, bulletphys5133);
+		}
+		VertexArrayObject::Sptr crate119 = ObjLoader::LoadFromFile("Models/Crates1.obj");
+		{
+
+			barrel = CreateEntity();
+
+			Texture2D::Sptr crateTex19 = Texture2D::Create("Textures/box3.png");
+			//material
+			SMI_Material::Sptr BarrelMat519 = SMI_Material::Create();
+			BarrelMat519->setShader(shader);
+
+			//set textures
+			BarrelMat519->setTexture(crateTex19, 0);
+			//render
+			Renderer BarrelRend519 = Renderer(BarrelMat519, crate119);
+			AttachCopy(barrel, BarrelRend519);
+			//transform
+			SMI_Transform BarrelTrans519 = SMI_Transform();
+
+			BarrelTrans519.setPos(glm::vec3(-182.0, 7.0, 14.4));
+
+			BarrelTrans519.SetDegree(glm::vec3(90, 0, 90));
+			AttachCopy(barrel, BarrelTrans519);
+
+			SMI_Physics crate1phys52 = SMI_Physics(glm::vec3(-182.0, 7.0, 14.4), glm::vec3(90, 0, -90), glm::vec3(2.15, 1.97, 3.2), barrel, SMI_PhysicsBodyType::DYNAMIC, 1.0f);
+			crate1phys52.setHasGravity(true);
+			crate1phys52.setIdentity(11);
+			AttachCopy(barrel, crate1phys52);
+		}
+		VertexArrayObject::Sptr plank5 = ObjLoader::LoadFromFile("Models/plank.obj");
+		{
+			planks = CreateEntity();
+
+			//create texture
+			Texture2D::Sptr plankTexture805 = Texture2D::Create("Textures/platform.png");
+			//material
+			SMI_Material::Sptr plankgMa805 = SMI_Material::Create();
+
+
+			plankgMa805->setShader(shader);
+
+			//set textures
+			plankgMa805->setTexture(plankTexture805, 0);
+			//render
+			Renderer plankgRen805 = Renderer(plankgMa805, plank5);
+			AttachCopy(planks, plankgRen805);
+			//transform
+			SMI_Transform plankTrans18015 = SMI_Transform();
+
+			plankTrans18015.setPos(glm::vec3(-182.5, 6.5, 8.8));
+
+			plankTrans18015.SetDegree(glm::vec3(90, 0, -90));
+			AttachCopy(planks, plankTrans18015);
+
+			SMI_Physics plankphys5 = SMI_Physics(glm::vec3(-182.5, 6.5, 8.8), glm::vec3(90, 0, -90), glm::vec3(4.42609, 2.172688, 9.0021), planks, SMI_PhysicsBodyType::KINEMATIC, 1.0f);
+			plankphys5.setIdentity(2);
+			AttachCopy(planks, plankphys5);
+		}
+	
 	}
 
 	void Update(float deltaTime)
@@ -2209,14 +2325,10 @@ public:
 
 		// LERP example
 
-		//GetComponent<SMI_Transform>(door1).setPos(Lerp(glm::vec3(-35.2, 0, 2), glm::vec3(-35.2, 0, 15), t));
 
 		GetComponent<SMI_Transform>(fan).FixedRotate(glm::vec3(30, 0, 0) * deltaTime * 50.0f);
 
 		GetComponent<SMI_Transform>(fan2).FixedRotate(glm::vec3(30, 0, 0) * deltaTime * 50.0f);
-		//GetComponent<SMI_Transform>(fan).FixedRotate(glm::vec3(30, 0, 0) * deltaTime *90.0f);
-
-		//GetComponent<SMI_Transform>(elevator).setPos(Lerp(glm::vec3(-20.0, 7.0, 1.8), glm::vec3(-20.0, 7.0, 5.8), time));
 
 
 		SMI_Physics& elevator1Phys = GetComponent<SMI_Physics>(elevator);
@@ -2225,11 +2337,8 @@ public:
 		SMI_Physics& dphys201131 = GetComponent<SMI_Physics>(door1);
 		dphys201131.SetPosition(Lerp(glm::vec3(-46.0, 9.5, 15), glm::vec3(-46.0, 9.5, 2), time));
 
-		SMI_Physics bulletphys513 = GetComponent<SMI_Physics>(bullet);
-		bulletphys513.SetPosition(Lerp(glm::vec3(-179.0, 7.2, 3.9), glm::vec3(-168.0, 7.2, 3.9), time));
+		
 
-		//SMI_Physics& fanPhys = GetComponent<SMI_Physics>(fan);
-		//fanPhys.SetPosition(Lerp(glm::vec3(-37.0, 3.3, 3.8), glm::vec3(-37.0, 3.3, 11.8), t));
 
 
 		for (int i = 0; i < Collisions.size(); i++)
@@ -2326,8 +2435,16 @@ public:
 				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 7 || Phys1.getIdentity() == 7 && Phys2.getIdentity() == 1))))
 				{	
 					
-					std::cout << "You died" <<std::endl;
-					exit(1);
+					SMI_Physics& bulletphys5133 = GetComponent<SMI_Physics>(ed);
+					glm::vec3 NewCamPos = glm::vec3(bulletphys5133.GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+					camera->SetPosition(NewCamPos);
+
+					deltaTime = 0.0;
+
+					if (glfwGetKey(window, GLFW_KEY_E))
+					{
+						exit(1);
+					}
 					
 				}
 			}
@@ -2345,8 +2462,16 @@ public:
 				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
 				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 8 || Phys1.getIdentity() == 8 && Phys2.getIdentity() == 1))))
 				{
+					SMI_Physics& bulletphys5133 = GetComponent<SMI_Physics>(ed);
+					glm::vec3 NewCamPos = glm::vec3(bulletphys5133.GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+					camera->SetPosition(NewCamPos);
 
-					exit(1);
+					deltaTime = 0.0;
+
+					if (glfwGetKey(window, GLFW_KEY_E))
+					{
+						exit(1);
+					}
 
 				}
 			}
@@ -2365,9 +2490,73 @@ public:
 				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 9 || Phys1.getIdentity() == 9 && Phys2.getIdentity() == 1))))
 				{
 
-					exit(1);
+					SMI_Physics& bulletphys5133 = GetComponent<SMI_Physics>(ed);
+					glm::vec3 NewCamPos = glm::vec3(bulletphys5133.GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+					camera->SetPosition(NewCamPos);
+
+					deltaTime = 0.0;
+
+					if (glfwGetKey(window, GLFW_KEY_E))
+					{
+						exit(1);
+					}
 
 				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 10 && Phys2.getIdentity() == 11 || Phys1.getIdentity() == 11 && Phys2.getIdentity() == 10))))
+				{
+
+					SMI_Physics bulletphys513 = GetComponent<SMI_Physics>(bullet);
+					bulletphys513.SetPosition(glm::vec3(-168.0, 7.2, 68.9));
+
+
+					SMI_Physics& enemyPhys = GetComponent<SMI_Physics>(en);
+					enemyPhys.SetPosition(glm::vec3(-181.0, 400.8, 2.2));
+
+					SMI_Physics enemyPhys1 = GetComponent<SMI_Physics>(en1);
+					enemyPhys1.SetPosition(glm::vec3(-181.0, 7.2, 2.3));
+
+				}
+				else
+				{
+					SMI_Physics bulletphys513 = GetComponent<SMI_Physics>(bullet);
+					bulletphys513.SetPosition(Lerp(glm::vec3(-179.0, 7.2, 3.9), glm::vec3(-168.0, 7.2, 3.9), time));
+
+				}
+			}
+		}
+		for (int i = 0; i < Collisions.size(); i++)
+		{
+			entt::entity Ent1 = Collisions[i]->getB1();
+			entt::entity Ent2 = Collisions[i]->getB2();
+
+			if (GetRegistry().valid(Ent1) && GetRegistry().valid(Ent2))
+			{
+				bool cont = true;
+
+				SMI_Physics Phys1 = GetComponent<SMI_Physics>(Ent1);
+				SMI_Physics Phys2 = GetComponent<SMI_Physics>(Ent2);
+				if ((cont && ((Phys1.getIdentity() == 1 && Phys2.getIdentity() == 12 || Phys1.getIdentity() == 12 && Phys2.getIdentity() == 1))))
+				{
+
+
+					SMI_Physics& plankphys5 = GetComponent<SMI_Physics>(planks);
+					plankphys5.SetPosition(glm::vec3(-182.5, 6.5, -434.8));
+
+				}
+			
 			}
 		}
 
@@ -2426,6 +2615,10 @@ private:
 	entt::entity fan2;
 	entt::entity elevator;
 	entt::entity bullet;
+	entt::entity ed;
+	entt::entity en;
+	entt::entity en1;
+	entt::entity planks;
 	float max = 5;
 	float current = 0;
 	float c = 0;
