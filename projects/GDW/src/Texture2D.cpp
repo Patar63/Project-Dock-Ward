@@ -13,6 +13,10 @@ inline int CalcRequiredMipLevels(int width, int height) {
 	return (1 + floor(log2(glm::max(width, height))));
 }
 
+Texture2D::Texture2D() : ITexture(TextureType::_2D)
+{
+}
+
 Texture2D::Texture2D(const Texture2DDescription& description) : ITexture(TextureType::_2D) {
 	_description = description;
 	_SetTextureParams();

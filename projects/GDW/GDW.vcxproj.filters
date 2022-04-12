@@ -38,6 +38,7 @@
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexTypes.h" />
     <ClInclude Include="SMI_Include.h" />
+    <ClInclude Include="Framebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
@@ -58,5 +59,6 @@
     <ClCompile Include="src\VertexArrayObject.cpp" />
     <ClCompile Include="src\VertexTypes.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="Framebuffer.cpp" />
   </ItemGroup>
 </Project>
