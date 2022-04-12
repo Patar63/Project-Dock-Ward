@@ -109,7 +109,57 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application\Application.h" />
+    <ClInclude Include="src\Application\ApplicationLayer.h" />
+    <ClInclude Include="src\Application\IEditorWindow.h" />
+    <ClInclude Include="src\Application\Layers\DefaultSceneLayer.h" />
+    <ClInclude Include="src\Application\Layers\GLAppLayer.h" />
+    <ClInclude Include="src\Application\Layers\ImGuiDebugLayer.h" />
+    <ClInclude Include="src\Application\Layers\InstancedRenderingTestLayer.h" />
+    <ClInclude Include="src\Application\Layers\InterfaceLayer.h" />
+    <ClInclude Include="src\Application\Layers\LogicUpdateLayer.h" />
+    <ClInclude Include="src\Application\Layers\ParticleLayer.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\BloomEffect.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\BoxFilter3x3.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\BoxFilter5x5.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect1.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect2.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\FilmGrain.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\OutlineEffect.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessing\Pixelation.h" />
+    <ClInclude Include="src\Application\Layers\PostProcessingLayer.h" />
+    <ClInclude Include="src\Application\Layers\RenderLayer.h" />
+    <ClInclude Include="src\Application\Timing.h" />
+    <ClInclude Include="src\Application\Windows\DebugWindow.h" />
+    <ClInclude Include="src\Application\Windows\GBufferPreviews.h" />
+    <ClInclude Include="src\Application\Windows\HierarchyWindow.h" />
+    <ClInclude Include="src\Application\Windows\InspectorWindow.h" />
+    <ClInclude Include="src\Application\Windows\MaterialsWindow.h" />
+    <ClInclude Include="src\Application\Windows\PostProcessingSettingsWindow.h" />
+    <ClInclude Include="src\Application\Windows\TextureWindow.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Graphics\Buffers\IBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\UniformBuffer.h" />
+    <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
+    <ClInclude Include="src\Graphics\DebugDraw.h" />
+    <ClInclude Include="src\Graphics\Font.h" />
+    <ClInclude Include="src\Graphics\Framebuffer.h" />
+    <ClInclude Include="src\Graphics\GlEnums.h" />
+    <ClInclude Include="src\Graphics\GuiBatcher.h" />
+    <ClInclude Include="src\Graphics\IGraphicsResource.h" />
+    <ClInclude Include="src\Graphics\RasterizerState.h" />
+    <ClInclude Include="src\Graphics\Renderbuffer.h" />
+    <ClInclude Include="src\Graphics\ShaderProgram.h" />
+    <ClInclude Include="src\Graphics\Textures\ITexture.h" />
+    <ClInclude Include="src\Graphics\Textures\Texture1D.h" />
+    <ClInclude Include="src\Graphics\Textures\Texture2D.h" />
+    <ClInclude Include="src\Graphics\Textures\Texture3D.h" />
+    <ClInclude Include="src\Graphics\Textures\TextureCube.h" />
+    <ClInclude Include="src\Graphics\VertexArrayObject.h" />
+    <ClInclude Include="src\Graphics\VertexParamMap.h" />
+    <ClInclude Include="src\Graphics\VertexTypes.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\ITexture.h" />
     <ClInclude Include="src\IndexBuffer.h" />
@@ -125,29 +175,107 @@
     <ClInclude Include="src\TextureEnums.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\Uniform.h" />
+    <ClInclude Include="src\Utils\Base64.h" />
+    <ClInclude Include="src\Utils\FileHelpers.h" />
+    <ClInclude Include="src\Utils\GUID.hpp" />
+    <ClInclude Include="src\Utils\GlmBulletConversions.h" />
+    <ClInclude Include="src\Utils\GlmDefines.h" />
+    <ClInclude Include="src\Utils\ImGuiHelper.h" />
+    <ClInclude Include="src\Utils\JsonGlmHelpers.h" />
+    <ClInclude Include="src\Utils\Macros.h" />
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />
+    <ClInclude Include="src\Utils\OptimizedObjLoader.h" />
+    <ClInclude Include="src\Utils\ResourceManager\IResource.h" />
+    <ClInclude Include="src\Utils\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="src\Utils\StringUtils.h" />
+    <ClInclude Include="src\Utils\TypeHelpers.h" />
+    <ClInclude Include="src\Utils\Windows\FileDialogs.h" />
     <ClInclude Include="src\VertexArrayObject.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application\Application.cpp" />
+    <ClCompile Include="src\Application\Layers\DefaultSceneLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\GLAppLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\ImGuiDebugLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\InstancedRenderingTestLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\InterfaceLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\LogicUpdateLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\ParticleLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\BloomEffect.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\BoxFilter3x3.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\BoxFilter5x5.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect1.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\ColorCorrectionEffect2.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\FilmGrain.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\OutlineEffect.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessing\Pixelation.cpp" />
+    <ClCompile Include="src\Application\Layers\PostProcessingLayer.cpp" />
+    <ClCompile Include="src\Application\Layers\RenderLayer.cpp" />
+    <ClCompile Include="src\Application\Windows\DebugWindow.cpp" />
+    <ClCompile Include="src\Application\Windows\GBufferPreviews.cpp" />
+    <ClCompile Include="src\Application\Windows\HierarchyWindow.cpp" />
+    <ClCompile Include="src\Application\Windows\InspectorWindow.cpp" />
+    <ClCompile Include="src\Application\Windows\MaterialsWindow.cpp" />
+    <ClCompile Include="src\Application\Windows\PostProcessingSettingsWindow.cpp" />
+    <ClCompile Include="src\Application\Windows\TextureWindow.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\IBuffer.cpp" />
-    <ClCompile Include="src\ITexture.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\IBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Buffers\UniformBuffer.cpp" />
+    <ClCompile Include="src\Graphics\DebugDraw.cpp" />
+    <ClCompile Include="src\Graphics\Font.cpp" />
+    <ClCompile Include="src\Graphics\Framebuffer.cpp" />
+    <ClCompile Include="src\Graphics\GuiBatcher.cpp" />
+    <ClCompile Include="src\Graphics\IGraphicsResource.cpp" />
+    <ClCompile Include="src\Graphics\Renderbuffer.cpp" />
+    <ClCompile Include="src\Graphics\ShaderProgram.cpp" />
+    <ClCompile Include="src\Graphics\Textures\ITexture.cpp" />
+    <ClCompile Include="src\Graphics\Textures\Texture1D.cpp" />
+    <ClCompile Include="src\Graphics\Textures\Texture2D.cpp" />
+    <ClCompile Include="src\Graphics\Textures\Texture3D.cpp" />
+    <ClCompile Include="src\Graphics\Textures\TextureCube.cpp" />
+    <ClCompile Include="src\Graphics\VertexArrayObject.cpp" />
+    <ClCompile Include="src\Graphics\VertexTypes.cpp" />
+    <ClCompile Include="src\IBuffer.cpp">
+      <ObjectFileName>$(IntDir)\IBuffer1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\ITexture.cpp">
+      <ObjectFileName>$(IntDir)\ITexture1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Sound.cpp" />
-    <ClCompile Include="src\Texture2D.cpp" />
-    <ClCompile Include="src\TextureCube.cpp" />
+    <ClCompile Include="src\Texture2D.cpp">
+      <ObjectFileName>$(IntDir)\Texture2D1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\TextureCube.cpp">
+      <ObjectFileName>$(IntDir)\TextureCube1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\Utils\Base64.cpp" />
+    <ClCompile Include="src\Utils\FileHelpers.cpp" />
+    <ClCompile Include="src\Utils\GUID.cpp" />
+    <ClCompile Include="src\Utils\GlmDefines.cpp" />
+    <ClCompile Include="src\Utils\ImGuiHelper.cpp" />
+    <ClCompile Include="src\Utils\MeshFactory.cpp" />
     <ClCompile Include="src\Utils\ObjLoader.cpp" />
-    <ClCompile Include="src\VertexArrayObject.cpp" />
-    <ClCompile Include="src\VertexTypes.cpp" />
+    <ClCompile Include="src\Utils\OptimizedObjLoader.cpp" />
+    <ClCompile Include="src\Utils\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="src\Utils\StringUtils.cpp" />
+    <ClCompile Include="src\Utils\Windows\FileDialogs.cpp" />
+    <ClCompile Include="src\VertexArrayObject.cpp">
+      <ObjectFileName>$(IntDir)\VertexArrayObject1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\VertexTypes.cpp">
+      <ObjectFileName>$(IntDir)\VertexTypes1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
