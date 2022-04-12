@@ -109,6 +109,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SMI_Include.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\ITexture.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="src\TextureEnums.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\Uniform.h" />
+    <ClInclude Include="src\Utils\Macros.h" />
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />
