@@ -3351,8 +3351,8 @@ public:
 
 	}
 
-	~GameScene2() = default;
 
+	~GameScene2() = default;
 private:
 
 	entt::entity rt;
@@ -3361,7 +3361,6 @@ private:
 
 
 };
-
 class GameScene3 : public SMI_Scene
 {
 public:
