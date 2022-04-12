@@ -88,6 +88,7 @@ public:
 	virtual ~Texture2D() = default;
 
 public:
+	Texture2D();
 	Texture2D(const std::string& filePath);
 	Texture2D(const Texture2DDescription& description);
 

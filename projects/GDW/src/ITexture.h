@@ -52,6 +52,11 @@ public:
 	/// <param name="color">The color to clear to</param>
 	void Clear(const glm::vec4& color);
 
+	GLuint& GetHandle()
+	{
+		return _handle;
+	}
+
 protected:
 	ITexture(TextureType type);
 
