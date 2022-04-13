@@ -7,6 +7,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Framebuffer.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\ITexture.h" />
     <ClInclude Include="src\IndexBuffer.h" />
@@ -14,6 +15,7 @@
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Render.h" />
+    <ClInclude Include="src\SMI_Include.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Sound.h" />
@@ -37,11 +39,11 @@
     <ClInclude Include="src\VertexArrayObject.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexTypes.h" />
-    <ClInclude Include="SMI_Include.h" />
-    <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="src\PostProcessing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Framebuffer.cpp" />
     <ClCompile Include="src\IBuffer.cpp" />
     <ClCompile Include="src\ITexture.cpp" />
     <ClCompile Include="src\Material.cpp" />
@@ -59,6 +61,6 @@
     <ClCompile Include="src\VertexArrayObject.cpp" />
     <ClCompile Include="src\VertexTypes.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="src\PostProcessing.cpp" />
   </ItemGroup>
 </Project>
