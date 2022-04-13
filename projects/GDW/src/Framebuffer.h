@@ -73,8 +73,6 @@ namespace Semi
 		void Reshape(unsigned width, unsigned height);
 		void SetSize(unsigned width, unsigned height);
 
-		virtual void OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& newSize) {}
-
 		void SetViewport() const;
 
 		void Bind() const;
