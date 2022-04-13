@@ -21,6 +21,11 @@ SMI_Scene::SMI_Scene()
     //create registry
     Store = entt::registry();
     camera = nullptr;
+
+    //make a framebuffer with no effects
+    DefaultBuffer = Semi::SMI_Framebuffer::Create();
+    DefaultBuffer->AddColourTarget(GL_RGBA8);
+    DefaultBuffer->AddDepthTarget();
 }
 
 SMI_Scene::~SMI_Scene()
@@ -70,6 +75,7 @@ void SMI_Scene::DeleteEntity(entt::entity target)
 
 void SMI_Scene::InitScene()
 {
+
 }
 
 void SMI_Scene::Update(float deltaTime)

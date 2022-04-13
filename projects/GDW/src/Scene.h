@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Transform.h"
 #include "Render.h"
+#include "Framebuffer.h"
+
 #include <vector>
 
 //class to create a scene 
@@ -91,6 +93,8 @@ protected:
 	Camera::Sptr camera;
 	//vector to hold all collisions to manage
 	std::vector<SMI_Collision::sptr> Collisions;
+
+	Semi::SMI_Framebuffer::ssptr DefaultBuffer;
 };
 
 
