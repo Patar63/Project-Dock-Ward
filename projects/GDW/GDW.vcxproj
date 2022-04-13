@@ -111,13 +111,13 @@
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Framebuffer.h" />
-    <ClInclude Include="src\PostProcessing.h" />
     <ClInclude Include="src\IBuffer.h" />
     <ClInclude Include="src\ITexture.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\PostProcessing.h" />
     <ClInclude Include="src\Render.h" />
     <ClInclude Include="src\SMI_Include.h" />
     <ClInclude Include="src\Scene.h" />
