@@ -3469,7 +3469,7 @@ int main()
 	//audio.init();
 	//audio.loadsounds("music", "music.wav", true);
 	Sound audio1;
-	audio1.init();
+	
 	
 	Sound audio2;
 	Sound audio3;
@@ -3487,7 +3487,7 @@ int main()
 		// Clear the color and depth buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		
+
 
 		if (glfwGetKey(window, GLFW_KEY_P))
 		{
@@ -3534,46 +3534,47 @@ int main()
 
 			if (glfwGetKey(window, GLFW_KEY_R))
 			{
-				
+
 			}
 		}
 
-		int one = glfwGetKey(window, GLFW_KEY_SPACE);
+		//int one = glfwGetKey(window, GLFW_KEY_SPACE);
 
-			if(one==GLFW_PRESS)
+			//if(one==GLFW_PRESS)
+		{
+
+
+			//audio1.loadsounds("jumping", "jump.wav", true);
+			//audio1.update();
+
+
+
+			//}
+
+
+			if (glfwGetKey(window, GLFW_KEY_D))
 			{
 
-			
-			audio1.loadsounds("jumping", "jump.wav", true);
-			audio1.update();
-			
-			
-			
+				//audio2.init();
+				//audio2.loadsounds("walk", "walk.wav", true);
+				//audio2.update();
+
 			}
-		
 
-		if (glfwGetKey(window, GLFW_KEY_D))
-		{
+			/*
 
-			//audio2.init();
-			//audio2.loadsounds("walk", "walk.wav", true);
-			//audio2.update();
-			
+			if (glfwGetKey(window, GLFW_KEY_F))
+			{
+
+				audio3.init();
+				audio3.loadsounds("fan", "FAN.wav", true);
+				audio3.update();
+			}
+			*/
+
+			lastFrame = thisFrame;
+			glfwSwapBuffers(window);
 		}
-		
-		/*
-
-		if (glfwGetKey(window, GLFW_KEY_F))
-		{
-
-			audio3.init();
-			audio3.loadsounds("fan", "FAN.wav", true);
-			audio3.update();
-		}
-		*/
-	
-		lastFrame = thisFrame;
-		glfwSwapBuffers(window);
 	}
 
 	// Clean up the toolkit logger so we don't leak memory
